@@ -1,0 +1,21 @@
+/* pages/article/article.wxss */
+.container {
+  padding: 20rpx;
+}
+
+.article-item {
+  background: #fff;
+  padding: 20rpx;
+  border-bottom: 1px solid #eee;
+}
+
+.title {
+  font-size: 30rpx;
+  font-weight: bold;
+}
+
+.desc {
+  font-size: 24rpx;
+  color: #666;
+  margin-top: 10rpx;
+}

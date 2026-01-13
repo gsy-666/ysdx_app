@@ -1,0 +1,4 @@
+<!--pages/messages/messages.wxml-->
+<view class="container">
+  <text>消息功能开发中...</text>
+</view>

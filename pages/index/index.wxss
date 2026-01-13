@@ -1,0 +1,188 @@
+/* pages/index/index.wxss */
+.home-container {
+  padding: 20rpx;
+  background-color: #f8f8f8;
+  min-height: 100%;
+}
+
+.header {
+  margin-bottom: 20rpx;
+}
+
+.title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.subtitle {
+  font-size: 24rpx;
+  color: #666;
+  margin-top: 10rpx;
+}
+
+.banner {
+  background-color: #e6f3ff;
+  border-radius: 4rpx;
+  padding: 30rpx;
+  position: relative;
+  height: 200rpx;
+  display: flex;
+  align-items: center;
+}
+
+.join-btn {
+  background-color: #409EFF;
+  color: #fff;
+  font-size: 24rpx;
+  border-radius: 4rpx;
+  position: absolute;
+  top: 30rpx;
+  left: 30rpx;
+  padding: 10rpx 30rpx;
+}
+
+.banner-img {
+  width: 150rpx;
+  height: 150rpx;
+  position: absolute;
+  right: 20rpx;
+  bottom: 0;
+}
+
+.plan-promo {
+  background-color: #fff;
+  margin-top: 20rpx;
+  border-radius: 4rpx;
+  padding: 20rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+}
+
+.promo-title {
+  font-size: 28rpx;
+  font-weight: bold;
+}
+
+.promo-desc {
+  font-size: 22rpx;
+  color: #999;
+  margin-top: 5rpx;
+}
+
+.check-btn {
+  background-color: #409EFF;
+  color: #fff;
+  font-size: 22rpx;
+  border-radius: 4rpx;
+  margin: 0;
+}
+
+.func-grid-top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 20rpx;
+}
+
+.grid-item {
+  background-color: #fff;
+  width: 48%;
+  /* Adjust for 2 columns */
+  border-radius: 4rpx;
+  padding: 20rpx;
+  box-sizing: border-box;
+  margin-bottom: 20rpx;
+  position: relative;
+  height: 180rpx;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.grid-title {
+  font-weight: bold;
+  font-size: 28rpx;
+}
+
+.grid-desc {
+  font-size: 22rpx;
+  color: #999;
+  margin-top: 10rpx;
+}
+
+.grid-icon {
+  width: 60rpx;
+  height: 60rpx;
+  position: absolute;
+  right: 20rpx;
+  bottom: 20rpx;
+  border-radius: 0;
+  background-color: #eee;
+}
+
+.zone-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  margin: 20rpx 0;
+}
+
+.dept-scroll {
+  white-space: nowrap;
+}
+
+.dept-card {
+  display: inline-block;
+  background-color: #fff;
+  width: 250rpx;
+  height: 200rpx;
+  margin-right: 20rpx;
+  border-radius: 4rpx;
+  padding: 20rpx;
+  box-sizing: border-box;
+  vertical-align: top;
+  position: relative;
+}
+
+.dept-name {
+  font-weight: bold;
+  font-size: 26rpx;
+}
+
+.dept-desc {
+  font-size: 20rpx;
+  color: #999;
+  margin-top: 10rpx;
+  white-space: normal;
+}
+
+.dept-icon {
+  width: 50rpx;
+  height: 50rpx;
+  position: absolute;
+  right: 20rpx;
+  bottom: 20rpx;
+  background-color: #eee;
+  border-radius: 0;
+}
+
+.edu-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30rpx;
+  padding-bottom: 30rpx;
+}
+
+.edu-nav text {
+  color: #999;
+  font-size: 26rpx;
+}
+
+.edu-nav text.active {
+  color: #333;
+  font-weight: bold;
+  font-size: 28rpx;
+}

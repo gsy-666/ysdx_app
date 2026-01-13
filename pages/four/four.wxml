@@ -1,0 +1,367 @@
+<wxs module="utils">
+  module.exports.includes = function(arr, item) {
+    if (!arr) return false;
+    return arr.indexOf(item) > -1;
+  }
+  module.exports.hasChecked = function(arr) {
+    if (!arr) return false;
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i].checked) return true;
+    }
+    return false;
+  }
+</wxs>
+
+<view class="container">
+  <!-- Steps Indicator -->
+  <view class="steps-box">
+    <view class="step {{step==1?'active':''}}">1. 舌诊分析</view>
+    <view class="arrow">></view>
+    <view class="step {{step==2?'active':''}}">2. 四诊问卷</view>
+  </view>
+
+  <!-- === STEP 1: Tongue Diagnosis === -->
+  <view wx:if="{{step === 1}}" class="step-content">
+    <!-- Photo Upload -->
+    <view class="card center-card">
+      <view class="upload-area" bindtap="chooseImage" wx:if="{{!tongueData.logo}}">
+        <image src="/static/default_avatar.svg" class="upload-icon"></image>
+        <text>点击上传舌象照片</text>
+      </view>
+      <image wx:else src="{{tongueData.logo}}" class="tongue-img" mode="aspectFit" bindtap="chooseImage"></image>
+
+      <view wx:if="{{tongueData.label}}" class="analysis-result">
+        <text class="label-title">AI 分析结果:</text>
+        <text class="label-text">{{tongueData.label}}</text>
+      </view>
+    </view>
+
+    <!-- Input Tabs -->
+    <view class="custom-tabs">
+      <view class="tab-item {{activeTab=='body'?'active':''}}" bindtap="switchTab" data-tab="body">望舌质</view>
+      <view class="tab-item {{activeTab=='coating'?'active':''}}" bindtap="switchTab" data-tab="coating">望舌苔</view>
+    </view>
+
+    <!-- Tongue Body Form -->
+    <view wx:if="{{activeTab=='body'}}" class="form-area">
+      <view class="card">
+        <view class="section-title">1. 舌色 ({{tongueData.tongueBody.color}})</view>
+        <slider min="1" max="15" value="{{tongueData.tongueBody.color}}" show-value bindchange="onSliderDeep"
+          data-path="tongueData.tongueBody.color" />
+        <view class="marks"><text>淡白</text><text>淡红</text><text>鲜红</text><text>绛红</text><text>青紫</text></view>
+      </view>
+
+      <view class="card">
+        <view class="section-title">2. 老嫩 (-5最老 ~ 5最嫩)</view>
+        <slider min="-5" max="5" value="{{tongueData.tongueBody.oldYoung}}" show-value bindchange="onSliderDeep"
+          data-path="tongueData.tongueBody.oldYoung" />
+
+        <view class="section-title mt">3. 胖瘦 (-5最胖 ~ 5最瘦)</view>
+        <slider min="-5" max="5" value="{{tongueData.tongueBody.fatThin}}" show-value bindchange="onSliderDeep"
+          data-path="tongueData.tongueBody.fatThin" />
+
+        <view class="section-title mt">4. 齿痕 (0无 ~ 3重)</view>
+        <slider min="0" max="3" value="{{tongueData.tongueBody.teethMark}}" show-value bindchange="onSliderDeep"
+          data-path="tongueData.tongueBody.teethMark" />
+      </view>
+
+      <!-- More features can be added here if needed, keeping it simpler for MVP -->
+    </view>
+
+    <!-- Tongue Coating Form -->
+    <view wx:if="{{activeTab=='coating'}}" class="form-area">
+      <view class="card">
+        <view class="section-title">1. 苔色</view>
+        <view class="row-select" wx:for="{{tongueAreas}}" wx:key="value">
+          <text>{{item.label}}:</text>
+          <radio-group class="mini-radio" bindchange="onSliderDeep"
+            data-path="tongueData.tongueCoating.color.{{item.value}}">
+            <label wx:for="{{coatingColors}}" wx:for-item="color" wx:key="value">
+              <radio value="{{color.value}}" checked="{{tongueData.tongueCoating.color[item.value] == color.value}}" />
+              {{color.label}}
+            </label>
+          </radio-group>
+        </view>
+      </view>
+
+      <view class="card">
+        <view class="section-title">2. 润燥 (-5润 ~ 5燥)</view>
+        <slider min="-5" max="5" value="{{tongueData.tongueCoating.dryMoist}}" show-value bindchange="onSliderDeep"
+          data-path="tongueData.tongueCoating.dryMoist" />
+      </view>
+    </view>
+
+    <button class="primary-btn" bindtap="nextStep">下一步：填写四诊问卷</button>
+  </view>
+
+  <!-- === STEP 2: Questionnaire === -->
+  <view wx:if="{{step === 2}}" class="step-content">
+
+    <!-- 1. Life -->
+    <view class="card collapse-card">
+      <view class="card-header" bindtap="toggleSection" data-id="1">
+        <text class="card-title">一、生命精神</text>
+        <text class="arrow">{{activeSection=='1'?'▲':'▼'}}</text>
+      </view>
+      <view class="card-body" wx:if="{{activeSection=='1'}}">
+        <checkbox-group bindchange="onLifeChange">
+          <label class="block-check" wx:for="{{life.items}}" wx:key="label">
+            <checkbox value="{{item.label}}" checked="{{utils.includes(life.selected, item.label)}}" /> {{item.value}}
+          </label>
+        </checkbox-group>
+      </view>
+    </view>
+
+    <!-- 2. ColdHot -->
+    <view class="card collapse-card">
+      <view class="card-header" bindtap="toggleSection" data-id="2">
+        <text class="card-title">二、感受（寒热）</text>
+        <text class="active-badge" wx:if="{{utils.hasChecked(coldHotItems)}}">已填</text>
+        <text class="arrow">{{activeSection=='2'?'▲':'▼'}}</text>
+      </view>
+      <view class="card-body" wx:if="{{activeSection=='2'}}">
+        <view class="q-item" wx:for="{{coldHotItems}}" wx:key="id" wx:for-index="idx">
+          <view class="q-row">
+            <checkbox checked="{{item.checked}}" bindtap="toggleItem" data-group="coldHotItems" data-index="{{idx}}" />
+            <text bindtap="toggleItem" data-group="coldHotItems" data-index="{{idx}}">{{item.name}}</text>
+          </view>
+          <!-- Severity -->
+          <view class="severity-row" wx:if="{{item.checked}}">
+            <text>程度:</text>
+            <radio-group bindchange="updateSeverity" data-group="coldHotItems" data-index="{{idx}}" class="mini-radio">
+              <label>
+                <radio value="1" checked="{{item.severity==1}}" />轻
+              </label>
+              <label>
+                <radio value="2" checked="{{item.severity==2}}" />中
+              </label>
+              <label>
+                <radio value="3" checked="{{item.severity==3}}" />重
+              </label>
+            </radio-group>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 3. Sweat -->
+    <view class="card collapse-card">
+      <view class="card-header" bindtap="toggleSection" data-id="3">
+        <text class="card-title">三、汗出</text>
+        <text class="arrow">{{activeSection=='3'?'▲':'▼'}}</text>
+      </view>
+      <view class="card-body" wx:if="{{activeSection=='3'}}">
+        <view class="q-item" wx:for="{{sweatItems}}" wx:key="id" wx:for-index="idx">
+          <view class="q-row">
+            <checkbox checked="{{item.checked}}" bindtap="toggleItem" data-group="sweatItems" data-index="{{idx}}" />
+            <text>{{item.name}}</text>
+          </view>
+          <view class="severity-row" wx:if="{{item.checked}}">
+            <radio-group bindchange="updateSeverity" data-group="sweatItems" data-index="{{idx}}" class="mini-radio">
+              <label>
+                <radio value="1" checked="{{item.severity==1}}" />轻
+              </label>
+              <label>
+                <radio value="2" checked="{{item.severity==2}}" />中
+              </label>
+              <label>
+                <radio value="3" checked="{{item.severity==3}}" />重
+              </label>
+            </radio-group>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 4. Pain (Deep Nested) -->
+    <view class="card collapse-card">
+      <view class="card-header" bindtap="toggleSection" data-id="4">
+        <text class="card-title">四、疼痛</text>
+        <text class="arrow">{{activeSection=='4'?'▲':'▼'}}</text>
+      </view>
+      <view class="card-body" wx:if="{{activeSection=='4'}}">
+        <view wx:for="{{painLocations}}" wx:key="id" wx:for-index="idx" class="pain-block">
+          <!-- Location Check -->
+          <view class="pain-header">
+            <checkbox checked="{{item.checked}}" bindtap="togglePainLoc" data-index="{{idx}}" />
+            <text class="pain-title">{{item.name}}</text>
+          </view>
+
+          <!-- Natures -->
+          <view class="pain-natures-grid" wx:if="{{item.checked}}">
+            <view class="nature-item" wx:for="{{item.natures}}" wx:for-item="nat" wx:for-index="natIdx" wx:key="id">
+              <checkbox checked="{{nat.checked}}" bindtap="togglePainNature" data-loc-index="{{idx}}"
+                data-nat-index="{{natIdx}}" />
+              <text bindtap="togglePainNature" data-loc-index="{{idx}}" data-nat-index="{{natIdx}}">{{nat.name}}</text>
+              <view wx:if="{{nat.checked}}" class="severity-mini">
+                <radio-group bindchange="updatePainSeverity" data-loc-index="{{idx}}" data-nat-index="{{natIdx}}">
+                  <label class="sev-radio">
+                    <radio value="1" checked="{{nat.severity==1}}" />轻
+                  </label>
+                  <label class="sev-radio">
+                    <radio value="2" checked="{{nat.severity==2}}" />中
+                  </label>
+                  <label class="sev-radio">
+                    <radio value="3" checked="{{nat.severity==3}}" />重
+                  </label>
+                </radio-group>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 5. HeadBody -->
+    <view class="card collapse-card">
+      <view class="card-header" bindtap="toggleSection" data-id="5">
+        <text class="card-title">五、头身胸腹</text>
+        <text class="arrow">{{activeSection=='5'?'▲':'▼'}}</text>
+      </view>
+      <view class="card-body" wx:if="{{activeSection=='5'}}">
+        <view class="sub-title">1. 头面部</view>
+        <view class="q-item" wx:for="{{headBodyItems.head}}" wx:key="id" wx:for-index="idx">
+          <checkbox checked="{{item.checked}}" bindtap="toggleItem" data-group="headBodyItems.head"
+            data-index="{{idx}}" /> {{item.name}}
+        </view>
+
+        <view class="sub-title">2. 咽喉</view>
+        <view class="q-item" wx:for="{{headBodyItems.throat}}" wx:key="id" wx:for-index="idx">
+          <checkbox checked="{{item.checked}}" bindtap="toggleItem" data-group="headBodyItems.throat"
+            data-index="{{idx}}" /> {{item.name}}
+        </view>
+
+        <view class="sub-title">3. 心胸</view>
+        <view class="q-item" wx:for="{{headBodyItems.chest}}" wx:key="id" wx:for-index="idx">
+          <checkbox checked="{{item.checked}}" bindtap="toggleItem" data-group="headBodyItems.chest"
+            data-index="{{idx}}" /> {{item.name}}
+        </view>
+      </view>
+    </view>
+
+    <!-- 6. Sleep -->
+    <view class="card collapse-card">
+      <view class="card-header" bindtap="toggleSection" data-id="6">
+        <text class="card-title">六、睡眠精神</text>
+        <text class="arrow">{{activeSection=='6'?'▲':'▼'}}</text>
+      </view>
+      <view class="card-body" wx:if="{{activeSection=='6'}}">
+        <view class="q-item" wx:for="{{sleepItems}}" wx:key="id" wx:for-index="idx">
+          <checkbox checked="{{item.checked}}" bindtap="toggleItem" data-group="sleepItems" data-index="{{idx}}" />
+          {{item.name}}
+        </view>
+      </view>
+    </view>
+
+    <!-- 7. Breath -->
+    <view class="card collapse-card">
+      <view class="card-header" bindtap="toggleSection" data-id="7">
+        <text class="card-title">七、咳痰喘</text>
+        <text class="arrow">{{activeSection=='7'?'▲':'▼'}}</text>
+      </view>
+      <view class="card-body" wx:if="{{activeSection=='7'}}">
+        <view class="sub-title">（一）咳嗽</view>
+        <checkbox-group bindchange="onGenericCheckbox" data-path="breath.cough">
+          <label class="block-check" wx:for="{{breathOptions.cough}}" wx:key="value">
+            <checkbox value="{{item.label}}" checked="{{utils.includes(breath.cough, item.label)}}" /> {{item.value}}
+          </label>
+        </checkbox-group>
+
+        <view class="sub-title">（二）痰质</view>
+        <checkbox-group bindchange="onGenericCheckbox" data-path="breath.phlegm.quality">
+          <label class="block-check" wx:for="{{breathOptions.phlegmQuality}}" wx:key="value">
+            <checkbox value="{{item.label}}" checked="{{utils.includes(breath.phlegm.quality, item.label)}}" />
+            {{item.value}}
+          </label>
+        </checkbox-group>
+      </view>
+    </view>
+
+    <!-- 8. Food -->
+    <view class="card collapse-card">
+      <view class="card-header" bindtap="toggleSection" data-id="8"><text class="card-title">八、饮食口味</text><text
+          class="arrow">{{activeSection=='8'?'▲':'▼'}}</text></view>
+      <view class="card-body" wx:if="{{activeSection=='8'}}">
+        <view class="sub-title">饮食</view>
+        <checkbox-group bindchange="onGenericCheckbox" data-path="food.diet">
+          <label class="block-check" wx:for="{{foodOptions.diet}}" wx:key="value">
+            <checkbox value="{{item.label}}" />{{item.value}}
+          </label>
+        </checkbox-group>
+      </view>
+    </view>
+
+    <!-- 9. Stool -->
+    <view class="card collapse-card">
+      <view class="card-header" bindtap="toggleSection" data-id="9"><text class="card-title">九、大便</text><text
+          class="arrow">{{activeSection=='9'?'▲':'▼'}}</text></view>
+      <view class="card-body" wx:if="{{activeSection=='9'}}">
+        <checkbox-group bindchange="onGenericCheckbox" data-path="stool.abnormal">
+          <label class="block-check" wx:for="{{stoolOptions.abnormal}}" wx:key="value">
+            <checkbox value="{{item.label}}" />{{item.value}}
+          </label>
+        </checkbox-group>
+      </view>
+    </view>
+
+    <!-- 10. Urine -->
+    <view class="card collapse-card">
+      <view class="card-header" bindtap="toggleSection" data-id="10"><text class="card-title">十、小便</text><text
+          class="arrow">{{activeSection=='10'?'▲':'▼'}}</text></view>
+      <view class="card-body" wx:if="{{activeSection=='10'}}">
+        <checkbox-group bindchange="onGenericCheckbox" data-path="urine.volume">
+          <label class="block-check" wx:for="{{urineOptions.volume}}" wx:key="value">
+            <checkbox value="{{item.label}}" />{{item.value}}
+          </label>
+        </checkbox-group>
+      </view>
+    </view>
+
+    <!-- 11. Female -->
+    <view class="card collapse-card">
+      <view class="card-header" bindtap="toggleSection" data-id="11"><text class="card-title">十一、月经精液</text><text
+          class="arrow">{{activeSection=='11'?'▲':'▼'}}</text></view>
+      <view class="card-body" wx:if="{{activeSection=='11'}}">
+        <checkbox-group bindchange="onGenericCheckbox" data-path="female.cycle">
+          <label class="block-check" wx:for="{{femaleOptions.cycle}}" wx:key="value">
+            <checkbox value="{{item.label}}" />{{item.value}}
+          </label>
+        </checkbox-group>
+      </view>
+    </view>
+
+    <!-- 12. Bleeding -->
+    <view class="card collapse-card">
+      <view class="card-header" bindtap="toggleSection" data-id="12"><text class="card-title">十二、出血</text><text
+          class="arrow">{{activeSection=='12'?'▲':'▼'}}</text></view>
+      <view class="card-body" wx:if="{{activeSection=='12'}}">
+        <checkbox-group bindchange="onGenericCheckbox" data-path="bleeding">
+          <label class="block-check"
+            wx:for="{{[ {label:'1', value:'出血浅淡'}, {label:'2', value:'痰中带血'}, {label:'3', value:'出血色鲜红'}, {label:'4', value:'阴道流血'} ]}}"
+            wx:key="value">
+            <checkbox value="{{item.label}}" />{{item.value}}
+          </label>
+        </checkbox-group>
+      </view>
+    </view>
+
+    <!-- 13. Voice -->
+    <view class="card collapse-card">
+      <view class="card-header" bindtap="toggleSection" data-id="13"><text class="card-title">十三、声音</text><text
+          class="arrow">{{activeSection=='13'?'▲':'▼'}}</text></view>
+      <view class="card-body" wx:if="{{activeSection=='13'}}">
+        <view class="q-item" wx:for="{{voiceItems}}" wx:key="id" wx:for-index="idx">
+          <checkbox checked="{{item.checked}}" bindtap="toggleItem" data-group="voiceItems" data-index="{{idx}}" />
+          {{item.name}}
+        </view>
+      </view>
+    </view>
+
+
+    <view class="bottom-btns">
+      <button class="default-btn" bindtap="prevStep">上一步</button>
+      <button class="primary-btn" bindtap="submitForm">提交保存</button>
+    </view>
+
+  </view>
+</view>

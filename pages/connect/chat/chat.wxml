@@ -1,0 +1,15 @@
+<!--pages/connect/chat/chat.wxml-->
+<view class="container">
+  <scroll-view scroll-y class="chat-area">
+    <view wx:for="{{chatList}}" wx:key="id" class="msg-row {{item.type === 'self' ? 'msg-self' : 'msg-other'}}">
+      <view class="avatar" wx:if="{{item.type!=='self'}}">医</view>
+      <view class="bubble">{{item.content}}</view>
+      <view class="avatar" wx:if="{{item.type==='self'}}">我</view>
+    </view>
+  </scroll-view>
+
+  <view class="input-bar">
+    <input class="input" value="{{inputValue}}" bindinput="bindInput" placeholder="请输入消息" />
+    <button class="send-btn" bindtap="send">发送</button>
+  </view>
+</view>

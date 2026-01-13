@@ -1,0 +1,125 @@
+<!--pages/screen/screen.wxml-->
+<view class="container">
+  <view class="header">入组筛选表</view>
+
+  <!-- Inclusion -->
+  <view class="card">
+    <view class="card-title">一、纳入标准 (MS诊断标准)</view>
+    <view class="notes">需满足以下3项或更多</view>
+
+    <view class="item-box">
+      <view class="q-title">① 腹型肥胖 (男腰围≥90cm, 女≥85cm)</view>
+      <radio-group class="radio-row" bindchange="onRadioChange" data-field="abdominalObesity">
+        <label>
+          <radio value="true" checked="{{abdominalObesity===true}}" />是
+        </label>
+        <label>
+          <radio value="false" checked="{{abdominalObesity===false}}" />否
+        </label>
+      </radio-group>
+    </view>
+
+    <view class="item-box">
+      <view class="q-title">② 高血糖</view>
+      <radio-group class="radio-row" bindchange="onRadioChange" data-field="highBloodSugar">
+        <label>
+          <radio value="true" checked="{{highBloodSugar===true}}" />是
+        </label>
+        <label>
+          <radio value="false" checked="{{highBloodSugar===false}}" />否
+        </label>
+      </radio-group>
+
+      <view wx:if="{{highBloodSugar}}" class="sub-opts">
+        <checkbox-group bindchange="onTypeChange" data-field="diabetesType">
+          <label class="block-label">
+            <checkbox value="A" />空腹血糖>6.1mmol/L
+          </label>
+          <label class="block-label">
+            <checkbox value="B" />餐后2h血糖>7.8mmol/L
+          </label>
+          <label class="block-label">
+            <checkbox value="C" />已确诊糖尿病
+          </label>
+        </checkbox-group>
+      </view>
+    </view>
+
+    <view class="item-box">
+      <view class="q-title">③ 高血压</view>
+      <radio-group class="radio-row" bindchange="onRadioChange" data-field="hypertension">
+        <label>
+          <radio value="true" checked="{{hypertension===true}}" />是
+        </label>
+        <label>
+          <radio value="false" checked="{{hypertension===false}}" />否
+        </label>
+      </radio-group>
+
+      <view wx:if="{{hypertension}}" class="sub-opts">
+        <checkbox-group bindchange="onTypeChange" data-field="hypertensionType">
+          <label class="block-label">
+            <checkbox value="A" />血压>130/85mmHg
+          </label>
+          <label class="block-label">
+            <checkbox value="B" />已确诊高血压
+          </label>
+        </checkbox-group>
+      </view>
+    </view>
+
+    <view class="item-box">
+      <view class="q-title">④ 高空腹甘油三酯 (mmol/L)</view>
+      <input type="digit" class="num-input" placeholder="0.00" bindinput="onInputChange"
+        data-field="highTriglycerides" />
+    </view>
+
+    <view class="item-box">
+      <view class="q-title">⑤ 低空腹高密度脂蛋白胆固醇 (mmol/L)</view>
+      <input type="digit" class="num-input" placeholder="0.00" bindinput="onInputChange" data-field="lowhdl" />
+    </view>
+  </view>
+
+  <!-- Exclusion -->
+  <view class="card">
+    <view class="card-title">二、排除标准 (任意一条即退出)</view>
+
+    <view class="item-box">
+      <view class="q-title">1. 1型糖尿病/妊娠糖尿病/继发性高脂/肥胖/高血压</view>
+      <radio-group class="radio-row" bindchange="onRadioChange" data-field="exclusion1">
+        <label>
+          <radio value="true" checked="{{exclusion1===true}}" />是
+        </label>
+        <label>
+          <radio value="false" checked="{{exclusion1===false}}" />否
+        </label>
+      </radio-group>
+    </view>
+
+    <view class="item-box">
+      <view class="q-title">2. 伴有严重的心、肝、肾等器官病变</view>
+      <radio-group class="radio-row" bindchange="onRadioChange" data-field="exclusion2">
+        <label>
+          <radio value="true" checked="{{exclusion2===true}}" />是
+        </label>
+        <label>
+          <radio value="false" checked="{{exclusion2===false}}" />否
+        </label>
+      </radio-group>
+    </view>
+
+    <view class="item-box">
+      <view class="q-title">3. 精神病患者</view>
+      <radio-group class="radio-row" bindchange="onRadioChange" data-field="exclusion3">
+        <label>
+          <radio value="true" checked="{{exclusion3===true}}" />是
+        </label>
+        <label>
+          <radio value="false" checked="{{exclusion3===false}}" />否
+        </label>
+      </radio-group>
+    </view>
+  </view>
+
+  <button class="submit-btn" bindtap="submitForm">提交筛选</button>
+</view>

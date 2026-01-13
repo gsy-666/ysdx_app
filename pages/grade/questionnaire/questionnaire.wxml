@@ -1,0 +1,34 @@
+<!--pages/grade/questionnaire/questionnaire.wxml-->
+<view class="container">
+  <view class="header">
+    <view class="title">{{title}}</view>
+  </view>
+
+  <view class="form-list">
+    <view class="q-item" wx:for="{{questions}}" wx:key="index">
+      <view class="q-text">{{index + 1}}. {{item.text}}</view>
+      <radio-group class="opt-group" bindchange="handleOptionChange" data-idx="{{index}}">
+        <label class="opt-label" wx:for="{{options}}" wx:for-item="opt" wx:key="value">
+          <radio value="{{opt.value}}" checked="{{item.answer === opt.value}}" />
+          {{opt.label}}
+        </label>
+      </radio-group>
+    </view>
+  </view>
+
+  <view class="footer-btns">
+    <button class="reset-btn" bindtap="resetAnswers">重置</button>
+    <button class="submit-btn" bindtap="submit">提交结果</button>
+  </view>
+
+  <!-- Result Modal (Simulated) -->
+  <view class="modal-mask" wx:if="{{showResult}}">
+    <view class="modal-content">
+      <view class="m-title">测评结果</view>
+      <view class="m-row"><text>完成度：</text><text>{{completionRate}}%</text></view>
+      <view class="m-row"><text>总得分：</text><text class="highlight">{{totalScore}}</text></view>
+      <view class="m-row"><text>评估结论：</text><text class="highlight">{{evaluation}}</text></view>
+      <button class="confirm-btn" bindtap="closeResult">确定</button>
+    </view>
+  </view>
+</view>

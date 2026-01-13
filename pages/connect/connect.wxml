@@ -1,0 +1,8 @@
+<!--pages/connect/connect.wxml-->
+<view class="container">
+  <view class="doc-card" wx:for="{{doctors}}" wx:key="index">
+    <view class="name">{{item.name}} <text class="title">{{item.title}}</text></view>
+    <view class="dept">{{item.dept}}</view>
+    <button class="contact-btn" bindtap="goChat" data-id="{{index}}">咨询</button>
+  </view>
+</view>

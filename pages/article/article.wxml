@@ -1,0 +1,11 @@
+<!--pages/article/article.wxml-->
+<view class="container">
+  <view class="article-list">
+    <block wx:for="{{articles}}" wx:key="id">
+      <view class="article-item" bindtap="goToDetail" data-id="{{item.id}}">
+        <view class="title">{{item.title}}</view>
+        <view class="desc">{{item.summary || '暂无摘要'}}</view>
+      </view>
+    </block>
+  </view>
+</view>

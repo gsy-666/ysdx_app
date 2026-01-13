@@ -1,0 +1,61 @@
+<!--pages/diagnose/diagnose.wxml-->
+<view class="container">
+  <view class="header">
+    <view class="title">诊断表单</view>
+  </view>
+
+  <!-- Systems -->
+  <view class="card">
+    <view class="card-title">系统诊断</view>
+    <view class="system-row" wx:for="{{systemList}}" wx:key="key">
+      <view class="system-label">{{item.name}}</view>
+      <view class="system-ctrl">
+        <checkbox checked="{{formData[item.key]}}" data-key="{{item.key}}" bindtap="toggleSystem">确认</checkbox>
+        <picker wx:if="{{formData[item.key]}}" range="{{['中医', '西医']}}" bindchange="bindTypeChange"
+          data-key="{{item.type}}">
+          <view class="picker-box">
+            {{formData[item.type] || '选择类型 ▼'}}
+          </view>
+        </picker>
+      </view>
+    </view>
+  </view>
+
+  <!-- Basic Info -->
+  <view class="card">
+    <view class="card-title">基本信息</view>
+    <view class="form-item">
+      <text>诊断日期：</text>
+      <picker mode="date" value="{{formData.diagnosisDate}}" bindchange="bindDateChange">
+        <view class="picker-input">{{formData.diagnosisDate}}</view>
+      </picker>
+    </view>
+  </view>
+
+  <!-- History -->
+  <view class="card">
+    <view class="card-title">病史记录</view>
+    <view class="form-item">
+      <view class="label">手术史</view>
+      <textarea class="textarea" placeholder="请输入手术史" bindinput="inputHistory" data-field="surgeryHistory"></textarea>
+    </view>
+    <view class="form-item">
+      <view class="label">过敏史</view>
+      <textarea class="textarea" placeholder="请输入过敏史" bindinput="inputHistory" data-field="allergyHistory"></textarea>
+    </view>
+  </view>
+
+  <!-- Medication -->
+  <view class="card">
+    <view class="card-title">用药情况 <text class="add-btn" bindtap="addMedication">+ 添加</text></view>
+    <block wx:for="{{formData.medicationList}}" wx:key="index">
+      <view class="med-item">
+        <input placeholder="药品名称" class="input" />
+        <input placeholder="用法用量" class="input" />
+      </view>
+    </block>
+    <view wx:if="{{formData.medicationList.length === 0}}" class="empty-tip">暂无记录</view>
+  </view>
+
+  <button class="submit-btn" bindtap="submitDiagnose">提交诊断</button>
+</view>

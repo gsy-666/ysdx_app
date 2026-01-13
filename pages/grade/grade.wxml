@@ -1,0 +1,24 @@
+<!--pages/grade/grade.wxml-->
+<view class="container">
+  <view class="header">心理测评</view>
+
+  <view class="menu-card" bindtap="goTest" data-type="1">
+    <view class="icon-box" style="background-color: #e1f3d8;">
+      <text class="icon-text">焦虑</text>
+    </view>
+    <view class="content">
+      <view class="ct-title">焦虑自评量表 (SAS)</view>
+      <view class="ct-desc">用于评定焦虑症状的轻重程度及其在治疗中的变化</view>
+    </view>
+  </view>
+
+  <view class="menu-card" bindtap="goTest" data-type="2">
+    <view class="icon-box" style="background-color: #d9ecff;">
+      <text class="icon-text">抑郁</text>
+    </view>
+    <view class="content">
+      <view class="ct-title">抑郁自评量表 (SDS)</view>
+      <view class="ct-desc">用于衡量抑郁状态的轻重程度及其在治疗中的变化</view>
+    </view>
+  </view>
+</view>

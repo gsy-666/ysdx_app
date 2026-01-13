@@ -1,0 +1,56 @@
+<!--pages/index/index.wxml-->
+<view class="home-container">
+  <!-- Header -->
+  <view class="header">
+    <view class="title">欢迎来到云枢代谢综合平台!</view>
+    <view class="subtitle">专业的医生团队助您进行代谢性疾病的预防与管理</view>
+  </view>
+
+  <!-- Banner -->
+  <view class="banner">
+    <button class="join-btn">立即入组</button>
+    <image class="banner-img" src="/static/doctor_hero.svg" mode="aspectFit"></image>
+  </view>
+
+  <!-- Management Plan Promo -->
+  <view class="plan-promo">
+    <view class="promo-content">
+      <view class="promo-title">加入管理计划对我有什么帮助?</view>
+      <view class="promo-desc">科学管理、名医咨询、健康随访!</view>
+    </view>
+    <button class="check-btn">去查看</button>
+  </view>
+
+  <!-- Function Grid Top -->
+  <view class="func-grid-top">
+    <block wx:for="{{menuItems}}" wx:key="index">
+      <view class="grid-item" bindtap="navigateTo" data-path="{{item.path}}">
+        <view class="grid-title">{{item.name}}</view>
+        <view class="grid-desc">{{item.desc}}</view>
+        <!-- Use specific icon from data -->
+        <image class="grid-icon" src="{{item.icon}}"></image>
+      </view>
+    </block>
+  </view>
+
+  <!-- Department Zone -->
+  <view class="zone-title">科室专区</view>
+  <scroll-view scroll-x="true" class="dept-scroll">
+    <view class="dept-card">
+      <view class="dept-name">减重中心</view>
+      <view class="dept-desc">全周期体重管理</view>
+      <image class="dept-icon" src="/static/weight.svg"></image>
+    </view>
+    <view class="dept-card">
+      <view class="dept-name">内分泌科</view>
+      <view class="dept-desc">糖尿病筛查与治疗</view>
+      <image class="dept-icon" src="/static/endo.svg"></image>
+    </view>
+    <view class="dept-card">
+      <view class="dept-name">代谢减重科</view>
+      <view class="dept-desc">手术的了解与检查</view>
+      <image class="dept-icon" src="/static/surgery.svg"></image>
+    </view>
+  </scroll-view>
+
+</view>

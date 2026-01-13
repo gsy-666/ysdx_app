@@ -1,0 +1,49 @@
+/* pages/grade/grade.wxss */
+.container {
+  padding: 20rpx;
+  background-color: #f8f8f8;
+  min-height: 100vh;
+}
+
+.header {
+  text-align: center;
+  font-size: 34rpx;
+  font-weight: bold;
+  margin-bottom: 30rpx;
+}
+
+.menu-card {
+  background: #fff;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  display: flex;
+  align-items: center;
+  border-radius: 4rpx;
+}
+
+.icon-box {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 4rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20rpx;
+}
+
+.icon-text {
+  font-size: 28rpx;
+  color: #666;
+  font-weight: bold;
+}
+
+.card-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+}
+
+.ct-desc {
+  font-size: 24rpx;
+  color: #999;
+}

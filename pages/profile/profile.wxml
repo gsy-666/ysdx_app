@@ -1,0 +1,66 @@
+<!--pages/profile/profile.wxml-->
+<view class="container">
+  <!-- Header Card -->
+  <view class="header-bg">
+    <view class="user-info" bindtap="goToLogin">
+      <image class="avatar" src="{{userInfo.avatar || '/static/default_avatar.svg'}}"></image>
+      <view class="text-info">
+        <view class="name">{{userInfo.name || '点击登录'}}</view>
+        <view class="uid" wx:if="{{userInfo.phone}}">ID: {{userInfo.phone}}</view>
+        <view class="uid" wx:else>登录体验更多功能</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- Stats Strip (Overlapping) -->
+  <view class="stats-strip card">
+    <view class="stat-item">
+      <text class="num">--</text>
+      <text class="label">健康分</text>
+    </view>
+    <view class="stat-item">
+      <text class="num">0</text>
+      <text class="label">报告</text>
+    </view>
+    <view class="stat-item">
+      <text class="num">0</text>
+      <text class="label">收藏</text>
+    </view>
+  </view>
+
+  <!-- Core Services -->
+  <view class="card">
+    <view class="card-title">我的服务</view>
+    <view class="grid-box">
+      <view class="grid-item" bindtap="navTo" data-url="/pages/article/article">
+        <image src="/static/article.svg" class="grid-icon"></image>
+        <text>健康资讯</text>
+      </view>
+      <view class="grid-item" bindtap="navTo" data-url="/pages/four/four">
+        <image src="/static/four_diag.svg" class="grid-icon"></image>
+        <text>四诊采集</text>
+      </view>
+      <view class="grid-item" bindtap="navTo" data-url="/pages/diagnose/diagnose">
+        <image src="/static/assessment.svg" class="grid-icon"></image>
+        <text>诊断方案</text>
+      </view>
+      <view class="grid-item" bindtap="navTo" data-url="/pages/connect/connect">
+        <image src="/static/doctor_contact.svg" class="grid-icon"></image>
+        <text>在线咨询</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- Menu List -->
+  <view class="card menu-card">
+    <view class="menu-item" wx:for="{{functions}}" wx:key="index">
+      <image src="{{item.icon}}" class="menu-icon"></image>
+      <text class="menu-text">{{item.name}}</text>
+      <text class="arrow">></text>
+    </view>
+  </view>
+
+  <view class="footer" wx:if="{{isLoggedIn}}">
+    <button class="logout-btn" bindtap="handleLogout">退出登录</button>
+  </view>
+</view>

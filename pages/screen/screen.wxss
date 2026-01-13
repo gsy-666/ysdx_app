@@ -1,0 +1,75 @@
+/* pages/screen/screen.wxss */
+.container {
+  padding: 20rpx;
+  background-color: #f8f8f8;
+  min-height: 100vh;
+}
+
+.header {
+  font-size: 34rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+  text-align: center;
+}
+
+.card {
+  background: #fff;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+  border-radius: 4rpx;
+}
+
+.card-title {
+  font-weight: bold;
+  font-size: 30rpx;
+  border-bottom: 1rpx solid #eee;
+  padding-bottom: 10rpx;
+  margin-bottom: 15rpx;
+}
+
+.notes {
+  color: #999;
+  font-size: 24rpx;
+  margin-bottom: 20rpx;
+}
+
+.item-box {
+  margin-bottom: 30rpx;
+}
+
+.q-title {
+  font-size: 28rpx;
+  margin-bottom: 15rpx;
+  color: #333;
+}
+
+.radio-row label {
+  margin-right: 40rpx;
+}
+
+.sub-opts {
+  background: #f9f9f9;
+  padding: 15rpx;
+  margin-top: 10rpx;
+}
+
+.block-label {
+  display: block;
+  margin-bottom: 10rpx;
+  font-size: 26rpx;
+}
+
+.num-input {
+  border: 1rpx solid #ddd;
+  padding: 10rpx;
+  width: 200rpx;
+  background: #fff;
+  border-radius: 4rpx;
+}
+
+.submit-btn {
+  background-color: #409EFF;
+  color: #fff;
+  border-radius: 4rpx;
+  margin-top: 20rpx;
+}

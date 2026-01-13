@@ -1,0 +1,155 @@
+/* pages/plan/plan.wxss */
+page {
+  background-color: #f5f7fa;
+}
+
+.header-bg {
+  background: linear-gradient(135deg, #1f8b73 0%, #4ecdc4 100%);
+  padding: 40rpx 40rpx 100rpx 40rpx;
+  color: #fff;
+}
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40rpx;
+}
+
+.title {
+  font-size: 38rpx;
+  font-weight: bold;
+}
+
+.join-btn {
+  font-size: 26rpx;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 10rpx 20rpx;
+  border-radius: 30rpx;
+}
+
+.stats-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.st-item {
+  text-align: center;
+}
+
+.st-item .val {
+  font-size: 40rpx;
+  font-weight: bold;
+  margin-bottom: 8rpx;
+}
+
+.st-item .lbl {
+  font-size: 24rpx;
+  opacity: 0.8;
+}
+
+/* Card Common */
+.card {
+  background: #fff;
+  border-radius: 16rpx;
+  margin: 0 30rpx 30rpx 30rpx;
+  padding: 30rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
+}
+
+.overlap-card {
+  margin-top: -60rpx;
+}
+
+.card-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  margin-bottom: 30rpx;
+  border-left: 8rpx solid #1f8b73;
+  padding-left: 20rpx;
+}
+
+.tools-grid {
+  display: flex;
+  justify-content: space-around;
+}
+
+.tool-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tool-icon {
+  width: 80rpx;
+  /* FIXED SIZE */
+  height: 80rpx;
+  margin-bottom: 16rpx;
+}
+
+.tool-item text {
+  font-size: 28rpx;
+  color: #333;
+}
+
+/* Metrics Grid */
+.metrics-area {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 15rpx;
+}
+
+.metric-card {
+  width: 44%;
+  /* Approx half */
+  background: #fff;
+  margin: 15rpx 3%;
+  /* spacing */
+  border-radius: 16rpx;
+  padding: 30rpx;
+  box-sizing: border-box;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+}
+
+.m-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+  color: #666;
+  font-size: 28rpx;
+}
+
+.dot {
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+}
+
+.bg-red {
+  background: #ff7675;
+}
+
+.bg-blue {
+  background: #74b9ff;
+}
+
+.bg-green {
+  background: #55efc4;
+}
+
+.bg-yellow {
+  background: #ffeaa7;
+}
+
+.m-val {
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.m-sub {
+  font-size: 24rpx;
+  color: #999;
+}

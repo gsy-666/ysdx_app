@@ -1,0 +1,106 @@
+/* pages/diagnose/diagnose.wxss */
+.container {
+  padding: 20rpx;
+  background-color: #f8f8f8;
+  min-height: 100vh;
+}
+
+.header {
+  margin-bottom: 20rpx;
+}
+
+.title {
+  font-size: 34rpx;
+  font-weight: bold;
+}
+
+.card {
+  background-color: #fff;
+  margin-bottom: 20rpx;
+  padding: 30rpx;
+  border-radius: 4rpx;
+  /* Square style */
+}
+
+.card-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+  display: flex;
+  justify-content: space-between;
+}
+
+.system-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #eee;
+}
+
+.system-ctrl {
+  display: flex;
+  align-items: center;
+}
+
+.picker-box {
+  margin-left: 20rpx;
+  font-size: 24rpx;
+  color: #409EFF;
+  border: 1rpx solid #409EFF;
+  padding: 4rpx 10rpx;
+  border-radius: 4rpx;
+}
+
+.form-item {
+  margin-bottom: 20rpx;
+}
+
+.picker-input {
+  border: 1rpx solid #ddd;
+  padding: 10rpx;
+  border-radius: 4rpx;
+  margin-top: 10rpx;
+}
+
+.textarea {
+  width: 100%;
+  border: 1rpx solid #ddd;
+  border-radius: 4rpx;
+  padding: 10rpx;
+  height: 100rpx;
+  margin-top: 10rpx;
+  box-sizing: border-box;
+}
+
+.add-btn {
+  color: #409EFF;
+  font-size: 26rpx;
+}
+
+.med-item {
+  display: flex;
+  gap: 10rpx;
+  margin-bottom: 10rpx;
+}
+
+.input {
+  border: 1rpx solid #ddd;
+  padding: 10rpx;
+  flex: 1;
+  border-radius: 4rpx;
+}
+
+.empty-tip {
+  text-align: center;
+  color: #ccc;
+  font-size: 24rpx;
+  padding: 20rpx;
+}
+
+.submit-btn {
+  background-color: #409EFF;
+  color: #fff;
+  border-radius: 4rpx;
+  margin-top: 40rpx;
+}

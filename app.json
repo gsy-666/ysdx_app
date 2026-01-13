@@ -1,0 +1,64 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/plan/plan",
+    "pages/profile/profile",
+    "pages/community/community",
+    "pages/messages/messages",
+    "pages/login/login",
+    "pages/four/four",
+    "pages/diagnose/diagnose",
+    "pages/grade/grade",
+    "pages/grade/questionnaire/questionnaire",
+    "pages/screen/screen",
+    "pages/connect/connect",
+    "pages/connect/chat/chat",
+    "pages/article/article",
+    "pages/article/detail"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "云枢代谢综合平台",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#409EFF",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "/static/home.png",
+        "selectedIconPath": "/static/home_active.png"
+      },
+      {
+        "pagePath": "pages/community/community",
+        "text": "社区",
+        "iconPath": "/static/community.png",
+        "selectedIconPath": "/static/community_active.png"
+      },
+      {
+        "pagePath": "pages/plan/plan",
+        "text": "计划",
+        "iconPath": "/static/plan.png",
+        "selectedIconPath": "/static/plan_active.png"
+      },
+      {
+        "pagePath": "pages/messages/messages",
+        "text": "消息",
+        "iconPath": "/static/message.png",
+        "selectedIconPath": "/static/message_active.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "/static/profile.png",
+        "selectedIconPath": "/static/profile_active.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

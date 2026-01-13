@@ -1,0 +1,79 @@
+<!--pages/plan/plan.wxml-->
+<view class="container">
+
+  <!-- Header -->
+  <view class="header-bg">
+    <view class="header-row">
+      <view class="title">今日健康计划</view>
+      <view class="join-btn" bindtap="joinPlan">加入计划 ></view>
+    </view>
+
+    <!-- Stats Row in Header context -->
+    <view class="stats-row">
+      <view class="st-item">
+        <view class="val">0</view>
+        <view class="lbl">已完成</view>
+      </view>
+      <view class="st-item">
+        <view class="val">0%</view>
+        <view class="lbl">完成率</view>
+      </view>
+      <view class="st-item">
+        <view class="val">0</view>
+        <view class="lbl">待完成</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- My Plan Tools -->
+  <view class="card overlap-card">
+    <view class="card-title">健康管理</view>
+    <view class="tools-grid">
+      <view class="tool-item" bindtap="onToolInteract" data-name="我的计划">
+        <image class="tool-icon" src="/static/assessment.svg"></image>
+        <text>我的计划</text>
+      </view>
+      <view class="tool-item" bindtap="onToolInteract" data-name="运动健康">
+        <image class="tool-icon" src="/static/weight.svg"></image>
+        <text>运动健康</text>
+      </view>
+      <view class="tool-item" bindtap="onToolInteract" data-name="饮食用药">
+        <image class="tool-icon" src="/static/article.svg"></image>
+        <text>饮食用药</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- Metrics Grid -->
+  <view class="metrics-area">
+    <view class="metric-card">
+      <view class="m-head"><text>血糖</text>
+        <view class="dot bg-red"></view>
+      </view>
+      <view class="m-val">{{healthInfo.lowhdl || '--'}}</view>
+      <view class="m-sub">暂无记录</view>
+    </view>
+    <view class="metric-card">
+      <view class="m-head"><text>血压</text>
+        <view class="dot bg-blue"></view>
+      </view>
+      <view class="m-val">{{healthInfo.bloodHigh ? (healthInfo.bloodHigh + '/' + healthInfo.bloodLow) : '--'}}</view>
+      <view class="m-sub">mmHg</view>
+    </view>
+    <view class="metric-card">
+      <view class="m-head"><text>体重</text>
+        <view class="dot bg-green"></view>
+      </view>
+      <view class="m-val">{{healthInfo.weight || '--'}}</view>
+      <view class="m-sub">kg</view>
+    </view>
+    <view class="metric-card">
+      <view class="m-head"><text>身高</text>
+        <view class="dot bg-yellow"></view>
+      </view>
+      <view class="m-val">{{healthInfo.high || '--'}}</view>
+      <view class="m-sub">cm</view>
+    </view>
+  </view>
+
+</view>
