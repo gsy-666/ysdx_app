@@ -48,8 +48,8 @@
     "disableSWC": true
   },
   "compileType": "miniprogram",
-  "libVersion": "2.19.4",
-  "appid": "wx1234567890abcdef",
+  "libVersion": "3.10.1",
+  "appid": "wx2f1c954ba9fa519c",
   "projectname": "ysdx_app",
   "isGameTourist": false,
   "condition": {
