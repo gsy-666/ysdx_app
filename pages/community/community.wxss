@@ -34,7 +34,8 @@
   flex: 1;
   padding: 20rpx;
   box-sizing: border-box;
-  height: 0; /* Important for flex child scroll-view */
+  height: 0;
+  /* Important for flex child scroll-view */
 }
 
 .article-item {
@@ -91,7 +92,9 @@
   background-color: #eee;
 }
 
-.loading, .no-more, .empty {
+.loading,
+.no-more,
+.empty {
   text-align: center;
   padding: 30rpx;
   color: #999999;

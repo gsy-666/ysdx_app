@@ -11,7 +11,7 @@
 .message-item {
   display: flex;
   padding: 30rpx 40rpx;
-  border-bottom: 1rpx solid #f5f5f5; 
+  border-bottom: 1rpx solid #f5f5f5;
   align-items: center;
   background: #fff;
   transition: background-color 0.2s;

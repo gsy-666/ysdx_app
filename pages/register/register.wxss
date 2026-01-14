@@ -37,9 +37,12 @@
 
 .input {
   border: 1px solid #ddd;
-  height: 90rpx; /* Explicit height */
-  line-height: 90rpx; /* Center text vertically */
-  padding: 0 24rpx; /* Horizontal padding only */
+  height: 90rpx;
+  /* Explicit height */
+  line-height: 90rpx;
+  /* Center text vertically */
+  padding: 0 24rpx;
+  /* Horizontal padding only */
   border-radius: 8rpx;
   font-size: 30rpx;
   width: 100%;

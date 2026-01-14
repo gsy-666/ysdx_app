@@ -15,13 +15,13 @@ Page({
     this.getArticleList(true);
   },
 
-  bindSearchInput: function(e) {
+  bindSearchInput: function (e) {
     this.setData({
       keyword: e.detail.value
     });
   },
 
-  onSearch: function() {
+  onSearch: function () {
     this.getArticleList(true);
   },
 
@@ -46,11 +46,11 @@ Page({
       // Or result.data is the IPage.
       // Usually request.js returns the `data` part of ResultJson.
       // Check response structure carefully.
-      
+
       // Assuming res is the data payload (IPage object)
       const records = res.records || [];
       const total = res.total || 0;
-      
+
       this.setData({
         articleList: reset ? records : this.data.articleList.concat(records),
         pageNo: pageNo + 1,

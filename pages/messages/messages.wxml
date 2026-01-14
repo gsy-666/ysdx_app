@@ -19,7 +19,7 @@
 
     <!-- System Notification -->
     <view class="message-item" bindtap="goToSystem" data-type="system" hover-class="message-item-hover">
-       <view class="avatar-box">
+      <view class="avatar-box">
         <image class="avatar" src="/static/message_active.png" mode="aspectFill"></image>
       </view>
       <view class="content-box">
