@@ -3,6 +3,11 @@ const request = require('../../utils/request.js').request;
 
 Page({
   data: {
+    weatherData: {
+      city: '',
+      temperature: '',
+      weather: ''
+    },
     isDoctor: false,
     doctorStats: {
       patientCount: 0,
@@ -21,6 +26,83 @@ Page({
 
   onShow: function () {
     this.checkRole();
+    this.getLocationAndWeather();
+  },
+
+  refreshWeather: function() {
+    this.getLocationAndWeather();
+  },
+
+  getLocationAndWeather: function() {
+    const that = this;
+    wx.getLocation({
+      type: 'gcj02', // 高德地图使用 GCJ02 坐标系
+      success (res) {
+        const latitude = res.latitude
+        const longitude = res.longitude
+        // 使用您提供的 高德地图 Web服务 Key
+        const key = '849c6c557123db917b6d95b4cf2a7921'; 
+        
+        // 1. 逆地理编码 (获取 adcode 和 城市名)
+        wx.request({
+          url: `https://restapi.amap.com/v3/geocode/regeo?location=${longitude},${latitude}&key=${key}&extensions=base`,
+          success(geoRes) {
+            if (geoRes.data.status === '1') {
+              const addressComponent = geoRes.data.regeocode.addressComponent;
+              // 某些直辖市 city 是空的 ([], string)，此时取 province
+              const city = (typeof addressComponent.city === 'string' && addressComponent.city.length > 0) 
+                           ? addressComponent.city 
+                           : addressComponent.province;
+              const adcode = addressComponent.adcode;
+
+              that.setData({
+                'weatherData.city': city
+              });
+
+              // 2. 获取实时天气
+              wx.request({
+                url: `https://restapi.amap.com/v3/weather/weatherInfo?city=${adcode}&key=${key}&extensions=base`,
+                success(weatherRes) {
+                  if (weatherRes.data.status === '1' && weatherRes.data.lives && weatherRes.data.lives.length > 0) {
+                    const live = weatherRes.data.lives[0];
+                    that.setData({
+                      'weatherData.temperature': live.temperature,
+                      'weatherData.weather': live.weather
+                    });
+                  } else {
+                     console.error("Gaode Weather API Error:", weatherRes.data);
+                  }
+                },
+                fail(err) {
+                  console.error("Weather request failed", err);
+                }
+              });
+            } else {
+               console.error("Gaode Regeo API Error:", geoRes.data);
+               that.setData({ 'weatherData.city': '定位未知' });
+            }
+          },
+          fail(err) {
+            console.error("GeoAPI failed", err);
+            that.setData({ 'weatherData.city': '定位失败' });
+          }
+        });
+      },
+      fail(err) {
+        console.log('Access location failed', err);
+        that.setData({
+          'weatherData.city': '未定位置'
+        });
+        // 提示用户开启权限
+        wx.getSetting({
+          success(res) {
+            if (!res.authSetting['scope.userLocation']) {
+               // 可以在这里引导用户打开设置
+            }
+          }
+        })
+      }
+    })
   },
 
   checkRole: function() {

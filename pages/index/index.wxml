@@ -1,5 +1,17 @@
 ﻿<!--pages/index/index.wxml-->
 <view class="home-container">
+  
+  <!-- Weather Widget -->
+  <view class="weather-widget" bindtap="refreshWeather">
+    <view class="weather-location">
+      <text class="location-icon-text">📍</text>
+      <text>{{weatherData.city || '定位中...'}}</text>
+    </view>
+    <view class="weather-info" wx:if="{{weatherData.temperature}}">
+      <text class="weather-temp">{{weatherData.temperature}}°C</text>
+      <text class="weather-desc">{{weatherData.weather}}</text>
+    </view>
+  </view>
 
   <!-- Doctor View -->
   <block wx:if="{{isDoctor}}">
