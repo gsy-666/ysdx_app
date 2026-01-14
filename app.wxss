@@ -22,7 +22,7 @@ page {
   align-items: center;
   justify-content: center;
   line-height: inherit;
-  border: 4rpx solid rgba(255, 255, 255, 0.5); 
+  border: 4rpx solid rgba(255, 255, 255, 0.5);
   box-sizing: border-box;
   overflow: hidden;
   font-weight: normal;

@@ -25,7 +25,7 @@ Page({
     const phone = wx.getStorageSync('phone');
     const role = wx.getStorageSync('role');
     const avatar = wx.getStorageSync('avatar'); // 获取头像
-    
+
     let roleName = '';
     if (role === 0 || role === 1) roleName = '医生';
     else if (role === 2) roleName = '患者';
@@ -49,13 +49,13 @@ Page({
     }
   },
 
-  onChooseAvatar: function(e) {
+  onChooseAvatar: function (e) {
     const { avatarUrl } = e.detail;
     console.log('Selected avatar:', avatarUrl);
-    
+
     // Save to storage
     wx.setStorageSync('avatar', avatarUrl);
-    
+
     // Update local data
     this.setData({
       'userInfo.avatar': avatarUrl
@@ -64,20 +64,20 @@ Page({
     // Optional: Upload to server here if needed
   },
 
-  goToLogin: function() {
+  goToLogin: function () {
     if (!this.data.isLoggedIn) {
       wx.navigateTo({ url: '/pages/login/login' });
     }
   },
 
-  navTo: function(e) {
+  navTo: function (e) {
     const url = e.currentTarget.dataset.url;
     if (url) {
       wx.navigateTo({ url: url });
     }
   },
 
-  handleLogout: function() {
+  handleLogout: function () {
     wx.clearStorageSync();
     this.onShow();
     wx.reLaunch({ url: '/pages/index/index' });

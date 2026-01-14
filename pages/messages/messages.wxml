@@ -6,7 +6,7 @@
       <view class="cur-month">{{currentYear}}年{{currentMonth}}月</view>
       <view class="change-btn" bindtap="changeMonth" data-type="next">▶</view>
     </view>
-    
+
     <view class="calendar-body">
       <view class="week-row">
         <block wx:for="{{weeks}}" wx:key="*this">
@@ -15,9 +15,9 @@
       </view>
       <view class="calendar-grid">
         <block wx:for="{{calendarDays}}" wx:key="index">
-          <view class="day-cell {{item.isCurrentMonth ? '' : 'other-month'}} {{item.dateStr === selectedDate ? 'selected' : ''}} {{item.isToday ? 'today' : ''}}" 
-                bindtap="selectDate" 
-                data-date="{{item.dateStr}}">
+          <view
+            class="day-cell {{item.isCurrentMonth ? '' : 'other-month'}} {{item.dateStr === selectedDate ? 'selected' : ''}} {{item.isToday ? 'today' : ''}}"
+            bindtap="selectDate" data-date="{{item.dateStr}}">
             <view class="day-num">{{item.day}}</view>
             <view class="term-text" wx:if="{{item.termName}}">{{item.termName}}</view>
             <view class="term-dot" wx:if="{{item.termName}}"></view>

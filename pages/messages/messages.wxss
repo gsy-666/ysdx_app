@@ -12,7 +12,7 @@
   margin-bottom: 20rpx;
   border-bottom-left-radius: 30rpx;
   border-bottom-right-radius: 30rpx;
-  box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.06);
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.06);
 }
 
 .calendar-header {

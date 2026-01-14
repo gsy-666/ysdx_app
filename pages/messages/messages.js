@@ -29,7 +29,7 @@ Page({
   data: {
     aiUnread: 0,
     lastAiTime: '刚刚',
-    
+
     // Calendar Data
     currentYear: 2026,
     currentMonth: 1, // 1-12
@@ -40,13 +40,13 @@ Page({
     weeks: ['日', '一', '二', '三', '四', '五', '六']
   },
 
-  onLoad: function() {
+  onLoad: function () {
     // 这里强制设置为 2026年 用于演示 (配合 context 的年份)
     // 实际开发可以使用 const now = new Date();
-    const now = new Date(); 
+    const now = new Date();
     // 强制 fix year for context consistency if needed, but let's use real time usually.
     // However user provided context says "Current date is 2026-01-14", so I use that.
-    
+
     const year = 2026;
     const month = 1;
     const day = 14;
@@ -67,94 +67,94 @@ Page({
   },
 
   // Calendar Logic
-  generateCalendar: function(year, month) {
+  generateCalendar: function (year, month) {
     const days = [];
-    
+
     // First day of the month
     const firstDay = new Date(year, month - 1, 1);
     const startingDay = firstDay.getDay(); // 0-6
-    
+
     // Days in this month
     const daysInMonth = new Date(year, month, 0).getDate();
-    
+
     // Previous month filler
     const prevMonthDays = new Date(year, month - 1, 0).getDate();
     for (let i = 0; i < startingDay; i++) {
-        days.push({
-            day: prevMonthDays - startingDay + 1 + i,
-            isCurrentMonth: false,
-            dateStr: '' // We ignore selection for prev month in this simple version
-        });
+      days.push({
+        day: prevMonthDays - startingDay + 1 + i,
+        isCurrentMonth: false,
+        dateStr: '' // We ignore selection for prev month in this simple version
+      });
     }
 
     // Current month days
     for (let i = 1; i <= daysInMonth; i++) {
-        const dateKey = `${month}-${i}`;
-        const dateStr = `${year}-${month}-${i}`;
-        const term = SOLAR_TERMS_2026[dateKey];
-        
-        days.push({
-            day: i,
-            isCurrentMonth: true,
-            dateStr: dateStr,
-            isToday: dateStr === this.data.todayDate,
-            termName: term ? term.name : ''
-        });
+      const dateKey = `${month}-${i}`;
+      const dateStr = `${year}-${month}-${i}`;
+      const term = SOLAR_TERMS_2026[dateKey];
+
+      days.push({
+        day: i,
+        isCurrentMonth: true,
+        dateStr: dateStr,
+        isToday: dateStr === this.data.todayDate,
+        termName: term ? term.name : ''
+      });
     }
-    
+
     this.setData({ calendarDays: days });
   },
 
-  changeMonth: function(e) {
-      const type = e.currentTarget.dataset.type;
-      let { currentYear, currentMonth } = this.data;
-      
-      if (type === 'prev') {
-          currentMonth--;
-          if (currentMonth < 1) {
-              currentMonth = 12;
-              currentYear--;
-          }
-      } else {
-          currentMonth++;
-          if (currentMonth > 12) {
-              currentMonth = 1;
-              currentYear++;
-          }
+  changeMonth: function (e) {
+    const type = e.currentTarget.dataset.type;
+    let { currentYear, currentMonth } = this.data;
+
+    if (type === 'prev') {
+      currentMonth--;
+      if (currentMonth < 1) {
+        currentMonth = 12;
+        currentYear--;
       }
-      
-      this.setData({ currentYear, currentMonth });
-      this.generateCalendar(currentYear, currentMonth);
+    } else {
+      currentMonth++;
+      if (currentMonth > 12) {
+        currentMonth = 1;
+        currentYear++;
+      }
+    }
+
+    this.setData({ currentYear, currentMonth });
+    this.generateCalendar(currentYear, currentMonth);
   },
 
-  selectDate: function(e) {
-      const dateStr = e.currentTarget.dataset.date;
-      if (!dateStr) return; // for padding days
-      
-      this.setData({ selectedDate: dateStr });
-      this.checkSelectedTerm(dateStr);
+  selectDate: function (e) {
+    const dateStr = e.currentTarget.dataset.date;
+    if (!dateStr) return; // for padding days
+
+    this.setData({ selectedDate: dateStr });
+    this.checkSelectedTerm(dateStr);
   },
 
-  checkSelectedTerm: function(dateStr) {
-      // dateStr: YYYY-M-D
-      if (!dateStr) {
-          this.setData({ selectedTerm: null });
-          return;
-      }
-      const parts = dateStr.split('-');
-      const key = `${parts[1]}-${parts[2]}`; // M-D
-      
-      const term = SOLAR_TERMS_2026[key];
-      if (term) {
-          this.setData({
-              selectedTerm: {
-                  ...term,
-                  dateStr: dateStr
-              }
-          });
-      } else {
-          this.setData({ selectedTerm: null });
-      }
+  checkSelectedTerm: function (dateStr) {
+    // dateStr: YYYY-M-D
+    if (!dateStr) {
+      this.setData({ selectedTerm: null });
+      return;
+    }
+    const parts = dateStr.split('-');
+    const key = `${parts[1]}-${parts[2]}`; // M-D
+
+    const term = SOLAR_TERMS_2026[key];
+    if (term) {
+      this.setData({
+        selectedTerm: {
+          ...term,
+          dateStr: dateStr
+        }
+      });
+    } else {
+      this.setData({ selectedTerm: null });
+    }
   },
 
   goToChat: function () {

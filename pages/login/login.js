@@ -42,7 +42,7 @@ Page({
     });
   },
 
-  executeLoginRequest: function() {
+  executeLoginRequest: function () {
     this.setData({ loading: true });
 
     request('/sysAdmin/login', 'POST', {
@@ -53,7 +53,7 @@ Page({
       wx.setStorageSync('token', res.token);
       wx.setStorageSync('id', res.id);
       wx.setStorageSync('role', res.role);
-      
+
       // 优先保留后端返回的名字，如果后端没有名字，才可能考虑微信昵称(这里暂不处理)
       wx.setStorageSync('name', res.name);
       wx.setStorageSync('phone', res.phone);
