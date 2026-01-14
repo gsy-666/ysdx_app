@@ -153,3 +153,4 @@ page {
   border: none;
   font-size: 30rpx;
 }
+.role-tag { font-size: 20rpx; background: rgba(255,255,255,0.2); padding: 2rpx 8rpx; border-radius: 4rpx; margin-left: 10rpx; border: 1rpx solid rgba(255,255,255,0.4); }

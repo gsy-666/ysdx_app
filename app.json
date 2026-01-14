@@ -6,6 +6,7 @@
     "pages/community/community",
     "pages/messages/messages",
     "pages/login/login",
+    "pages/register/register",
     "pages/four/four",
     "pages/diagnose/diagnose",
     "pages/grade/grade",

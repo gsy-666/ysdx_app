@@ -1,0 +1,68 @@
+/* pages/register/register.wxss */
+.container {
+  padding: 60rpx;
+  background-color: #fff;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.logo-area {
+  margin-top: 40rpx;
+  margin-bottom: 60rpx;
+  text-align: center;
+}
+
+.logo-text {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #1f8b73;
+}
+
+.slogan {
+  font-size: 28rpx;
+  color: #999;
+  margin-top: 20rpx;
+}
+
+.input-group {
+  margin-bottom: 40rpx;
+}
+
+.label {
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 10rpx;
+  display: block;
+}
+
+.input {
+  border: 1px solid #ddd;
+  height: 90rpx; /* Explicit height */
+  line-height: 90rpx; /* Center text vertically */
+  padding: 0 24rpx; /* Horizontal padding only */
+  border-radius: 8rpx;
+  font-size: 30rpx;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.action-btn {
+  background: linear-gradient(135deg, #1f8b73 0%, #4ecdc4 100%);
+  color: #fff;
+  font-size: 34rpx;
+  margin-top: 60rpx;
+  border-radius: 40rpx;
+  box-shadow: 0 4rpx 12rpx rgba(31, 139, 115, 0.3);
+}
+
+.login-link {
+  margin-top: 40rpx;
+  text-align: center;
+  font-size: 28rpx;
+  color: #666;
+}
+
+.link-text {
+  color: #1f8b73;
+  display: inline;
+}

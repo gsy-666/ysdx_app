@@ -1,4 +1,31 @@
-<!--pages/community/community.wxml-->
 <view class="container">
-  <text>社区功能开发中...</text>
+  <!-- Search Bar -->
+  <view class="search-box">
+    <input class="search-input" placeholder="搜索健康资讯..." bindinput="bindSearchInput" confirm-type="search" bindconfirm="onSearch"/>
+    <image class="search-icon" src="/static/home.png" bindtap="onSearch"></image>
+  </view>
+
+  <!-- Article List -->
+  <scroll-view scroll-y="true" class="article-list" bindscrolltolower="onReachBottom" refresher-enabled="{{true}}" refresher-triggered="{{triggered}}" bindrefresherrefresh="onPullDownRefresh">
+    <block wx:for="{{articleList}}" wx:key="id">
+      <view class="article-item" bindtap="goToDetail" data-id="{{item.id}}" hover-class="article-item-hover">
+        <view class="article-content">
+          <view class="article-title">{{item.title}}</view>
+          <view class="article-desc">{{item.content}}</view>
+          <view class="article-meta">
+            <text class="article-author">{{item.author || '管理员'}}</text>
+            <!-- <text class="article-time">2023-10-27</text> -->
+          </view>
+        </view>
+        <image class="article-image" src="/static/func_1.png" mode="aspectFill"></image>
+      </view>
+    </block>
+    
+    <view class="loading" wx:if="{{loading}}">加载中...</view>
+    <view class="no-more" wx:if="{{!hasMore && articleList.length > 0}}">没有更多文章了</view>
+    <view class="empty" wx:if="{{articleList.length === 0 && !loading}}">
+      <image src="/static/func_0.png" mode="aspectFit"></image>
+      <text>暂无相关文章</text>
+    </view>
+  </scroll-view>
 </view>

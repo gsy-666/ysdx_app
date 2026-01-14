@@ -1,8 +1,8 @@
 <!--pages/login/login.wxml-->
 <view class="login-container">
   <view class="logo-area">
-    <view class="logo-text">代榭云医院</view>
-    <view class="slogan">为您の身体健康保驾护航</view>
+    <view class="logo-text">云枢代谢综合平台</view>
+    <view class="slogan">为您的身体健康保驾护航</view>
   </view>
 
   <view class="login-form">

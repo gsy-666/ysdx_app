@@ -1,4 +1,36 @@
-<!--pages/messages/messages.wxml-->
 <view class="container">
-  <text>消息功能开发中...</text>
+  <view class="message-list">
+    <!-- AI Doctor Chat -->
+    <view class="message-item" bindtap="goToChat" data-type="ai" hover-class="message-item-hover">
+      <view class="avatar-box">
+        <image class="avatar" src="/static/doctor_illustration.png" mode="aspectFill"></image>
+        <view class="badge" wx:if="{{aiUnread > 0}}">{{aiUnread}}</view>
+      </view>
+      <view class="content-box">
+        <view class="top-row">
+          <text class="title">AI 健康助手</text>
+          <text class="time">{{lastAiTime}}</text>
+        </view>
+        <view class="bottom-row">
+          <text class="desc">点击这里开始咨询 AI 医生...</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- System Notification -->
+    <view class="message-item" bindtap="goToSystem" data-type="system" hover-class="message-item-hover">
+       <view class="avatar-box">
+        <image class="avatar" src="/static/message_active.png" mode="aspectFill"></image>
+      </view>
+      <view class="content-box">
+        <view class="top-row">
+          <text class="title">系统通知</text>
+          <text class="time">刚刚</text>
+        </view>
+        <view class="bottom-row">
+          <text class="desc">欢迎使用云枢代谢综合管理平台！</text>
+        </view>
+      </view>
+    </view>
+  </view>
 </view>

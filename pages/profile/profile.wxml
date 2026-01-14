@@ -5,7 +5,10 @@
     <view class="user-info" bindtap="goToLogin">
       <image class="avatar" src="{{userInfo.avatar || '/static/default_avatar.svg'}}"></image>
       <view class="text-info">
-        <view class="name">{{userInfo.name || '点击登录'}}</view>
+        <view class="name">
+          {{userInfo.name || '点击登录'}}
+          <text wx:if="{{roleName}}" class="role-tag">{{roleName}}</text>
+        </view>
         <view class="uid" wx:if="{{userInfo.phone}}">ID: {{userInfo.phone}}</view>
         <view class="uid" wx:else>登录体验更多功能</view>
       </view>

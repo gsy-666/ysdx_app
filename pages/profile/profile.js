@@ -1,8 +1,9 @@
-// pages/profile/profile.js
+﻿// pages/profile/profile.js
 Page({
   data: {
     userInfo: {},
     isLoggedIn: false,
+    roleName: '',
     functions: [
       { name: '我的预约', icon: '/static/report.svg' },
       { name: '我的复诊', icon: '/static/report.svg' },
@@ -22,47 +23,47 @@ Page({
     const token = wx.getStorageSync('token');
     const name = wx.getStorageSync('name');
     const phone = wx.getStorageSync('phone');
+    const role = wx.getStorageSync('role');
+    
+    let roleName = '';
+    if (role === 0 || role === 1) roleName = '医生';
+    else if (role === 2) roleName = '患者';
 
     if (token) {
       this.setData({
         isLoggedIn: true,
         userInfo: {
           name: name || '用户',
-          phone: phone || ''
-        }
+          phone: phone || '',
+          avatar: '' 
+        },
+        roleName: roleName
       });
     } else {
       this.setData({
         isLoggedIn: false,
-        userInfo: {}
+        userInfo: {},
+        roleName: ''
       });
     }
   },
 
-  goToLogin: function () {
-    wx.navigateTo({
-      url: '/pages/login/login',
-    });
+  goToLogin: function() {
+    if (!this.data.isLoggedIn) {
+      wx.navigateTo({ url: '/pages/login/login' });
+    }
   },
 
-  handleLogout: function () {
-    wx.removeStorageSync('token');
-    wx.removeStorageSync('name');
-    wx.removeStorageSync('id');
-    wx.removeStorageSync('phone');
-
-    this.setData({ isLoggedIn: false, userInfo: {} });
-    wx.showToast({ title: '已退出登录', icon: 'none' });
-  },
-
-  navTo(e) {
+  navTo: function(e) {
     const url = e.currentTarget.dataset.url;
-    if (url) wx.navigateTo({ url });
+    if (url) {
+      wx.navigateTo({ url: url });
+    }
   },
 
-  navToMenu(e) {
-    const idx = e.currentTarget.dataset.idx;
-    const item = this.data.functions[idx];
-    wx.showToast({ title: item.name + ' 暂未开放', icon: 'none' });
+  handleLogout: function() {
+    wx.clearStorageSync();
+    this.onShow();
+    wx.reLaunch({ url: '/pages/index/index' });
   }
 })

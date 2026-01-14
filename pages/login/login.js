@@ -63,9 +63,8 @@ Page({
   },
 
   goToRegister: function () {
-    wx.showToast({
-      title: '注册功能暂未开放',
-      icon: 'none'
-    })
+    wx.navigateTo({
+      url: '/pages/register/register',
+    });
   }
 })

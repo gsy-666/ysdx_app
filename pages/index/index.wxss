@@ -186,3 +186,20 @@
   font-weight: bold;
   font-size: 28rpx;
 }
+/* Doctor Styles */
+.doctor-header { margin-bottom: 30rpx; }
+.stats-row { display: flex; justify-content: space-between; margin-bottom: 40rpx; }
+.stat-card { background: #fff; width: 48%; padding: 30rpx; border-radius: 12rpx; text-align: center; box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.05); }
+.stat-num { font-size: 48rpx; font-weight: bold; color: #409EFF; margin-bottom: 10rpx; }
+.stat-label { font-size: 24rpx; color: #666; }
+.section-title { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20rpx; padding: 0 10rpx; }
+.section-title .more { font-size: 24rpx; color: #999; }
+.patient-list { background: #fff; border-radius: 12rpx; overflow: hidden; }
+.patient-item { display: flex; align-items: center; padding: 24rpx; border-bottom: 1rpx solid #f5f5f5; }
+.patient-item:last-child { border-bottom: none; }
+.patient-avatar { width: 80rpx; height: 80rpx; border-radius: 40rpx; background: #eee; margin-right: 20rpx; }
+.patient-info { flex: 1; }
+.patient-name { font-size: 30rpx; font-weight: 500; color: #333; }
+.patient-phone { font-size: 24rpx; color: #999; margin-top: 4rpx; }
+.patient-status { font-size: 24rpx; color: #52c41a; background: #f6ffed; padding: 4rpx 12rpx; border-radius: 4rpx; border: 1rpx solid #b7eb8f; }
+.empty-tip { text-align: center; padding: 40rpx; color: #999; font-size: 26rpx; }
