@@ -1,6 +1,6 @@
 ﻿<!--pages/index/index.wxml-->
 <view class="home-container">
-  
+
   <!-- Weather Widget -->
   <view class="weather-widget" bindtap="refreshWeather">
     <view class="weather-location">
@@ -37,7 +37,7 @@
       <text>最近患者</text>
       <text class="more" bindtap="navigateTo" data-path="/pages/community/community?type=admin">查看全部 ></text>
     </view>
-    
+
     <view class="patient-list">
       <block wx:for="{{patientList}}" wx:key="id">
         <view class="patient-item" bindtap="viewPatientDetail" data-id="{{item.id}}">
