@@ -7,3 +7,27 @@ page {
 .container {
   box-sizing: border-box;
 }
+
+.avatar-btn {
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent;
+  width: 124rpx !important;
+  height: 124rpx !important;
+  min-height: 124rpx !important;
+  min-width: 124rpx !important;
+  border-radius: 50% !important;
+  margin-right: 30rpx !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  line-height: inherit;
+  border: 4rpx solid rgba(255, 255, 255, 0.5); 
+  box-sizing: border-box;
+  overflow: hidden;
+  font-weight: normal;
+}
+
+.avatar-btn::after {
+  border: none;
+}

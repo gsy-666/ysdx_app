@@ -6,11 +6,13 @@
   position: relative;
 }
 
+/* 天气组件 - 提升对比度 */
 .weather-widget {
   position: absolute;
   top: 20rpx;
   right: 20rpx;
-  background: rgba(255, 255, 255, 0.9);
+  background: #fff;
+  /* 实色白背景，提升文字对比度 */
   padding: 10rpx 20rpx;
   border-radius: 30rpx;
   display: flex;
@@ -19,13 +21,15 @@
   box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
   font-size: 24rpx;
   z-index: 100;
+  font-family: "STKaiti", "KaiTi", "SimSun", serif;
 }
 
 .weather-location {
   display: flex;
   align-items: center;
-  color: #333;
-  font-weight: bold;
+  color: #1a1a1a;
+  /* 深灰黑，清晰醒目 */
+  font-weight: 500;
 }
 
 .location-icon-text {
@@ -37,33 +41,51 @@
   display: flex;
   align-items: center;
   margin-top: 4rpx;
-  color: #666;
+  color: #555555;
+  /* 中灰，清晰不暗淡 */
 }
 
 .weather-temp {
   margin-right: 10rpx;
   color: #409EFF;
   font-weight: bold;
+  font-size: 26rpx;
+  /* 温度数字放大，更易读 */
 }
 
+/* 古风 Header + 高对比度 */
 .header {
   margin-bottom: 20rpx;
   padding-top: 60rpx;
-  /* Make space for weather widget */
+  font-family: "STKaiti", "KaiTi", "SimSun", serif;
 }
 
 .title {
-  font-size: 36rpx;
-  font-weight: bold;
-  color: #333;
+  font-size: 40rpx;
+  font-weight: 600;
+  /* 适度加粗，提升辨识度 */
+  color: #1a1a1a;
+  /* 深灰黑，替代棕褐色，更清晰 */
+  letter-spacing: 4rpx;
+  /* 适度减少字间距，避免过疏看不清 */
+  line-height: 1.6;
+  text-shadow: none;
+  /* 去掉阴影，避免模糊 */
 }
 
 .subtitle {
-  font-size: 24rpx;
-  color: #666;
-  margin-top: 10rpx;
+  font-size: 26rpx;
+  color: #555555;
+  /* 中灰，替代棕灰色 */
+  margin-top: 12rpx;
+  letter-spacing: 2rpx;
+  font-family: "STKaiti", "KaiTi", "SimSun", serif;
+  line-height: 1.5;
+  opacity: 1;
+  /* 取消透光度，提升清晰度 */
 }
 
+/* Banner 区域 */
 .banner {
   background-color: #e6f3ff;
   border-radius: 4rpx;
@@ -83,6 +105,7 @@
   top: 30rpx;
   left: 30rpx;
   padding: 10rpx 30rpx;
+  font-family: "STKaiti", "KaiTi", "SimSun", serif;
 }
 
 .banner-img {
@@ -93,6 +116,7 @@
   bottom: 0;
 }
 
+/* 计划推广区 - 高对比度 */
 .plan-promo {
   background-color: #fff;
   margin-top: 20rpx;
@@ -102,17 +126,21 @@
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+  font-family: "STKaiti", "KaiTi", "SimSun", serif;
 }
 
 .promo-title {
   font-size: 28rpx;
-  font-weight: bold;
+  font-weight: 600;
+  color: #1a1a1a;
+  letter-spacing: 2rpx;
 }
 
 .promo-desc {
   font-size: 22rpx;
-  color: #999;
+  color: #555555;
   margin-top: 5rpx;
+  letter-spacing: 1rpx;
 }
 
 .check-btn {
@@ -121,8 +149,10 @@
   font-size: 22rpx;
   border-radius: 4rpx;
   margin: 0;
+  font-family: "STKaiti", "KaiTi", "SimSun", serif;
 }
 
+/* 功能网格区 - 高对比度 */
 .func-grid-top {
   display: flex;
   flex-wrap: wrap;
@@ -133,13 +163,13 @@
 .grid-item {
   background-color: #fff;
   width: 48%;
-  /* Adjust for 2 columns */
   border-radius: 4rpx;
   padding: 20rpx;
   box-sizing: border-box;
   margin-bottom: 20rpx;
   position: relative;
   height: 180rpx;
+  font-family: "STKaiti", "KaiTi", "SimSun", serif;
 }
 
 .full-width {
@@ -147,14 +177,17 @@
 }
 
 .grid-title {
-  font-weight: bold;
   font-size: 28rpx;
+  font-weight: 600;
+  color: #1a1a1a;
+  letter-spacing: 2rpx;
 }
 
 .grid-desc {
   font-size: 22rpx;
-  color: #999;
+  color: #555555;
   margin-top: 10rpx;
+  letter-spacing: 1rpx;
 }
 
 .grid-icon {
@@ -167,10 +200,14 @@
   background-color: #eee;
 }
 
+/* 科室专区 - 高对比度 */
 .zone-title {
   font-size: 32rpx;
-  font-weight: bold;
+  font-weight: 600;
+  color: #1a1a1a;
   margin: 20rpx 0;
+  font-family: "STKaiti", "KaiTi", "SimSun", serif;
+  letter-spacing: 3rpx;
 }
 
 .dept-scroll {
@@ -188,18 +225,22 @@
   box-sizing: border-box;
   vertical-align: top;
   position: relative;
+  font-family: "STKaiti", "KaiTi", "SimSun", serif;
 }
 
 .dept-name {
-  font-weight: bold;
   font-size: 26rpx;
+  font-weight: 600;
+  color: #1a1a1a;
+  letter-spacing: 2rpx;
 }
 
 .dept-desc {
   font-size: 20rpx;
-  color: #999;
+  color: #555555;
   margin-top: 10rpx;
   white-space: normal;
+  letter-spacing: 1rpx;
 }
 
 .dept-icon {
@@ -212,27 +253,42 @@
   border-radius: 0;
 }
 
+/* 底部导航 - 高对比度 */
 .edu-nav {
   display: flex;
   justify-content: space-between;
   margin-top: 30rpx;
   padding-bottom: 30rpx;
+  font-family: "STKaiti", "KaiTi", "SimSun", serif;
 }
 
 .edu-nav text {
-  color: #999;
+  color: #555555;
   font-size: 26rpx;
+  letter-spacing: 1rpx;
 }
 
 .edu-nav text.active {
-  color: #333;
-  font-weight: bold;
+  color: #1a1a1a;
+  font-weight: 600;
   font-size: 28rpx;
+  letter-spacing: 2rpx;
 }
 
-/* Doctor Styles */
+/* 医生端样式 - 高对比度 */
 .doctor-header {
   margin-bottom: 30rpx;
+  font-family: "STKaiti", "KaiTi", "SimSun", serif;
+}
+
+.doctor-header .title {
+  color: #1a1a1a;
+  letter-spacing: 4rpx;
+}
+
+.doctor-header .subtitle {
+  color: #555555;
+  letter-spacing: 2rpx;
 }
 
 .stats-row {
@@ -248,6 +304,7 @@
   border-radius: 12rpx;
   text-align: center;
   box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
+  font-family: "STKaiti", "KaiTi", "SimSun", serif;
 }
 
 .stat-num {
@@ -259,7 +316,8 @@
 
 .stat-label {
   font-size: 24rpx;
-  color: #666;
+  color: #555555;
+  letter-spacing: 1rpx;
 }
 
 .section-title {
@@ -268,11 +326,13 @@
   align-items: center;
   margin-bottom: 20rpx;
   padding: 0 10rpx;
+  font-family: "STKaiti", "KaiTi", "SimSun", serif;
 }
 
 .section-title .more {
   font-size: 24rpx;
-  color: #999;
+  color: #555555;
+  letter-spacing: 1rpx;
 }
 
 .patient-list {
@@ -286,6 +346,7 @@
   align-items: center;
   padding: 24rpx;
   border-bottom: 1rpx solid #f5f5f5;
+  font-family: "STKaiti", "KaiTi", "SimSun", serif;
 }
 
 .patient-item:last-child {
@@ -306,14 +367,16 @@
 
 .patient-name {
   font-size: 30rpx;
-  font-weight: 500;
-  color: #333;
+  font-weight: 600;
+  color: #1a1a1a;
+  letter-spacing: 1rpx;
 }
 
 .patient-phone {
   font-size: 24rpx;
-  color: #999;
+  color: #555555;
   margin-top: 4rpx;
+  letter-spacing: 1rpx;
 }
 
 .patient-status {
@@ -323,11 +386,14 @@
   padding: 4rpx 12rpx;
   border-radius: 4rpx;
   border: 1rpx solid #b7eb8f;
+  font-family: "STKaiti", "KaiTi", "SimSun", serif;
 }
 
 .empty-tip {
   text-align: center;
   padding: 40rpx;
-  color: #999;
+  color: #555555;
   font-size: 26rpx;
+  font-family: "STKaiti", "KaiTi", "SimSun", serif;
+  letter-spacing: 2rpx;
 }

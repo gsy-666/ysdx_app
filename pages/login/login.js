@@ -24,6 +24,25 @@ Page({
       return;
     }
 
+    // 尝试获取微信头像信息
+    wx.getUserProfile({
+      desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中
+      success: (res) => {
+        console.log('GetUserProfile success:', res);
+        wx.setStorageSync('avatar', res.userInfo.avatarUrl);
+        // 可以选择是否覆盖名字
+        // wx.setStorageSync('wechatName', res.userInfo.nickName); 
+        this.executeLoginRequest();
+      },
+      fail: (err) => {
+        console.log('GetUserProfile/Auth failed:', err);
+        // 依然继续登录流程
+        this.executeLoginRequest();
+      }
+    });
+  },
+
+  executeLoginRequest: function() {
     this.setData({ loading: true });
 
     request('/sysAdmin/login', 'POST', {
@@ -34,6 +53,8 @@ Page({
       wx.setStorageSync('token', res.token);
       wx.setStorageSync('id', res.id);
       wx.setStorageSync('role', res.role);
+      
+      // 优先保留后端返回的名字，如果后端没有名字，才可能考虑微信昵称(这里暂不处理)
       wx.setStorageSync('name', res.name);
       wx.setStorageSync('phone', res.phone);
 

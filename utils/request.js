@@ -1,5 +1,6 @@
 // utils/request.js
-const baseURL = 'http://127.0.0.1:8080'; // Change to https in production
+// const baseURL = 'http://127.0.0.1:8080'; // Simulator Only
+const baseURL = 'http://172.20.10.6:8080'; // True Mobile Debugging / LAN IP
 
 const request = (url, method = 'GET', data = {}) => {
   return new Promise((resolve, reject) => {

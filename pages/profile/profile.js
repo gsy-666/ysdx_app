@@ -24,6 +24,7 @@ Page({
     const name = wx.getStorageSync('name');
     const phone = wx.getStorageSync('phone');
     const role = wx.getStorageSync('role');
+    const avatar = wx.getStorageSync('avatar'); // 获取头像
     
     let roleName = '';
     if (role === 0 || role === 1) roleName = '医生';
@@ -35,7 +36,7 @@ Page({
         userInfo: {
           name: name || '用户',
           phone: phone || '',
-          avatar: '' 
+          avatar: avatar || '' // 使用存储的头像
         },
         roleName: roleName
       });
@@ -46,6 +47,21 @@ Page({
         roleName: ''
       });
     }
+  },
+
+  onChooseAvatar: function(e) {
+    const { avatarUrl } = e.detail;
+    console.log('Selected avatar:', avatarUrl);
+    
+    // Save to storage
+    wx.setStorageSync('avatar', avatarUrl);
+    
+    // Update local data
+    this.setData({
+      'userInfo.avatar': avatarUrl
+    });
+
+    // Optional: Upload to server here if needed
   },
 
   goToLogin: function() {

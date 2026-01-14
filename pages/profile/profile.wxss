@@ -21,6 +21,15 @@ page {
   align-items: center;
 }
 
+/* Fix for avatar inside button */
+.avatar-btn .avatar {
+  margin-right: 0;
+  width: 100%;
+  height: 100%;
+  border: none; /* Move border to button if needed, or keep it */
+}
+
+/* Keep original avatar style for non-logged in state or other uses */
 .avatar {
   width: 120rpx;
   height: 120rpx;
