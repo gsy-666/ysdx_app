@@ -1,0 +1,50 @@
+<view class="container">
+  <!-- 标题输入 -->
+  <view class="input-item">
+    <text class="input-label">帖子标题</text>
+    <input class="title-input" placeholder="请输入帖子标题（必填）" bindinput="bindTitleInput" value="{{title}}" maxlength="50" />
+  </view>
+
+  <!-- 分类选择 -->
+  <view class="select-item">
+    <text class="select-label">帖子分类</text>
+    <picker mode="selector" range="{{categoryList}}" range-key="name" bindchange="changeCategory"
+      value="{{categoryIndex}}">
+      <view class="select-value">
+        {{categoryList[categoryIndex] ? categoryList[categoryIndex].name : '请选择分类'}}
+        <image src="/static/arrow_right.png" class="select-icon"></image>
+      </view>
+    </picker>
+  </view>
+
+  <!-- 内容输入 -->
+  <view class="textarea-item">
+    <text class="textarea-label">帖子内容</text>
+    <textarea class="content-textarea" placeholder="请输入帖子内容（必填）" bindinput="bindContentInput" value="{{content}}"
+      maxlength="1000" auto-height></textarea>
+  </view>
+
+  <!-- 图片上传 -->
+  <view class="upload-item">
+    <text class="upload-label">上传图片（可选）</text>
+    <view class="upload-grid">
+      <block wx:for="{{images}}" wx:key="index">
+        <view class="upload-img-item">
+          <image class="upload-img" src="{{item}}" mode="aspectFill"></image>
+          <image class="delete-img" src="/static/delete.png" bindtap="deleteImage" data-index="{{index}}"
+            catchtap="true"></image>
+        </view>
+      </block>
+      <view class="add-img-btn" bindtap="chooseImage" wx:if="{{images.length < 9}}">
+        <image src="/static/add.png" class="add-img-icon"></image>
+        <text>添加图片</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 发布按钮 -->
+  <button class="publish-btn" bindtap="publishPost"
+    disabled="{{!title.trim() || !content.trim() || !categoryId || publishing}}">
+    {{publishing ? '发布中...' : '发布帖子'}}
+  </button>
+</view>

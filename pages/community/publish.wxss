@@ -1,0 +1,143 @@
+/* pages/community/publish.wxss */
+/* Font file missing, removing @font-face to prevent errors */
+
+page {
+  background-color: #f9f5f0;
+  font-family: "Kaiti SC", "STKaiti", "KaiTi", "SimSun", serif;
+}
+
+.container {
+  padding: 20rpx;
+  min-height: 100vh;
+}
+
+/* 输入项通用 */
+.input-item,
+.select-item,
+.textarea-item,
+.upload-item {
+  background-color: #fff;
+  border-radius: 16rpx;
+  border: 1rpx solid #d2b48c;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 10rpx rgba(139, 69, 19, 0.08);
+}
+
+.input-label,
+.select-label,
+.textarea-label,
+.upload-label {
+  font-size: 28rpx;
+  color: #8b4513;
+  margin-bottom: 16rpx;
+  display: block;
+}
+
+/* 标题输入 */
+.title-input {
+  font-size: 28rpx;
+  color: #a0522d;
+  padding: 12rpx 0;
+  border-bottom: 1rpx solid #f5e8d5;
+}
+
+.title-input::placeholder {
+  color: #d2b48c;
+}
+
+/* 分类选择 */
+.select-value {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 28rpx;
+  color: #a0522d;
+  padding: 12rpx 0;
+  border-bottom: 1rpx solid #f5e8d5;
+}
+
+.select-icon {
+  width: 32rpx;
+  height: 32rpx;
+}
+
+/* 内容输入 */
+.content-textarea {
+  font-size: 28rpx;
+  color: #a0522d;
+  min-height: 200rpx;
+  line-height: 1.8;
+}
+
+.content-textarea::placeholder {
+  color: #d2b48c;
+}
+
+/* 图片上传 */
+.upload-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  margin-top: 16rpx;
+}
+
+.upload-img-item {
+  position: relative;
+  width: 180rpx;
+  height: 180rpx;
+}
+
+.upload-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 8rpx;
+  border: 1rpx solid #d2b48c;
+}
+
+.delete-img {
+  position: absolute;
+  top: -12rpx;
+  right: -12rpx;
+  width: 36rpx;
+  height: 36rpx;
+  background-color: #fff;
+  border-radius: 50%;
+  padding: 4rpx;
+}
+
+.add-img-btn {
+  width: 180rpx;
+  height: 180rpx;
+  border: 1rpx dashed #d2b48c;
+  border-radius: 8rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #a0522d;
+  font-size: 24rpx;
+}
+
+.add-img-icon {
+  width: 40rpx;
+  height: 40rpx;
+  margin-bottom: 8rpx;
+}
+
+/* 发布按钮 */
+.publish-btn {
+  background-color: #8b4513;
+  color: #fff;
+  border: none;
+  border-radius: 16rpx;
+  padding: 20rpx 0;
+  font-size: 32rpx;
+  margin-top: 40rpx;
+  letter-spacing: 4rpx;
+}
+
+.publish-btn:disabled {
+  background-color: #d2b48c;
+  color: #fff;
+}

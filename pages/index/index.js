@@ -135,6 +135,13 @@ Page({
     const path = e.currentTarget.dataset.path;
     wx.navigateTo({
       url: path,
+      fail: (err) => {
+        console.error('Navigation failed:', err);
+        wx.showToast({
+          title: '跳转失败',
+          icon: 'none'
+        });
+      }
     });
   }
 })

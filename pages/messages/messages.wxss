@@ -1,18 +1,35 @@
+/* 全局古风样式基础 */
+@font-face {
+  font-family: "GufengShufa";
+  src: url('/static/fonts/HanyiShangweiGufeng.ttf') format('truetype');
+  font-display: swap;
+}
+
+page {
+  font-family: "GufengShufa", "Kaiti SC", "STKaiti", "KaiTi", "SimSun", serif;
+  background-color: #f9f5f0;
+  /* 宣纸浅米黄底，替代原浅灰 */
+}
+
 .container {
   min-height: 100vh;
-  background-color: #f7f8fa;
+  background-color: #f9f5f0;
+  /* 同步替换为古风底色 */
   display: flex;
   flex-direction: column;
 }
 
-/* Calendar Styles */
+/* Calendar Styles - 古风改造 */
 .calendar-wrapper {
   background: #fff;
   padding: 20rpx;
   margin-bottom: 20rpx;
   border-bottom-left-radius: 30rpx;
   border-bottom-right-radius: 30rpx;
-  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4rpx 16rpx rgba(139, 69, 19, 0.08);
+  /* 棕色调阴影，替代原黑色 */
+  border: 1rpx solid #d2b48c;
+  /* 新增棕木色边框 */
 }
 
 .calendar-header {
@@ -25,21 +42,31 @@
 
 .cur-month {
   font-size: 32rpx;
-  font-weight: bold;
-  color: #333;
+  font-weight: 500;
+  /* 书法字体不加粗，保留笔锋 */
+  color: #8b4513;
+  /* 棕红主色，替代原深灰 */
+  letter-spacing: 4rpx;
+  /* 加大字间距，仿书法布局 */
 }
 
 .change-btn {
   font-size: 28rpx;
-  color: #999;
+  color: #a0522d;
+  /* 浅棕红，替代原浅灰 */
   padding: 10rpx 20rpx;
+  border-radius: 8rpx;
+  background-color: #f5e8d5;
+  /* 浅米底色，增加古风质感 */
+  border: 1rpx solid #d2b48c;
 }
 
 .week-row {
   display: flex;
   justify-content: space-around;
   margin-bottom: 10rpx;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f5e8d5;
+  /* 浅米分隔线，替代原浅灰 */
   padding-bottom: 10rpx;
 }
 
@@ -47,7 +74,9 @@
   width: 14.28%;
   text-align: center;
   font-size: 24rpx;
-  color: #999;
+  color: #a0522d;
+  /* 浅棕红，替代原浅灰 */
+  letter-spacing: 2rpx;
 }
 
 .calendar-grid {
@@ -68,7 +97,8 @@
 
 .day-num {
   font-size: 30rpx;
-  color: #333;
+  color: #8b4513;
+  /* 棕红主色，替代原深灰 */
   width: 60rpx;
   height: 60rpx;
   line-height: 60rpx;
@@ -76,46 +106,63 @@
   border-radius: 50%;
 }
 
+/* 今日日期样式 - 古风适配 */
 .day-cell.today .day-num {
-  background-color: #e6f3ff;
-  color: #409EFF;
+  background-color: #f5e8d5;
+  /* 浅米底色，替代原浅蓝 */
+  color: #8b4513;
+  /* 棕红主色，替代原蓝色 */
+  border: 1rpx solid #d2b48c;
 }
 
+/* 选中日期样式 - 古风适配 */
 .day-cell.selected .day-num {
-  background-color: #409EFF;
+  background-color: #8b4513;
+  /* 棕红主色，替代原蓝色 */
   color: #fff;
-  box-shadow: 0 4rpx 10rpx rgba(64, 158, 255, 0.4);
+  box-shadow: 0 4rpx 10rpx rgba(139, 69, 19, 0.4);
+  /* 棕色调阴影，替代原蓝色 */
 }
 
 .day-cell.other-month .day-num {
-  color: #ccc;
+  color: #d2b48c;
+  /* 浅棕木色，替代原浅灰 */
+  opacity: 0.6;
 }
 
+/* 节气文字 - 古风配色 */
 .term-text {
   font-size: 20rpx;
-  color: #409EFF;
+  color: #8b4513;
+  /* 棕红主色，替代原蓝色 */
   margin-top: -6rpx;
   height: 24rpx;
   line-height: 24rpx;
+  letter-spacing: 1rpx;
 }
 
+/* 节气小点 - 古风配色 */
 .term-dot {
   width: 8rpx;
   height: 8rpx;
   border-radius: 50%;
-  background-color: #409EFF;
+  background-color: #8b4513;
+  /* 棕红主色，替代原蓝色 */
   position: absolute;
   bottom: 10rpx;
 }
 
-/* Solar Term Card */
+/* Solar Term Card - 古风改造 */
 .term-card {
   margin: 0 20rpx 20rpx;
-  background: linear-gradient(135deg, #e6f3ff 0%, #ffffff 100%);
+  background: linear-gradient(135deg, #f5e8d5 0%, #ffffff 100%);
+  /* 米黄渐变，替代原浅蓝渐变 */
   border-radius: 20rpx;
   padding: 30rpx;
-  border: 1px solid #d1e9ff;
-  box-shadow: 0 4rpx 12rpx rgba(64, 158, 255, 0.1);
+  border: 1px solid #d2b48c;
+  /* 棕木色边框，替代原浅蓝边框 */
+  box-shadow: 0 4rpx 12rpx rgba(139, 69, 19, 0.1);
+  /* 棕色调阴影，替代原蓝色 */
 }
 
 .term-card-header {
@@ -131,45 +178,63 @@
 
 .term-name {
   font-size: 36rpx;
-  font-weight: bold;
-  color: #409EFF;
+  font-weight: 500;
+  /* 书法字体不加粗 */
+  color: #8b4513;
+  /* 棕红主色，替代原蓝色 */
+  letter-spacing: 4rpx;
 }
 
 .term-date {
   font-size: 24rpx;
-  color: #666;
+  color: #a0522d;
+  /* 浅棕红，替代原深灰 */
   margin-left: auto;
+  letter-spacing: 2rpx;
 }
 
 .term-content {
   font-size: 28rpx;
-  color: #555;
+  color: #a0522d;
+  /* 浅棕红，替代原深灰 */
   line-height: 1.6;
+  letter-spacing: 2rpx;
 }
 
 .term-label {
-  font-weight: bold;
-  color: #333;
+  font-weight: 500;
+  /* 书法字体不加粗 */
+  color: #8b4513;
+  /* 棕红主色，替代原深灰 */
   margin-right: 10rpx;
 }
 
+/* 消息列表 - 古风改造 */
 .message-list {
   background-color: #ffffff;
   padding-top: 20rpx;
   flex: 1;
+  border-radius: 30rpx 30rpx 0 0;
+  /* 新增圆角，贴合古风 */
+  border: 1rpx solid #d2b48c;
+  /* 新增棕木色边框 */
+  margin: 0 20rpx;
+  box-shadow: 0 4rpx 16rpx rgba(139, 69, 19, 0.08);
 }
 
 .message-item {
   display: flex;
   padding: 30rpx 40rpx;
-  border-bottom: 1rpx solid #f5f5f5;
+  border-bottom: 1rpx solid #f5e8d5;
+  /* 浅米分隔线，替代原浅灰 */
   align-items: center;
   background: #fff;
   transition: background-color 0.2s;
 }
 
 .message-item-hover {
-  background-color: #f9f9f9;
+  background-color: #f5e8d5;
+  /* 浅米底色，替代原浅灰 */
 }
 
 .avatar-box {
@@ -181,20 +246,26 @@
   width: 96rpx;
   height: 96rpx;
   border-radius: 12rpx;
-  background-color: #eee;
+  background-color: #f5e8d5;
+  /* 浅米底色，替代原浅灰 */
+  border: 1rpx solid #d2b48c;
+  /* 新增棕木色边框 */
 }
 
+/* 未读角标 - 古风配色 */
 .badge {
   position: absolute;
   top: -6rpx;
   right: -6rpx;
-  background-color: #ff4d4f;
+  background-color: #8b4513;
+  /* 棕红主色，替代原红色 */
   color: #fff;
   font-size: 20rpx;
   padding: 0 8rpx;
   height: 28rpx;
   line-height: 28rpx;
   border-radius: 14rpx;
+  border: 1rpx solid #fff;
 }
 
 .content-box {
@@ -213,12 +284,17 @@
 .title {
   font-size: 32rpx;
   font-weight: 500;
-  color: #333;
+  /* 书法字体不加粗 */
+  color: #8b4513;
+  /* 棕红主色，替代原深灰 */
+  letter-spacing: 2rpx;
 }
 
 .time {
   font-size: 24rpx;
-  color: #999;
+  color: #a0522d;
+  /* 浅棕红，替代原浅灰 */
+  letter-spacing: 1rpx;
 }
 
 .bottom-row {
@@ -227,9 +303,11 @@
 
 .desc {
   font-size: 26rpx;
-  color: #666;
+  color: #a0522d;
+  /* 浅棕红，替代原深灰 */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 500rpx;
+  letter-spacing: 1rpx;
 }

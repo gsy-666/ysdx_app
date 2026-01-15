@@ -1,111 +1,122 @@
 /* pages/index/index.wxss */
-.home-container {
-  padding: 20rpx;
-  background-color: #f8f8f8;
-  min-height: 100vh;
-  position: relative;
+/* Font file missing, removing @font-face to prevent errors */
+
+/* 全局古风样式重置 */
+page {
+  font-family: "Kaiti SC", "STKaiti", "KaiTi", "SimSun", serif;
+  background-color: #f9f5f0;
+  /* 浅米黄底，中式宣纸质感 */
 }
 
-/* 天气组件 - 提升对比度 */
+.home-container {
+  padding: 20rpx;
+  min-height: 100vh;
+  position: relative;
+  font-family: inherit;
+  background-color: transparent;
+  /* 继承全局宣纸底色 */
+}
+
+/* 天气组件 - 合并样式+修复语法错误 */
 .weather-widget {
   position: absolute;
   top: 20rpx;
   right: 20rpx;
-  background: #fff;
-  /* 实色白背景，提升文字对比度 */
-  padding: 10rpx 20rpx;
-  border-radius: 30rpx;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 8rpx 12rpx;
+  border-radius: 20rpx;
+  border: 1rpx solid #d2b48c;
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
-  font-size: 24rpx;
+  flex-direction: row;
+  /* 修复：去掉多余的** */
+  align-items: center;
+  box-shadow: 0 2rpx 8rpx rgba(139, 69, 19, 0.1);
+  font-size: 20rpx;
   z-index: 100;
-  font-family: "STKaiti", "KaiTi", "SimSun", serif;
+  font-family: inherit;
+  white-space: nowrap;
+  /* 强制不换行 */
 }
 
 .weather-location {
   display: flex;
   align-items: center;
-  color: #1a1a1a;
-  /* 深灰黑，清晰醒目 */
+  color: #8b4513;
   font-weight: 500;
+  margin-right: 4rpx;
 }
 
 .location-icon-text {
-  font-size: 24rpx;
-  margin-right: 6rpx;
+  font-size: 20rpx;
+  margin-right: 2rpx;
 }
 
 .weather-info {
   display: flex;
   align-items: center;
-  margin-top: 4rpx;
-  color: #555555;
-  /* 中灰，清晰不暗淡 */
+  color: #a0522d;
+  margin-left: 4rpx;
 }
 
 .weather-temp {
-  margin-right: 10rpx;
-  color: #409EFF;
+  color: #8b4513;
   font-weight: bold;
-  font-size: 26rpx;
-  /* 温度数字放大，更易读 */
+  font-size: 20rpx;
+  margin-right: 2rpx;
 }
 
-/* 古风 Header + 高对比度 */
+/* 核心古风 Header（书法字体+中式配色） */
 .header {
   margin-bottom: 20rpx;
   padding-top: 60rpx;
-  font-family: "STKaiti", "KaiTi", "SimSun", serif;
+  font-family: inherit;
+  text-align: center;
 }
 
 .title {
-  font-size: 40rpx;
-  font-weight: 600;
-  /* 适度加粗，提升辨识度 */
-  color: #1a1a1a;
-  /* 深灰黑，替代棕褐色，更清晰 */
-  letter-spacing: 4rpx;
-  /* 适度减少字间距，避免过疏看不清 */
-  line-height: 1.6;
-  text-shadow: none;
-  /* 去掉阴影，避免模糊 */
+  font-size: 44rpx;
+  font-weight: 500;
+  color: #8b4513;
+  letter-spacing: 8rpx;
+  line-height: 1.8;
+  text-shadow: 0 1rpx 2rpx rgba(139, 69, 19, 0.1);
 }
 
 .subtitle {
-  font-size: 26rpx;
-  color: #555555;
-  /* 中灰，替代棕灰色 */
+  font-size: 28rpx;
+  color: #a0522d;
   margin-top: 12rpx;
-  letter-spacing: 2rpx;
-  font-family: "STKaiti", "KaiTi", "SimSun", serif;
-  line-height: 1.5;
+  letter-spacing: 4rpx;
+  font-family: inherit;
+  line-height: 1.6;
   opacity: 1;
-  /* 取消透光度，提升清晰度 */
 }
 
-/* Banner 区域 */
+/* Banner 区域 - 古风渐变 */
 .banner {
-  background-color: #e6f3ff;
-  border-radius: 4rpx;
+  background: linear-gradient(to right, #f5e8d5, #e8d4b8);
+  border-radius: 12rpx;
+  border: 1rpx solid #d2b48c;
   padding: 30rpx;
   position: relative;
   height: 200rpx;
   display: flex;
   align-items: center;
+  box-shadow: 0 4rpx 10rpx rgba(139, 69, 19, 0.08);
 }
 
 .join-btn {
-  background-color: #409EFF;
+  background-color: #8b4513;
   color: #fff;
   font-size: 24rpx;
-  border-radius: 4rpx;
+  border-radius: 8rpx;
   position: absolute;
   top: 30rpx;
   left: 30rpx;
   padding: 10rpx 30rpx;
-  font-family: "STKaiti", "KaiTi", "SimSun", serif;
+  font-family: inherit;
+  border: 1rpx solid #a0522d;
+  box-shadow: 0 2rpx 6rpx rgba(139, 69, 19, 0.2);
 }
 
 .banner-img {
@@ -114,45 +125,51 @@
   position: absolute;
   right: 20rpx;
   bottom: 0;
+  border-radius: 8rpx;
+  border: 1rpx solid #d2b48c;
 }
 
-/* 计划推广区 - 高对比度 */
+/* 计划推广区 - 古风卡片 */
 .plan-promo {
   background-color: #fff;
   margin-top: 20rpx;
-  border-radius: 4rpx;
+  border-radius: 12rpx;
+  border: 1rpx solid #d2b48c;
   padding: 20rpx;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
-  font-family: "STKaiti", "KaiTi", "SimSun", serif;
+  box-shadow: 0 4rpx 10rpx rgba(139, 69, 19, 0.08);
+  font-family: inherit;
 }
 
 .promo-title {
   font-size: 28rpx;
-  font-weight: 600;
-  color: #1a1a1a;
-  letter-spacing: 2rpx;
+  font-weight: 500;
+  color: #8b4513;
+  letter-spacing: 3rpx;
 }
 
 .promo-desc {
   font-size: 22rpx;
-  color: #555555;
+  color: #a0522d;
   margin-top: 5rpx;
-  letter-spacing: 1rpx;
+  letter-spacing: 2rpx;
 }
 
 .check-btn {
-  background-color: #409EFF;
+  background-color: #8b4513;
   color: #fff;
   font-size: 22rpx;
-  border-radius: 4rpx;
+  border-radius: 8rpx;
   margin: 0;
-  font-family: "STKaiti", "KaiTi", "SimSun", serif;
+  font-family: inherit;
+  border: 1rpx solid #a0522d;
+  padding: 8rpx 20rpx;
+  box-shadow: 0 2rpx 6rpx rgba(139, 69, 19, 0.2);
 }
 
-/* 功能网格区 - 高对比度 */
+/* 功能网格区 - 古风卡片组 */
 .func-grid-top {
   display: flex;
   flex-wrap: wrap;
@@ -163,13 +180,21 @@
 .grid-item {
   background-color: #fff;
   width: 48%;
-  border-radius: 4rpx;
-  padding: 20rpx;
+  border-radius: 12rpx;
+  border: 1rpx solid #d2b48c;
+  padding: 24rpx;
   box-sizing: border-box;
   margin-bottom: 20rpx;
   position: relative;
   height: 180rpx;
-  font-family: "STKaiti", "KaiTi", "SimSun", serif;
+  font-family: inherit;
+  box-shadow: 0 4rpx 10rpx rgba(139, 69, 19, 0.08);
+  transition: all 0.2s ease;
+}
+
+.grid-item:active {
+  transform: scale(0.98);
+  box-shadow: 0 2rpx 6rpx rgba(139, 69, 19, 0.1);
 }
 
 .full-width {
@@ -178,16 +203,16 @@
 
 .grid-title {
   font-size: 28rpx;
-  font-weight: 600;
-  color: #1a1a1a;
-  letter-spacing: 2rpx;
+  font-weight: 500;
+  color: #8b4513;
+  letter-spacing: 3rpx;
 }
 
 .grid-desc {
   font-size: 22rpx;
-  color: #555555;
+  color: #a0522d;
   margin-top: 10rpx;
-  letter-spacing: 1rpx;
+  letter-spacing: 2rpx;
 }
 
 .grid-icon {
@@ -196,22 +221,26 @@
   position: absolute;
   right: 20rpx;
   bottom: 20rpx;
-  border-radius: 0;
-  background-color: #eee;
+  border-radius: 8rpx;
+  background-color: #f5e8d5;
+  border: 1rpx solid #d2b48c;
 }
 
-/* 科室专区 - 高对比度 */
+/* 科室专区 - 古风横向卷轴 */
 .zone-title {
   font-size: 32rpx;
-  font-weight: 600;
-  color: #1a1a1a;
+  font-weight: 500;
+  color: #8b4513;
   margin: 20rpx 0;
-  font-family: "STKaiti", "KaiTi", "SimSun", serif;
-  letter-spacing: 3rpx;
+  font-family: inherit;
+  letter-spacing: 4rpx;
+  padding-bottom: 8rpx;
+  border-bottom: 1rpx solid #d2b48c;
 }
 
 .dept-scroll {
   white-space: nowrap;
+  padding: 10rpx 0;
 }
 
 .dept-card {
@@ -220,27 +249,29 @@
   width: 250rpx;
   height: 200rpx;
   margin-right: 20rpx;
-  border-radius: 4rpx;
+  border-radius: 12rpx;
+  border: 1rpx solid #d2b48c;
   padding: 20rpx;
   box-sizing: border-box;
   vertical-align: top;
   position: relative;
-  font-family: "STKaiti", "KaiTi", "SimSun", serif;
+  font-family: inherit;
+  box-shadow: 0 4rpx 10rpx rgba(139, 69, 19, 0.08);
 }
 
 .dept-name {
   font-size: 26rpx;
-  font-weight: 600;
-  color: #1a1a1a;
-  letter-spacing: 2rpx;
+  font-weight: 500;
+  color: #8b4513;
+  letter-spacing: 3rpx;
 }
 
 .dept-desc {
   font-size: 20rpx;
-  color: #555555;
+  color: #a0522d;
   margin-top: 10rpx;
   white-space: normal;
-  letter-spacing: 1rpx;
+  letter-spacing: 2rpx;
 }
 
 .dept-icon {
@@ -249,46 +280,50 @@
   position: absolute;
   right: 20rpx;
   bottom: 20rpx;
-  background-color: #eee;
-  border-radius: 0;
+  background-color: #f5e8d5;
+  border-radius: 8rpx;
+  border: 1rpx solid #d2b48c;
 }
 
-/* 底部导航 - 高对比度 */
+/* 底部导航 - 古风样式 */
 .edu-nav {
   display: flex;
   justify-content: space-between;
   margin-top: 30rpx;
   padding-bottom: 30rpx;
-  font-family: "STKaiti", "KaiTi", "SimSun", serif;
+  font-family: inherit;
+  padding-top: 20rpx;
+  border-top: 1rpx solid #d2b48c;
 }
 
 .edu-nav text {
-  color: #555555;
+  color: #a0522d;
   font-size: 26rpx;
-  letter-spacing: 1rpx;
+  letter-spacing: 2rpx;
 }
 
 .edu-nav text.active {
-  color: #1a1a1a;
-  font-weight: 600;
+  color: #8b4513;
+  font-weight: 500;
   font-size: 28rpx;
-  letter-spacing: 2rpx;
+  letter-spacing: 3rpx;
 }
 
-/* 医生端样式 - 高对比度 */
+/* 医生端样式 - 同步古风适配 */
 .doctor-header {
   margin-bottom: 30rpx;
-  font-family: "STKaiti", "KaiTi", "SimSun", serif;
+  font-family: inherit;
+  text-align: center;
 }
 
 .doctor-header .title {
-  color: #1a1a1a;
-  letter-spacing: 4rpx;
+  color: #8b4513;
+  letter-spacing: 8rpx;
 }
 
 .doctor-header .subtitle {
-  color: #555555;
-  letter-spacing: 2rpx;
+  color: #a0522d;
+  letter-spacing: 4rpx;
 }
 
 .stats-row {
@@ -302,22 +337,23 @@
   width: 48%;
   padding: 30rpx;
   border-radius: 12rpx;
+  border: 1rpx solid #d2b48c;
   text-align: center;
-  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
-  font-family: "STKaiti", "KaiTi", "SimSun", serif;
+  box-shadow: 0 4rpx 12rpx rgba(139, 69, 19, 0.08);
+  font-family: inherit;
 }
 
 .stat-num {
   font-size: 48rpx;
   font-weight: bold;
-  color: #409EFF;
+  color: #8b4513;
   margin-bottom: 10rpx;
 }
 
 .stat-label {
   font-size: 24rpx;
-  color: #555555;
-  letter-spacing: 1rpx;
+  color: #a0522d;
+  letter-spacing: 2rpx;
 }
 
 .section-title {
@@ -326,27 +362,31 @@
   align-items: center;
   margin-bottom: 20rpx;
   padding: 0 10rpx;
-  font-family: "STKaiti", "KaiTi", "SimSun", serif;
+  font-family: inherit;
+  color: #8b4513;
+  letter-spacing: 2rpx;
 }
 
 .section-title .more {
   font-size: 24rpx;
-  color: #555555;
-  letter-spacing: 1rpx;
+  color: #a0522d;
+  letter-spacing: 2rpx;
 }
 
 .patient-list {
   background: #fff;
   border-radius: 12rpx;
+  border: 1rpx solid #d2b48c;
   overflow: hidden;
+  box-shadow: 0 4rpx 12rpx rgba(139, 69, 19, 0.08);
 }
 
 .patient-item {
   display: flex;
   align-items: center;
   padding: 24rpx;
-  border-bottom: 1rpx solid #f5f5f5;
-  font-family: "STKaiti", "KaiTi", "SimSun", serif;
+  border-bottom: 1rpx solid #f5e8d5;
+  font-family: inherit;
 }
 
 .patient-item:last-child {
@@ -357,7 +397,8 @@
   width: 80rpx;
   height: 80rpx;
   border-radius: 40rpx;
-  background: #eee;
+  background: #f5e8d5;
+  border: 1rpx solid #d2b48c;
   margin-right: 20rpx;
 }
 
@@ -367,33 +408,33 @@
 
 .patient-name {
   font-size: 30rpx;
-  font-weight: 600;
-  color: #1a1a1a;
-  letter-spacing: 1rpx;
+  font-weight: 500;
+  color: #8b4513;
+  letter-spacing: 2rpx;
 }
 
 .patient-phone {
   font-size: 24rpx;
-  color: #555555;
+  color: #a0522d;
   margin-top: 4rpx;
-  letter-spacing: 1rpx;
+  letter-spacing: 2rpx;
 }
 
 .patient-status {
   font-size: 24rpx;
-  color: #52c41a;
-  background: #f6ffed;
+  color: #8b4513;
+  background: #f5e8d5;
   padding: 4rpx 12rpx;
-  border-radius: 4rpx;
-  border: 1rpx solid #b7eb8f;
-  font-family: "STKaiti", "KaiTi", "SimSun", serif;
+  border-radius: 8rpx;
+  border: 1rpx solid #d2b48c;
+  font-family: inherit;
 }
 
 .empty-tip {
   text-align: center;
   padding: 40rpx;
-  color: #555555;
+  color: #a0522d;
   font-size: 26rpx;
-  font-family: "STKaiti", "KaiTi", "SimSun", serif;
-  letter-spacing: 2rpx;
+  font-family: inherit;
+  letter-spacing: 3rpx;
 }

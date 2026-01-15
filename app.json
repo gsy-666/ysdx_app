@@ -15,7 +15,9 @@
     "pages/connect/connect",
     "pages/connect/chat/chat",
     "pages/article/article",
-    "pages/article/detail"
+    "pages/article/detail",
+    "pages/community/publish",
+    "pages/community/detail"
   ],
   "window": {
     "backgroundTextStyle": "light",

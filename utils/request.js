@@ -1,6 +1,28 @@
 // utils/request.js
-// const baseURL = 'http://127.0.0.1:8080'; // Simulator Only
-const baseURL = 'http://172.20.10.6:8080'; // True Mobile Debugging / LAN IP
+// 根据环境自动切换 baseURL
+const accountInfo = wx.getAccountInfoSync();
+const envVersion = accountInfo.miniProgram.envVersion; // 'develop', 'trial', 'release'
+
+let baseURL = '';
+
+if (envVersion === 'release') {
+  // 正式版：请替换为你的云服务器公网 IP 或域名
+  baseURL = 'http://Your_Production_Server_IP:8080';
+} else if (envVersion === 'trial') {
+  // 体验版：测试服务器地址
+  baseURL = 'http://Your_Test_Server_IP:8080';
+} else {
+  // 开发版 (develop)
+  const sysInfo = wx.getSystemInfoSync();
+  if (sysInfo.platform === 'devtools') {
+    // 开发者工具 (电脑模拟器)：自动使用 localhost
+    baseURL = 'http://127.0.0.1:8080';
+  } else {
+    // 真机调试 (手机预览)：必须使用电脑的局域网 IP
+    // 注意：如果你的 IP 变了，这里还是需要手动修改
+    baseURL = 'http://172.20.10.6:8080';
+  }
+}
 
 const request = (url, method = 'GET', data = {}) => {
   return new Promise((resolve, reject) => {
