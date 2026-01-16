@@ -1,5 +1,16 @@
 // pages/community/community.js
-const request = require('../../utils/request.js')
+const { request } = require('../../utils/request.js')
+
+const CATEGORY_MAP = {
+  'health': '健康科普',
+  'experience': '经验分享',
+  'question': '提问求助'
+};
+const CATEGORY_COLORS = {
+  'health': '#52c41a',
+  'experience': '#1890ff',
+  'question': '#faad14'
+};
 
 Page({
   data: {
@@ -61,16 +72,31 @@ Page({
       pageNo,
       pageSize: this.data.pageSize,
       title: this.data.keyword?.trim() || '',
-      category: this.data.activeType === 'all' ? '' : this.data.activeType,
-      sort: this.data.activeSort // hot/time
+      categoryId: this.data.activeType === 'all' ? '' : this.data.activeType
     };
 
-    request.request({
-      url: '/community/post/list',
-      method: 'GET',
-      data: params
-    }).then(res => {
-      const records = Array.isArray(res.records) ? res.records : [];
+    request('/article/list', 'GET', params).then(res => {
+      const records = (res.records || []).map(item => {
+        // Parse images
+        let imgs = [];
+        try {
+          if (item.images) {
+            imgs = JSON.parse(item.images);
+          } else if (item.coverImg) {
+            imgs = [item.coverImg];
+          }
+        } catch (e) { }
+
+        // Map fields
+        return {
+          ...item,
+          images: imgs,
+          categoryName: CATEGORY_MAP[item.categoryId] || '其他',
+          createTime: item.createTime ? item.createTime.replace('T', ' ').substring(0, 16) : '',
+          authorName: item.author, // Map author to authorName for wxml compatibility
+        };
+      });
+
       const total = Number(res.total) || 0;
       const newList = reset ? records : [...this.data.articleList, ...records];
 
@@ -104,17 +130,14 @@ Page({
     this.setData({ articleList: newList });
 
     // 发起关注请求
-    request.request({
-      url: '/community/follow/toggle',
-      method: 'POST',
-      data: { authorId }
-    }).catch(err => {
-      console.error('关注失败：', err);
-      // 回滚UI
-      newList[index].isFollowed = !newList[index].isFollowed;
-      this.setData({ articleList: newList });
-      wx.showToast({ title: '操作失败', icon: 'none' });
-    });
+    request('/community/follow/toggle', 'POST', { authorId }, 'application/json')
+      .catch(err => {
+        console.error('关注失败：', err);
+        // 回滚UI
+        newList[index].isFollowed = !newList[index].isFollowed;
+        this.setData({ articleList: newList });
+        wx.showToast({ title: '操作失败', icon: 'none' });
+      });
   },
 
   // 点赞/取消点赞
@@ -134,20 +157,17 @@ Page({
     this.setData({ articleList: newList });
 
     // 发起点赞请求
-    request.request({
-      url: '/community/post/like',
-      method: 'POST',
-      data: { postId }
-    }).catch(err => {
-      console.error('点赞失败：', err);
-      // 回滚UI
-      newList[index].isLiked = !newList[index].isLiked;
-      newList[index].likeCount = newList[index].isLiked
-        ? (newList[index].likeCount || 0) + 1
-        : Math.max(0, (newList[index].likeCount || 0) - 1);
-      this.setData({ articleList: newList });
-      wx.showToast({ title: '操作失败', icon: 'none' });
-    });
+    request('/article/like', 'POST', { id: postId }, 'application/json')
+      .catch(err => {
+        console.error('点赞失败：', err);
+        // 回滚UI
+        newList[index].isLiked = !newList[index].isLiked;
+        newList[index].likeCount = newList[index].isLiked
+          ? (newList[index].likeCount || 0) + 1
+          : Math.max(0, (newList[index].likeCount || 0) - 1);
+        this.setData({ articleList: newList });
+        wx.showToast({ title: '操作失败', icon: 'none' });
+      });
   },
 
   // 收藏/取消收藏
@@ -164,17 +184,14 @@ Page({
     this.setData({ articleList: newList });
 
     // 发起收藏请求
-    request.request({
-      url: '/community/post/collect',
-      method: 'POST',
-      data: { postId }
-    }).catch(err => {
-      console.error('收藏失败：', err);
-      // 回滚UI
-      newList[index].isCollected = !newList[index].isCollected;
-      this.setData({ articleList: newList });
-      wx.showToast({ title: '操作失败', icon: 'none' });
-    });
+    request('/article/collect', 'POST', { id: postId }, 'application/json')
+      .catch(err => {
+        console.error('收藏失败：', err);
+        // 回滚UI
+        newList[index].isCollected = !newList[index].isCollected;
+        this.setData({ articleList: newList });
+        wx.showToast({ title: '操作失败', icon: 'none' });
+      });
   },
 
   // 分享帖子
@@ -196,6 +213,16 @@ Page({
 
   onReachBottom() {
     this.getArticleList(false);
+  },
+
+  // 图片加载失败处理
+  onImageError(e) {
+    const { pindex, imgindex } = e.currentTarget.dataset;
+    // Update the specific image url to a fallback
+    const key = `articleList[${pindex}].images[${imgindex}]`;
+    this.setData({
+      [key]: '/static/default_avatar.png'
+    });
   },
 
   // 跳转到帖子详情

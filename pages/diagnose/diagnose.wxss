@@ -98,6 +98,47 @@
   padding: 20rpx;
 }
 
+/* Copied from grade.wxss for Emotion Assessment */
+.menu-card {
+  background: #fdfdfd;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+  display: flex;
+  align-items: center;
+  border-radius: 8rpx;
+  border: 1rpx solid #eee;
+}
+
+.icon-box {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 8rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20rpx;
+  flex-shrink: 0;
+}
+
+.icon-text {
+  font-size: 24rpx;
+  color: #666;
+  font-weight: bold;
+}
+
+.ct-title {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 6rpx;
+}
+
+.ct-desc {
+  font-size: 22rpx;
+  color: #999;
+  line-height: 1.4;
+}
+
 .submit-btn {
   background-color: #409EFF;
   color: #fff;

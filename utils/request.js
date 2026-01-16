@@ -24,7 +24,7 @@ if (envVersion === 'release') {
   }
 }
 
-const request = (url, method = 'GET', data = {}) => {
+const request = (url, method = 'GET', data = {}, contentType = null) => {
   return new Promise((resolve, reject) => {
     // Loading indicator
     wx.showLoading({
@@ -41,15 +41,14 @@ const request = (url, method = 'GET', data = {}) => {
       header['token'] = token;
     }
 
-    // Handle form data for POST if needed, though JSON is standard. 
-    // The original axios config used FormData for POST, which in wx.request implies content-type: multipart/form-data or application/x-www-form-urlencoded
-    // if simple key-value pairs. But wx.request 'data' handles objects fine.
-    // If your backend specifically expects FormData (multipart), we might need special handling.
-    // Based on axios code:
-    // if (method === 'post') { const formData = new FormData()... } 
-    // This implies the backend might expect form-data.
-    if (method === 'POST') {
-      header['content-type'] = 'application/x-www-form-urlencoded';
+    // Handle Content-Type
+    if (contentType) {
+      header['content-type'] = contentType;
+    } else {
+      // Default legacy behavior: POST sends form-data
+      if (method === 'POST') {
+        header['content-type'] = 'application/x-www-form-urlencoded';
+      }
     }
 
     wx.request({

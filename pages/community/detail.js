@@ -1,5 +1,5 @@
 // pages/community/detail.js
-const request = require('../../utils/request.js')
+const { request } = require('../../utils/request.js')
 
 Page({
   data: {
@@ -27,36 +27,41 @@ Page({
 
   // 获取帖子详情
   getPostDetail() {
-    request.request({
-      url: '/community/post/detail',
-      method: 'GET',
-      data: { postId: this.data.postId }
-    }).then(res => {
-      this.setData({ postInfo: res || {} });
-    }).catch(err => {
-      console.error('获取帖子详情失败：', err);
-      wx.showToast({ title: '加载失败', icon: 'none' });
-      wx.navigateBack();
-    });
+    request('/article/getById', 'GET', { id: this.data.postId })
+      .then(res => {
+        let post = res || {};
+        try {
+          if (post.images && typeof post.images === 'string') {
+            post.images = JSON.parse(post.images);
+          } else if (post.coverImg) {
+            post.images = [post.coverImg];
+          }
+        } catch (e) { }
+        this.setData({ postInfo: post });
+      }).catch(err => {
+        console.error('获取帖子详情失败：', err);
+        wx.showToast({ title: '加载失败', icon: 'none' });
+        wx.navigateBack();
+      });
   },
 
   // 获取评论列表
   getCommentList() {
     this.setData({ loadingComment: true });
-    request.request({
-      url: '/community/comment/list',
-      method: 'GET',
-      data: { postId: this.data.postId }
-    }).then(res => {
-      this.setData({
-        commentList: Array.isArray(res.records) ? res.records : [],
-        loadingComment: false
+    request('/community/comment/list', 'GET', {
+      articleId: this.data.postId, // Map postId to articleId
+      pageNo: 1, pageSize: 100
+    })
+      .then(res => {
+        this.setData({
+          commentList: Array.isArray(res.records) ? res.records : [],
+          loadingComment: false
+        });
+      }).catch(err => {
+        console.error('获取评论失败：', err);
+        this.setData({ loadingComment: false });
+        wx.showToast({ title: '评论加载失败', icon: 'none' });
       });
-    }).catch(err => {
-      console.error('获取评论失败：', err);
-      this.setData({ loadingComment: false });
-      wx.showToast({ title: '评论加载失败', icon: 'none' });
-    });
   },
 
   // 关注/取消关注作者
@@ -69,16 +74,13 @@ Page({
     newPostInfo.isFollowed = !newPostInfo.isFollowed;
     this.setData({ postInfo: newPostInfo });
 
-    request.request({
-      url: '/community/follow/toggle',
-      method: 'POST',
-      data: { authorId }
-    }).catch(err => {
-      console.error('关注失败：', err);
-      newPostInfo.isFollowed = !newPostInfo.isFollowed;
-      this.setData({ postInfo: newPostInfo });
-      wx.showToast({ title: '操作失败', icon: 'none' });
-    });
+    request('/community/follow/toggle', 'POST', { authorId }, 'application/json')
+      .catch(err => {
+        console.error('关注失败：', err);
+        // fallback
+        newPostInfo.isFollowed = !newPostInfo.isFollowed;
+        this.setData({ postInfo: newPostInfo });
+      });
   },
 
   // 点赞/取消点赞帖子
@@ -93,19 +95,17 @@ Page({
       : Math.max(0, (newPostInfo.likeCount || 0) - 1);
     this.setData({ postInfo: newPostInfo });
 
-    request.request({
-      url: '/community/post/like',
-      method: 'POST',
-      data: { postId }
-    }).catch(err => {
-      console.error('点赞失败：', err);
-      newPostInfo.isLiked = !newPostInfo.isLiked;
-      newPostInfo.likeCount = newPostInfo.isLiked
-        ? (newPostInfo.likeCount || 0) + 1
-        : Math.max(0, (newPostInfo.likeCount || 0) - 1);
-      this.setData({ postInfo: newPostInfo });
-      wx.showToast({ title: '操作失败', icon: 'none' });
-    });
+    request('/article/like', 'POST', { id: postId }, 'application/json')
+      .catch(err => {
+        console.error('点赞失败：', err);
+        // rollback
+        newPostInfo.isLiked = !newPostInfo.isLiked;
+        newPostInfo.likeCount = newPostInfo.isLiked
+          ? (newPostInfo.likeCount || 0) + 1
+          : Math.max(0, (newPostInfo.likeCount || 0) - 1);
+        this.setData({ postInfo: newPostInfo });
+        wx.showToast({ title: '操作失败', icon: 'none' });
+      });
   },
 
   // 收藏/取消收藏帖子
@@ -117,16 +117,13 @@ Page({
     newPostInfo.isCollected = !newPostInfo.isCollected;
     this.setData({ postInfo: newPostInfo });
 
-    request.request({
-      url: '/community/post/collect',
-      method: 'POST',
-      data: { postId }
-    }).catch(err => {
-      console.error('收藏失败：', err);
-      newPostInfo.isCollected = !newPostInfo.isCollected;
-      this.setData({ postInfo: newPostInfo });
-      wx.showToast({ title: '操作失败', icon: 'none' });
-    });
+    request('/article/collect', 'POST', { id: postId }, 'application/json')
+      .catch(err => {
+        console.error('收藏失败：', err);
+        newPostInfo.isCollected = !newPostInfo.isCollected;
+        this.setData({ postInfo: newPostInfo });
+        wx.showToast({ title: '操作失败', icon: 'none' });
+      });
   },
 
   // 分享帖子
@@ -155,16 +152,23 @@ Page({
   // 发布评论
   publishComment() {
     const content = this.data.commentContent.trim();
-    if (!content) return;
+    if (!content) {
+      wx.showToast({ title: '评论内容不能为空', icon: 'none' });
+      return;
+    }
 
-    request.request({
-      url: '/community/comment/publish',
-      method: 'POST',
-      data: {
-        postId: this.data.postId,
-        content
-      }
-    }).then(() => {
+    const userInfo = wx.getStorageSync('userInfo') || {};
+    const authorName = wx.getStorageSync('name') || '匿名用户';
+    const authorId = wx.getStorageSync('id');
+    const authorAvatar = wx.getStorageSync('avatar') || '';
+
+    request('/community/comment/publish', 'POST', {
+      articleId: this.data.postId, // Map to articleId
+      content: content,
+      authorId: authorId,
+      authorName: authorName,
+      authorAvatar: authorAvatar
+    }, 'application/json').then(() => {
       wx.showToast({ title: '评论发布成功' });
       this.setData({ commentContent: '' });
       this.getCommentList(); // 刷新评论列表
@@ -186,16 +190,13 @@ Page({
     newList[index].likeCount = (newList[index].likeCount || 0) + 1;
     this.setData({ commentList: newList });
 
-    request.request({
-      url: '/community/comment/like',
-      method: 'POST',
-      data: { commentId }
-    }).catch(err => {
-      console.error('点赞评论失败：', err);
-      newList[index].likeCount = Math.max(0, (newList[index].likeCount || 0) - 1);
-      this.setData({ commentList: newList });
-      wx.showToast({ title: '操作失败', icon: 'none' });
-    });
+    request('/community/comment/like', 'POST', { id: commentId }, 'application/json')
+      .catch(err => {
+        console.error('点赞评论失败：', err);
+        newList[index].likeCount = Math.max(0, (newList[index].likeCount || 0) - 1);
+        this.setData({ commentList: newList });
+        wx.showToast({ title: '操作失败', icon: 'none' });
+      });
   },
 
   // 回复评论
@@ -218,15 +219,18 @@ Page({
     const content = this.data.replyContent.trim();
     if (!commentId || !content) return;
 
-    request.request({
-      url: '/community/comment/reply',
-      method: 'POST',
-      data: {
-        commentId,
-        postId: this.data.postId,
-        content
-      }
-    }).then(() => {
+    const authorName = wx.getStorageSync('name') || '匿名用户';
+    const authorId = wx.getStorageSync('id');
+    const authorAvatar = wx.getStorageSync('avatar') || '';
+
+    request('/community/comment/reply', 'POST', {
+      parentId: commentId, // Map to parentId
+      articleId: this.data.postId,
+      content: content,
+      authorId: authorId,
+      authorName: authorName,
+      authorAvatar: authorAvatar
+    }, 'application/json').then(() => {
       wx.showToast({ title: '回复成功' });
       this.setData({ replyId: '', replyContent: '' });
       this.getCommentList(); // 刷新评论列表

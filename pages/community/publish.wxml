@@ -12,7 +12,8 @@
       value="{{categoryIndex}}">
       <view class="select-value">
         {{categoryList[categoryIndex] ? categoryList[categoryIndex].name : '请选择分类'}}
-        <image src="/static/arrow_right.png" class="select-icon"></image>
+        <!-- <image src="/static/arrow_right.png" class="select-icon"></image> -->
+        <text class="select-arrow">></text>
       </view>
     </picker>
   </view>
@@ -31,12 +32,13 @@
       <block wx:for="{{images}}" wx:key="index">
         <view class="upload-img-item">
           <image class="upload-img" src="{{item}}" mode="aspectFill"></image>
-          <image class="delete-img" src="/static/delete.png" bindtap="deleteImage" data-index="{{index}}"
-            catchtap="true"></image>
+          <view class="delete-btn" catchtap="deleteImage" data-index="{{index}}">✕</view>
+          <!-- <image class="delete-img" src="/static/delete.png" bindtap="deleteImage" data-index="{{index}}" catchtap="true"></image> -->
         </view>
       </block>
       <view class="add-img-btn" bindtap="chooseImage" wx:if="{{images.length < 9}}">
-        <image src="/static/add.png" class="add-img-icon"></image>
+        <!-- <image src="/static/add.png" class="add-img-icon"></image> -->
+        <text class="add-icon">+</text>
         <text>添加图片</text>
       </view>
     </view>
@@ -44,7 +46,7 @@
 
   <!-- 发布按钮 -->
   <button class="publish-btn" bindtap="publishPost"
-    disabled="{{!title.trim() || !content.trim() || !categoryId || publishing}}">
+    disabled="{{title.length === 0 || content.length === 0 || !categoryId || publishing}}">
     {{publishing ? '发布中...' : '发布帖子'}}
   </button>
 </view>

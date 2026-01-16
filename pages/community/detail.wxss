@@ -119,6 +119,11 @@ page {
   margin-right: 12rpx;
 }
 
+.emoji-icon {
+  font-size: 36rpx;
+  margin-right: 8rpx;
+}
+
 /* 评论区 */
 .comment-section {
   background-color: #fff;

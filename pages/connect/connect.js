@@ -6,6 +6,11 @@ Page({
       { name: '李医生', title: '主治医师', dept: '减重中心' }
     ]
   },
+  goAIChat() {
+    wx.navigateTo({
+      url: '/pages/connect/chat/chat',
+    });
+  },
   goChat(e) {
     wx.navigateTo({
       url: '/pages/connect/chat/chat',

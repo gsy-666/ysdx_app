@@ -24,15 +24,17 @@ Page({
     // Parallel requests like Promise.allSettled
     const p1 = request('/message/getByPatientId', 'GET', { patientId: patientId }).catch(e => ({}));
     const p2 = request('/screen/getByPatientId', 'GET', { patientId: patientId }).catch(e => ({}));
+    const p3 = request('/sysAdmin/getById', 'GET', { id: patientId }).catch(e => ({}));
 
-    Promise.all([p1, p2]).then(([messageData, screenData]) => {
+    Promise.all([p1, p2, p3]).then(([messageData, screenData, userData]) => {
       messageData = messageData || {};
       screenData = screenData || {};
+      userData = userData || {};
 
       this.setData({
         healthInfo: {
-          high: messageData.high,
-          weight: messageData.weight,
+          high: messageData.high || userData.height,
+          weight: messageData.weight || userData.weight,
           bloodHigh: messageData.bloodHigh,
           bloodLow: messageData.bloodLow,
           lowhdl: screenData.lowhdl // Mapping 'lowhdl' to Blood Sugar slot as per discovery, or just keep it as is

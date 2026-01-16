@@ -1,5 +1,5 @@
 // pages/community/publish.js
-const request = require('../../utils/request.js')
+const { request } = require('../../utils/request.js')
 
 Page({
   data: {
@@ -19,6 +19,23 @@ Page({
   onLoad() {
     // 初始化分类ID
     this.setData({ categoryId: this.data.categoryList[0].id });
+
+    // 检查是否登录
+    const token = wx.getStorageSync('token');
+    if (!token) {
+      wx.showModal({
+        title: '提示',
+        content: '发布帖子需要先登录',
+        showCancel: false,
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '/pages/login/login',
+            });
+          }
+        }
+      });
+    }
   },
 
   // 标题输入
@@ -86,7 +103,7 @@ Page({
 
   // 发布帖子
   async publishPost() {
-    const { title, content, categoryId } = this.data;
+    const { title, content, categoryId, images } = this.data;
     // 二次校验
     if (!title.trim() || !content.trim() || !categoryId) {
       wx.showToast({ title: '标题/内容/分类不能为空', icon: 'none' });
@@ -96,40 +113,61 @@ Page({
     this.setData({ publishing: true });
 
     try {
-      // 1. 上传图片
-      const imageUrls = await this.uploadImages();
+      // 1. 上传图片 (模拟，实际应上传至服务器)
+      // const imageUrls = await this.uploadImages(); 
+      //使用本地临时路径演示
+      const imageUrls = images;
 
-      // 2. 发布帖子
-      const res = await request.request({
-        url: '/community/post/publish',
-        method: 'POST',
-        data: {
-          title: title.trim(),
-          content: content.trim(),
-          categoryId,
-          images: imageUrls
-        }
-      });
+      // 2. 构造文章对象
+      const userInfo = wx.getStorageSync('userInfo') || {};
+      const authorName = wx.getStorageSync('name') || '匿名用户';
+      let authorId = wx.getStorageSync('id');
+      if (!authorId) authorId = null; // Ensure partial/empty string doesn't break Integer binding
+      const authorAvatar = wx.getStorageSync('avatar') || '';
+
+      // Format date to yyyy-MM-dd HH:mm:ss for backend compatibility
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      const createTimeStr = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
+      const postData = {
+        title: title,
+        content: content,
+        categoryId: categoryId,
+        images: JSON.stringify(imageUrls), // 存为JSON字符串
+        author: authorName,
+        authorId: authorId,
+        authorAvatar: authorAvatar,
+        createTime: null, // Let DB handle default or null to avoid format error
+        viewCount: 0,
+        likeCount: 0
+      };
+
+      // 3. 提交到后端
+      // Explicitly use 'application/json' because ArticleController @RequestBody expects it
+      await request('/article/add', 'POST', postData, 'application/json');
 
       wx.showToast({ title: '发布成功', icon: 'success' });
-      // 发布成功后返回社区首页
+
+      // 4. 返回上一页并刷新
       setTimeout(() => {
-        wx.navigateBack({
-          delta: 1,
-          success: () => {
-            // 通知首页刷新
-            const pages = getCurrentPages();
-            const communityPage = pages[pages.length - 2];
-            if (communityPage) {
-              communityPage.getArticleList(true);
-            }
-          }
-        });
+        const pages = getCurrentPages();
+        const prevPage = pages[pages.length - 2];
+        if (prevPage && prevPage.refreshList) {
+          prevPage.refreshList(); // 假设上一页有刷新方法
+        }
+        wx.navigateBack();
       }, 1500);
 
     } catch (err) {
-      console.error('发布帖子失败：', err);
-      wx.showToast({ title: '发布失败，请稍后重试', icon: 'none' });
+      console.error(err);
+      wx.showToast({ title: '发布失败', icon: 'none' });
+    } finally {
       this.setData({ publishing: false });
     }
   }

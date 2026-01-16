@@ -1,5 +1,16 @@
 <!--pages/connect/connect.wxml-->
 <view class="container">
+  <!-- AI Consultant Section -->
+  <view class="ai-box" bindtap="goAIChat">
+    <view class="ai-info">
+      <view class="ai-title">AI 健康助手</view>
+      <view class="ai-desc">24小时智能问答，随时解答您的健康疑惑</view>
+    </view>
+    <button class="ai-btn">立即提问</button>
+  </view>
+
+  <!-- Doctor Team Section -->
+  <view class="section-title">专家团队</view>
   <view class="doc-card" wx:for="{{doctors}}" wx:key="index">
     <view class="name">{{item.name}} <text class="title">{{item.title}}</text></view>
     <view class="dept">{{item.dept}}</view>

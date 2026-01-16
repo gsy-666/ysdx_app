@@ -1,7 +1,32 @@
 <!--pages/diagnose/diagnose.wxml-->
 <view class="container">
   <view class="header">
-    <view class="title">诊断表单</view>
+    <view class="title">健康风险预警与诊断</view>
+  </view>
+
+  <!-- Emotion Assessment (Moved from Grade) -->
+  <view class="card">
+    <view class="card-title">情绪风险评估</view>
+
+    <view class="menu-card" bindtap="goTest" data-type="1">
+      <view class="icon-box" style="background-color: #e1f3d8;">
+        <text class="icon-text">焦虑</text>
+      </view>
+      <view class="content">
+        <view class="ct-title">焦虑自评量表 (SAS)</view>
+        <view class="ct-desc">用于评定焦虑症状的轻重程度及其在治疗中的变化</view>
+      </view>
+    </view>
+
+    <view class="menu-card" bindtap="goTest" data-type="2">
+      <view class="icon-box" style="background-color: #d9ecff;">
+        <text class="icon-text">抑郁</text>
+      </view>
+      <view class="content">
+        <view class="ct-title">抑郁自评量表 (SDS)</view>
+        <view class="ct-desc">用于衡量抑郁状态的轻重程度及其在治疗中的变化</view>
+      </view>
+    </view>
   </view>
 
   <!-- Systems -->

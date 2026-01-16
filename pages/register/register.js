@@ -7,11 +7,15 @@ Page({
     phone: '',
     password: '',
     confirmPassword: '',
+    gender: '1', // 1: Male, 2: Female
+    age: '',
+    height: '',
+    weight: '',
     loading: false
   },
 
   handleRegister() {
-    const { name, phone, password, confirmPassword } = this.data;
+    const { name, phone, password, confirmPassword, gender, age, height, weight } = this.data;
 
     if (!name || !phone || !password || !confirmPassword) {
       wx.showToast({ title: '请填写所有信息', icon: 'none' });
@@ -37,9 +41,7 @@ Page({
 
     // Call backend API
     request('/sysAdmin/register', 'POST', {
-      name: name,
-      phone: phone,
-      password: password
+      name, phone, password, gender, age, height, weight
     }).then(res => {
       // Assuming res is the data part. Adjust if wrapper exists.
       wx.showToast({ title: '注册成功', icon: 'success' });

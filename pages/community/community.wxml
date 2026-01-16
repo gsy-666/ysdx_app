@@ -32,7 +32,7 @@
   <!-- 文章列表 -->
   <scroll-view scroll-y="true" class="article-list" bindscrolltolower="onReachBottom" refresher-enabled="{{true}}"
     refresher-triggered="{{triggered}}" bindrefresherrefresh="onPullDownRefresh">
-    <block wx:for="{{articleList}}" wx:key="id">
+    <block wx:for="{{articleList}}" wx:key="id" wx:for-index="pIndex">
       <view class="article-item" bindtap="goToDetail" data-id="{{item.id}}" hover-class="article-item-hover">
         <!-- 作者信息 -->
         <view class="author-info">
@@ -50,8 +50,9 @@
           <view class="article-desc">{{item.content}}</view>
           <!-- 图片组 -->
           <view class="article-img-group" wx:if="{{item.images && item.images.length > 0}}">
-            <block wx:for="{{item.images}}" wx:key="index" wx:if="{{index < 3}}">
-              <image class="article-img" src="{{item}}" mode="aspectFill"></image>
+            <block wx:for="{{item.images}}" wx:key="index" wx:for-index="imgIndex" wx:if="{{imgIndex < 3}}">
+              <image class="article-img" src="{{item}}" mode="aspectFill" binderror="onImageError"
+                data-pindex="{{pIndex}}" data-imgindex="{{imgIndex}}"></image>
             </block>
             <view class="img-more" wx:if="{{item.images.length > 3}}">+{{item.images.length - 3}}</view>
           </view>
