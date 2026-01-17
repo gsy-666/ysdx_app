@@ -1,6 +1,7 @@
 <!--pages/register/register.wxml-->
 <view class="container">
   <view class="logo-area">
+    <image class="logo-img" src="/static/logo.png" mode="aspectFit"></image>
     <view class="logo-text">欢迎注册</view>
     <view class="slogan">加入云枢代谢，开启健康生活</view>
   </view>

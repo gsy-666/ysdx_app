@@ -10,12 +10,22 @@
   margin-top: 40rpx;
   margin-bottom: 60rpx;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo-img {
+  width: 160rpx;
+  height: 160rpx;
+  margin-bottom: 20rpx;
+  mix-blend-mode: multiply;
 }
 
 .logo-text {
   font-size: 48rpx;
   font-weight: bold;
-  color: #1f8b73;
+  color: #C19D34;
 }
 
 .slogan {
@@ -50,12 +60,12 @@
 }
 
 .action-btn {
-  background: linear-gradient(135deg, #1f8b73 0%, #4ecdc4 100%);
+  background: #C19D34;
   color: #fff;
   font-size: 34rpx;
   margin-top: 60rpx;
   border-radius: 40rpx;
-  box-shadow: 0 4rpx 12rpx rgba(31, 139, 115, 0.3);
+  box-shadow: 0 4rpx 12rpx rgba(193, 157, 52, 0.3);
 }
 
 .login-link {
@@ -66,6 +76,6 @@
 }
 
 .link-text {
-  color: #1f8b73;
+  color: #C19D34;
   display: inline;
 }
