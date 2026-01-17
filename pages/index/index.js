@@ -50,7 +50,7 @@ Page({
               // 某些直辖市 city 是空的 ([], string)，此时取 province
               let city = addressComponent.city;
               if (Array.isArray(city)) city = '';
-              
+
               let province = addressComponent.province;
               if (Array.isArray(province)) province = '';
 
@@ -59,16 +59,16 @@ Page({
 
               // 优先显示 区 > 市 > 省
               let displayCity = district || city || province || '未知城市';
-              
+
               let targetAdcode = addressComponent.adcode;
-              
+
               // 如果获取不到有效的adcode（例如在模拟器默认位置），降级处理
               if (!targetAdcode || typeof targetAdcode !== 'string' || targetAdcode.length === 0) {
-                 console.warn("地理位置获取不完整，自动切换至默认城市（北京）演示");
-                 targetAdcode = '110000'; // 北京
-                 if (displayCity === '未知城市') {
-                   displayCity = '北京市';
-                 }
+                console.warn("地理位置获取不完整，自动切换至默认城市（北京）演示");
+                targetAdcode = '110000'; // 北京
+                if (displayCity === '未知城市') {
+                  displayCity = '北京市';
+                }
               }
 
               that.setData({
