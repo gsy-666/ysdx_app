@@ -11,12 +11,21 @@
 .logo-area {
   margin-bottom: 80rpx;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo-img {
+  width: 200rpx;
+  height: 200rpx;
+  margin-bottom: 30rpx;
 }
 
 .logo-text {
   font-size: 48rpx;
   font-weight: bold;
-  color: #409EFF;
+  color: #C19D34;
 }
 
 .slogan {
@@ -43,7 +52,7 @@
 }
 
 .login-btn {
-  background-color: #409EFF;
+  background-color: #C19D34;
   color: #fff;
   font-size: 32rpx;
   margin-top: 60rpx;
@@ -52,7 +61,7 @@
 .register-btn {
   margin-top: 30rpx;
   background-color: #fff;
-  color: #409EFF;
-  border: 1px solid #409EFF;
+  color: #C19D34;
+  border: 1px solid #C19D34;
   font-size: 32rpx;
 }

@@ -1,6 +1,7 @@
 <!--pages/login/login.wxml-->
 <view class="login-container">
   <view class="logo-area">
+    <image class="logo-img" src="/static/logo.png" mode="aspectFit"></image>
     <view class="logo-text">云枢代谢综合平台</view>
     <view class="slogan">为您的身体健康保驾护航</view>
   </view>

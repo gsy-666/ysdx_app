@@ -5,7 +5,7 @@
   <view class="weather-widget" bindtap="refreshWeather">
     <view class="weather-location">
       <text class="location-icon-text">📍</text>
-      <text>{{weatherData.city || '定位中...'}}</text>
+      <text class="city-text">{{weatherData.city}}</text>
     </view>
     <view class="weather-info" wx:if="{{weatherData.temperature}}">
       <text class="weather-temp">{{weatherData.temperature}}°C</text>
@@ -57,14 +57,11 @@
   <block wx:else>
     <!-- Header -->
     <view class="header">
+      <view class="logo-area">
+        <image class="main-logo" src="/static/logo.png" mode="widthFix"></image>
+      </view>
       <view class="title">欢迎来到云枢代谢综合平台!</view>
       <view class="subtitle">专业的医生团队助您进行代谢性疾病的预防与管理</view>
-    </view>
-
-    <!-- Banner -->
-    <view class="banner">
-      <button class="join-btn">立即入组</button>
-      <image class="banner-img" src="/static/doctor_hero.svg" mode="aspectFit"></image>
     </view>
 
     <!-- Management Plan Promo -->

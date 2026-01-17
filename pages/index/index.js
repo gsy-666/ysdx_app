@@ -4,7 +4,7 @@ const request = require('../../utils/request.js').request;
 Page({
   data: {
     weatherData: {
-      city: '',
+      city: '定位中...',
       temperature: '',
       weather: ''
     },
@@ -48,18 +48,36 @@ Page({
             if (geoRes.data.status === '1') {
               const addressComponent = geoRes.data.regeocode.addressComponent;
               // 某些直辖市 city 是空的 ([], string)，此时取 province
-              const city = (typeof addressComponent.city === 'string' && addressComponent.city.length > 0)
-                ? addressComponent.city
-                : addressComponent.province;
-              const adcode = addressComponent.adcode;
+              let city = addressComponent.city;
+              if (Array.isArray(city)) city = '';
+              
+              let province = addressComponent.province;
+              if (Array.isArray(province)) province = '';
+
+              let district = addressComponent.district;
+              if (Array.isArray(district)) district = '';
+
+              // 优先显示 区 > 市 > 省
+              let displayCity = district || city || province || '未知城市';
+              
+              let targetAdcode = addressComponent.adcode;
+              
+              // 如果获取不到有效的adcode（例如在模拟器默认位置），降级处理
+              if (!targetAdcode || typeof targetAdcode !== 'string' || targetAdcode.length === 0) {
+                 console.warn("地理位置获取不完整，自动切换至默认城市（北京）演示");
+                 targetAdcode = '110000'; // 北京
+                 if (displayCity === '未知城市') {
+                   displayCity = '北京市';
+                 }
+              }
 
               that.setData({
-                'weatherData.city': city
+                'weatherData.city': displayCity
               });
 
               // 2. 获取实时天气
               wx.request({
-                url: `https://restapi.amap.com/v3/weather/weatherInfo?city=${adcode}&key=${key}&extensions=base`,
+                url: `https://restapi.amap.com/v3/weather/weatherInfo?city=${targetAdcode}&key=${key}&extensions=base`,
                 success(weatherRes) {
                   if (weatherRes.data.status === '1' && weatherRes.data.lives && weatherRes.data.lives.length > 0) {
                     const live = weatherRes.data.lives[0];

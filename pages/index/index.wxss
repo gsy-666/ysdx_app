@@ -25,41 +25,46 @@ page {
   background: rgba(255, 255, 255, 0.85);
   padding: 8rpx 12rpx;
   border-radius: 20rpx;
-  border: 1rpx solid #d2b48c;
+  border: 1rpx solid #C19D34;
   display: flex;
   flex-direction: row;
-  /* 修复：去掉多余的** */
   align-items: center;
-  box-shadow: 0 2rpx 8rpx rgba(139, 69, 19, 0.1);
+  box-shadow: 0 2rpx 8rpx rgba(193, 157, 52, 0.2);
   font-size: 20rpx;
-  z-index: 100;
+  z-index: 999;
   font-family: inherit;
   white-space: nowrap;
-  /* 强制不换行 */
 }
 
 .weather-location {
-  display: flex;
-  align-items: center;
-  color: #8b4513;
-  font-weight: 500;
+  display: flex !important;
+  align-items: center !important;
   margin-right: 4rpx;
 }
 
 .location-icon-text {
-  font-size: 20rpx;
-  margin-right: 2rpx;
+  font-size: 24rpx !important;
+  margin-right: 4rpx;
+  display: inline-block;
+  opacity: 1 !important;
+}
+
+.city-text {
+  font-size: 24rpx !important;
+  color: #C19D34 !important;
+  font-weight: bold;
+  opacity: 1 !important;
+  display: inline-block;
 }
 
 .weather-info {
-  display: flex;
-  align-items: center;
-  color: #a0522d;
+  display: flex !important;
+  align-items: center !important;
   margin-left: 4rpx;
 }
 
 .weather-temp {
-  color: #8b4513;
+  color: #C19D34;
   font-weight: bold;
   font-size: 20rpx;
   margin-right: 2rpx;
@@ -68,18 +73,33 @@ page {
 /* 核心古风 Header（书法字体+中式配色） */
 .header {
   margin-bottom: 20rpx;
-  padding-top: 60rpx;
+  padding-top: 20rpx;
   font-family: inherit;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .title {
-  font-size: 44rpx;
+  font-size: 40rpx;
   font-weight: 500;
-  color: #8b4513;
-  letter-spacing: 8rpx;
-  line-height: 1.8;
-  text-shadow: 0 1rpx 2rpx rgba(139, 69, 19, 0.1);
+  color: #C19D34;
+  letter-spacing: 4rpx;
+  line-height: 1.6;
+}
+
+.logo-area {
+  margin-bottom: 20rpx;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.main-logo {
+  width: 260rpx;
+  height: 260rpx;
+  mix-blend-mode: multiply;
 }
 
 .subtitle {
@@ -94,19 +114,19 @@ page {
 
 /* Banner 区域 - 古风渐变 */
 .banner {
-  background: linear-gradient(to right, #f5e8d5, #e8d4b8);
+  background: linear-gradient(to right, #FFF8E7, #F5E8C8);
   border-radius: 12rpx;
-  border: 1rpx solid #d2b48c;
+  border: 1rpx solid #C19D34;
   padding: 30rpx;
   position: relative;
   height: 200rpx;
   display: flex;
   align-items: center;
-  box-shadow: 0 4rpx 10rpx rgba(139, 69, 19, 0.08);
+  box-shadow: 0 4rpx 10rpx rgba(193, 157, 52, 0.15);
 }
 
 .join-btn {
-  background-color: #8b4513;
+  background-color: #C19D34;
   color: #fff;
   font-size: 24rpx;
   border-radius: 8rpx;
@@ -116,7 +136,7 @@ page {
   padding: 10rpx 30rpx;
   font-family: inherit;
   border: 1rpx solid #a0522d;
-  box-shadow: 0 2rpx 6rpx rgba(139, 69, 19, 0.2);
+  box-shadow: 0 2rpx 6rpx rgba(193, 157, 52, 0.4);
 }
 
 .banner-img {
@@ -126,7 +146,7 @@ page {
   right: 20rpx;
   bottom: 0;
   border-radius: 8rpx;
-  border: 1rpx solid #d2b48c;
+  border: 1rpx solid #C19D34;
 }
 
 /* 计划推广区 - 古风卡片 */
@@ -134,19 +154,19 @@ page {
   background-color: #fff;
   margin-top: 20rpx;
   border-radius: 12rpx;
-  border: 1rpx solid #d2b48c;
+  border: 1rpx solid #C19D34;
   padding: 20rpx;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 4rpx 10rpx rgba(139, 69, 19, 0.08);
+  box-shadow: 0 4rpx 10rpx rgba(193, 157, 52, 0.1);
   font-family: inherit;
 }
 
 .promo-title {
   font-size: 28rpx;
   font-weight: 500;
-  color: #8b4513;
+  color: #C19D34;
   letter-spacing: 3rpx;
 }
 
@@ -158,7 +178,7 @@ page {
 }
 
 .check-btn {
-  background-color: #8b4513;
+  background-color: #C19D34;
   color: #fff;
   font-size: 22rpx;
   border-radius: 8rpx;
@@ -166,7 +186,7 @@ page {
   font-family: inherit;
   border: 1rpx solid #a0522d;
   padding: 8rpx 20rpx;
-  box-shadow: 0 2rpx 6rpx rgba(139, 69, 19, 0.2);
+  box-shadow: 0 2rpx 6rpx rgba(193, 157, 52, 0.4);
 }
 
 /* 功能网格区 - 古风卡片组 */
@@ -181,20 +201,20 @@ page {
   background-color: #fff;
   width: 48%;
   border-radius: 12rpx;
-  border: 1rpx solid #d2b48c;
+  border: 1rpx solid #C19D34;
   padding: 24rpx;
   box-sizing: border-box;
   margin-bottom: 20rpx;
   position: relative;
   height: 180rpx;
   font-family: inherit;
-  box-shadow: 0 4rpx 10rpx rgba(139, 69, 19, 0.08);
+  box-shadow: 0 4rpx 10rpx rgba(193, 157, 52, 0.1);
   transition: all 0.2s ease;
 }
 
 .grid-item:active {
   transform: scale(0.98);
-  box-shadow: 0 2rpx 6rpx rgba(139, 69, 19, 0.1);
+  box-shadow: 0 2rpx 6rpx rgba(193, 157, 52, 0.2);
 }
 
 .full-width {
@@ -204,7 +224,7 @@ page {
 .grid-title {
   font-size: 28rpx;
   font-weight: 500;
-  color: #8b4513;
+  color: #C19D34;
   letter-spacing: 3rpx;
 }
 
@@ -222,20 +242,20 @@ page {
   right: 20rpx;
   bottom: 20rpx;
   border-radius: 8rpx;
-  background-color: #f5e8d5;
-  border: 1rpx solid #d2b48c;
+  background-color: #FFF8E7;
+  border: 1rpx solid #C19D34;
 }
 
 /* 科室专区 - 古风横向卷轴 */
 .zone-title {
   font-size: 32rpx;
   font-weight: 500;
-  color: #8b4513;
+  color: #C19D34;
   margin: 20rpx 0;
   font-family: inherit;
   letter-spacing: 4rpx;
   padding-bottom: 8rpx;
-  border-bottom: 1rpx solid #d2b48c;
+  border-bottom: 1rpx solid #C19D34;
 }
 
 .dept-scroll {
@@ -250,19 +270,19 @@ page {
   height: 200rpx;
   margin-right: 20rpx;
   border-radius: 12rpx;
-  border: 1rpx solid #d2b48c;
+  border: 1rpx solid #C19D34;
   padding: 20rpx;
   box-sizing: border-box;
   vertical-align: top;
   position: relative;
   font-family: inherit;
-  box-shadow: 0 4rpx 10rpx rgba(139, 69, 19, 0.08);
+  box-shadow: 0 4rpx 10rpx rgba(193, 157, 52, 0.1);
 }
 
 .dept-name {
   font-size: 26rpx;
   font-weight: 500;
-  color: #8b4513;
+  color: #C19D34;
   letter-spacing: 3rpx;
 }
 
@@ -280,9 +300,9 @@ page {
   position: absolute;
   right: 20rpx;
   bottom: 20rpx;
-  background-color: #f5e8d5;
+  background-color: #FFF8E7;
   border-radius: 8rpx;
-  border: 1rpx solid #d2b48c;
+  border: 1rpx solid #C19D34;
 }
 
 /* 底部导航 - 古风样式 */
@@ -293,7 +313,7 @@ page {
   padding-bottom: 30rpx;
   font-family: inherit;
   padding-top: 20rpx;
-  border-top: 1rpx solid #d2b48c;
+  border-top: 1rpx solid #C19D34;
 }
 
 .edu-nav text {
@@ -303,7 +323,7 @@ page {
 }
 
 .edu-nav text.active {
-  color: #8b4513;
+  color: #C19D34;
   font-weight: 500;
   font-size: 28rpx;
   letter-spacing: 3rpx;
@@ -317,7 +337,7 @@ page {
 }
 
 .doctor-header .title {
-  color: #8b4513;
+  color: #C19D34;
   letter-spacing: 8rpx;
 }
 
@@ -337,16 +357,16 @@ page {
   width: 48%;
   padding: 30rpx;
   border-radius: 12rpx;
-  border: 1rpx solid #d2b48c;
+  border: 1rpx solid #C19D34;
   text-align: center;
-  box-shadow: 0 4rpx 12rpx rgba(139, 69, 19, 0.08);
+  box-shadow: 0 4rpx 12rpx rgba(193, 157, 52, 0.1);
   font-family: inherit;
 }
 
 .stat-num {
   font-size: 48rpx;
   font-weight: bold;
-  color: #8b4513;
+  color: #C19D34;
   margin-bottom: 10rpx;
 }
 
@@ -363,7 +383,7 @@ page {
   margin-bottom: 20rpx;
   padding: 0 10rpx;
   font-family: inherit;
-  color: #8b4513;
+  color: #C19D34;
   letter-spacing: 2rpx;
 }
 
@@ -376,16 +396,16 @@ page {
 .patient-list {
   background: #fff;
   border-radius: 12rpx;
-  border: 1rpx solid #d2b48c;
+  border: 1rpx solid #C19D34;
   overflow: hidden;
-  box-shadow: 0 4rpx 12rpx rgba(139, 69, 19, 0.08);
+  box-shadow: 0 4rpx 12rpx rgba(193, 157, 52, 0.1);
 }
 
 .patient-item {
   display: flex;
   align-items: center;
   padding: 24rpx;
-  border-bottom: 1rpx solid #f5e8d5;
+  border-bottom: 1rpx solid #FFF8E7;
   font-family: inherit;
 }
 
@@ -397,8 +417,8 @@ page {
   width: 80rpx;
   height: 80rpx;
   border-radius: 40rpx;
-  background: #f5e8d5;
-  border: 1rpx solid #d2b48c;
+  background: #FFF8E7;
+  border: 1rpx solid #C19D34;
   margin-right: 20rpx;
 }
 
@@ -409,7 +429,7 @@ page {
 .patient-name {
   font-size: 30rpx;
   font-weight: 500;
-  color: #8b4513;
+  color: #C19D34;
   letter-spacing: 2rpx;
 }
 
@@ -422,8 +442,8 @@ page {
 
 .patient-status {
   font-size: 24rpx;
-  color: #8b4513;
-  background: #f5e8d5;
+  color: #C19D34;
+  background: #FFF8E7;
   padding: 4rpx 12rpx;
   border-radius: 8rpx;
   border: 1rpx solid #d2b48c;
