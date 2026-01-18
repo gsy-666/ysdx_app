@@ -149,17 +149,34 @@ Page({
     },
 
     food: { mouth: [], thirstType: '', diet: [] },
+
     foodOptions: {
       mouth: [{ label: '1', value: '口不渴' }, { label: '2', value: '口渴' }, { label: '3', value: '口苦' }, { label: '4', value: '口臭' }, { label: '5', value: '口酸' }, { label: '6', value: '口淡' }, { label: '7', value: '口黏腻' }, { label: '8', value: '口甜' }],
       thirstType: [{ label: '渴欲饮冷', value: '渴欲饮冷' }, { label: '渴欲饮热', value: '渴欲饮热' }, { label: '渴不欲饮', value: '渴不欲饮' }],
-      diet: [{ label: '9', value: '纳呆恶食' }, { label: '10', value: '长期食少' }, { label: '11', value: '新病食少' }, { label: '12', value: '进食无味' }, { label: '13', value: '饥不欲食' }, { label: '14', value: '久不欲食' }, { label: '15', value: '食后痞胀' }, { label: '16', value: '多食易饥' }]
+      diet: [{ label: '9', value: '纳呆恶食(食欲减退甚至不欲进食)' }, { label: '10', value: '长期食少' }, { label: '11', value: '新病食少' }, { label: '12', value: '进食无味' }, { label: '13', value: '饥不欲食' }, { label: '14', value: '久不欲食' }, { label: '15', value: '食后痞胀(进食后腹胀不适)' }, { label: '16', value: '多食易饥(吃得多仍感觉饿)' }]
     },
 
     stool: { abnormal: [], form: [], sensation: [] },
+    stoolOptions: {
+      abnormal: [{label:'1', value:'新起腹泻'}, {label:'2', value:'经常腹泻'}, {label:'3', value:'五更腹泻(黎明前腹痛腹泻)'}, {label:'4', value:'新病便秘(最近才开始便秘)'}, {label:'5', value:'经常便秘'}],
+      form: [{label:'6', value:'大便干结'}, {label:'7', value:'大便如水样'}, {label:'8', value:'大便先干后稀'}, {label:'9', value:'大便时溏时结(大便时稀时干)'}, {label:'10', value:'大便腥腐臭气'}, {label:'11', value:'完谷不化(大便中有许多未消化食物)'}, {label:'12', value:'便血(大便带血)'}],
+      sensation: [{label:'13', value:'肛门灼热'}, {label:'14', value:'肛门坠胀(肛门有下坠胀满感)'}, {label:'15', value:'里急后重(腹痛，时时欲腹泻，便出不爽)'}, {label:'16', value:'大便不爽(排便不顺畅，排完还想排)'}]
+    },
 
     urine: { volume: [], frequency: [], color: [], sensation: [] },
+    urineOptions: {
+      volume: [{label:'1', value:'尿少'}, {label:'2', value:'尿清长量多'}],
+      frequency: [{label:'3', value:'长期尿频'}, {label:'4', value:'新病尿频'}, {label:'5', value:'夜尿多'}],
+      color: [{label:'6', value:'尿短黄(色黄而短少)'}, {label:'7', value:'尿黄褐'}, {label:'8', value:'尿血'}],
+      sensation: [{label:'9', value:'排尿灼热'}, {label:'10', value:'排尿涩痛'}, {label:'11', value:'余尿不尽(排尿后仍有点滴排出)'}, {label:'12', value:'排尿无力'}]
+    },
 
     female: { cycle: [], quality: [], other: [] },
+    femaleOptions: {
+      cycle: [{label:'1', value:'闭经'}, {label:'2', value:'月经量少'}, {label:'3', value:'月经量多'}, {label:'4', value:'月经推迟'}, {label:'5', value:'月经错乱'}, {label:'6', value:'月经提前'}],
+      quality: [{label:'7', value:'月经深红'}, {label:'8', value:'月经紫黯'}, {label:'9', value:'月经稀淡'}, {label:'10', value:'经断复来(经期停止后又来)'}, {label:'11', value:'经期延长'}],
+      other: [{label:'12', value:'痛经'}, {label:'13', value:'带下色黄气臭'}, {label:'14', value:'带下多而黏'}, {label:'15', value:'带下多而稀'}, {label:'16', value:'带下色白气腥'}, {label:'17', value:'遗精'}, {label:'18', value:'早泄'}, {label:'19', value:'阳痿'}]
+    },
 
     bleeding: [],
 
@@ -311,11 +328,42 @@ Page({
 
   // Submit
   submitForm() {
+    const patientId = wx.getStorageSync('id');
+    if (!patientId) {
+      wx.showToast({ title: '请先登录', icon: 'none' });
+      return;
+    }
+
+    const payload = {
+      patientId: patientId,
+      life: JSON.stringify(this.data.life),
+      coldHot: JSON.stringify(this.data.coldHotItems),
+      sweat: JSON.stringify(this.data.sweatItems),
+      hurt: JSON.stringify(this.data.painLocations),
+      headBody: JSON.stringify(this.data.headBodyItems),
+      sleep: JSON.stringify(this.data.sleepItems),
+      breath: JSON.stringify(this.data.breath),
+      food: JSON.stringify(this.data.food),
+      stool: JSON.stringify(this.data.stool),
+      urine: JSON.stringify(this.data.urine),
+      female: JSON.stringify(this.data.female),
+      bleeding: JSON.stringify(this.data.bleeding),
+      voice: JSON.stringify(this.data.voiceItems),
+      others: '' 
+    };
+
     wx.showLoading({ title: '提交中' });
-    setTimeout(() => {
+
+    request('/four/add', 'POST', payload).then(res => {
       wx.hideLoading();
       wx.showToast({ title: '保存成功' });
-      wx.navigateBack();
-    }, 1500);
+      setTimeout(() => {
+        wx.navigateBack();
+      }, 1500);
+    }).catch(err => {
+      wx.hideLoading();
+      console.error(err);
+      wx.showToast({ title: '保存失败', icon: 'none' });
+    });
   }
 })

@@ -144,7 +144,13 @@ Page({
 
   viewPatientDetail: function (e) {
     const id = e.currentTarget.dataset.id;
-    wx.showToast({ title: '查看患者 ' + id, icon: 'none' });
+    wx.navigateTo({
+      url: `/pages/patient/detail?id=${id}`,
+      fail: (err) => {
+        console.error('Navigate to detail failed:', err);
+        wx.showToast({ title: '无法跳转', icon: 'none' });
+      }
+    });
   },
 
   navigateTo: function (e) {

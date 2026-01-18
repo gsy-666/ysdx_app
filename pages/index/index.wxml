@@ -16,6 +16,9 @@
   <!-- Doctor View -->
   <block wx:if="{{isDoctor}}">
     <view class="header doctor-header">
+      <view class="logo-area">
+        <image class="main-logo" src="/static/logo.png" mode="widthFix"></image>
+      </view>
       <view class="title">医生工作台</view>
       <view class="subtitle">管理患者与查看报告</view>
     </view>

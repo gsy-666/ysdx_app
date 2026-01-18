@@ -296,8 +296,23 @@
       <view class="card-header" bindtap="toggleSection" data-id="9"><text class="card-title">九、大便</text><text
           class="arrow">{{activeSection=='9'?'▲':'▼'}}</text></view>
       <view class="card-body" wx:if="{{activeSection=='9'}}">
+        <view class="sub-title">（一）排泄异常</view>
         <checkbox-group bindchange="onGenericCheckbox" data-path="stool.abnormal">
           <label class="block-check" wx:for="{{stoolOptions.abnormal}}" wx:key="value">
+            <checkbox value="{{item.label}}" />{{item.value}}
+          </label>
+        </checkbox-group>
+
+        <view class="sub-title">（二）大便形态</view>
+        <checkbox-group bindchange="onGenericCheckbox" data-path="stool.form">
+          <label class="block-check" wx:for="{{stoolOptions.form}}" wx:key="value">
+            <checkbox value="{{item.label}}" />{{item.value}}
+          </label>
+        </checkbox-group>
+
+        <view class="sub-title">（三）排便感受</view>
+        <checkbox-group bindchange="onGenericCheckbox" data-path="stool.sensation">
+          <label class="block-check" wx:for="{{stoolOptions.sensation}}" wx:key="value">
             <checkbox value="{{item.label}}" />{{item.value}}
           </label>
         </checkbox-group>
@@ -309,8 +324,30 @@
       <view class="card-header" bindtap="toggleSection" data-id="10"><text class="card-title">十、小便</text><text
           class="arrow">{{activeSection=='10'?'▲':'▼'}}</text></view>
       <view class="card-body" wx:if="{{activeSection=='10'}}">
+        <view class="sub-title">（一）尿量</view>
         <checkbox-group bindchange="onGenericCheckbox" data-path="urine.volume">
           <label class="block-check" wx:for="{{urineOptions.volume}}" wx:key="value">
+            <checkbox value="{{item.label}}" />{{item.value}}
+          </label>
+        </checkbox-group>
+
+        <view class="sub-title">（二）尿次</view>
+        <checkbox-group bindchange="onGenericCheckbox" data-path="urine.frequency">
+          <label class="block-check" wx:for="{{urineOptions.frequency}}" wx:key="value">
+            <checkbox value="{{item.label}}" />{{item.value}}
+          </label>
+        </checkbox-group>
+
+        <view class="sub-title">（三）尿色/质</view>
+        <checkbox-group bindchange="onGenericCheckbox" data-path="urine.color">
+          <label class="block-check" wx:for="{{urineOptions.color}}" wx:key="value">
+            <checkbox value="{{item.label}}" />{{item.value}}
+          </label>
+        </checkbox-group>
+
+        <view class="sub-title">（四）排尿感</view>
+        <checkbox-group bindchange="onGenericCheckbox" data-path="urine.sensation">
+          <label class="block-check" wx:for="{{urineOptions.sensation}}" wx:key="value">
             <checkbox value="{{item.label}}" />{{item.value}}
           </label>
         </checkbox-group>
@@ -322,8 +359,23 @@
       <view class="card-header" bindtap="toggleSection" data-id="11"><text class="card-title">十一、月经精液</text><text
           class="arrow">{{activeSection=='11'?'▲':'▼'}}</text></view>
       <view class="card-body" wx:if="{{activeSection=='11'}}">
+        <view class="sub-title">（一）月经周期</view>
         <checkbox-group bindchange="onGenericCheckbox" data-path="female.cycle">
           <label class="block-check" wx:for="{{femaleOptions.cycle}}" wx:key="value">
+            <checkbox value="{{item.label}}" />{{item.value}}
+          </label>
+        </checkbox-group>
+
+        <view class="sub-title">（二）月经质/量</view>
+        <checkbox-group bindchange="onGenericCheckbox" data-path="female.quality">
+          <label class="block-check" wx:for="{{femaleOptions.quality}}" wx:key="value">
+            <checkbox value="{{item.label}}" />{{item.value}}
+          </label>
+        </checkbox-group>
+
+        <view class="sub-title">（三）其它</view>
+        <checkbox-group bindchange="onGenericCheckbox" data-path="female.other">
+          <label class="block-check" wx:for="{{femaleOptions.other}}" wx:key="value">
             <checkbox value="{{item.label}}" />{{item.value}}
           </label>
         </checkbox-group>
