@@ -43,8 +43,8 @@ Page({
     id: null,
     patient: null,
     diagnose: null,
-    screen: null, 
-    grade: null,  
+    screen: null,
+    grade: null,
     four: null,
     fourDisplay: null, // text formatted
     bmi: '--'
@@ -73,7 +73,7 @@ Page({
     // Hide loading after a short delay/timeout or when all done? 
     // For simplicity, just hide after a timeout in onLoad or let first request hide it (risky). 
     // Better to hide in individual catch/finally or just let users wait.
-    setTimeout(() => { wx.hideLoading(); }, 1000); 
+    setTimeout(() => { wx.hideLoading(); }, 1000);
   },
 
   fetchDiagnose: function (id) {
@@ -110,7 +110,7 @@ Page({
     const safeParse = (str) => {
       try { return str ? JSON.parse(str) : null; } catch (e) { return null; }
     };
-    
+
     // Helper to find labels
     const findLabels = (keys, options) => {
       if (!keys || !options) return [];
@@ -121,7 +121,7 @@ Page({
     };
 
     const display = {};
-    
+
     // 1. Life
     const life = safeParse(four.life);
     if (life && life.selected && life.items) {

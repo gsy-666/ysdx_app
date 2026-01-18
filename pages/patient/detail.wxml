@@ -1,6 +1,6 @@
 <!--pages/patient/detail.wxml-->
 <view class="detail-container">
-  
+
   <!-- 基本信息卡片 -->
   <view class="user-card">
     <image class="avatar" src="{{patient.avatar || '/static/default_avatar.svg'}}" mode="aspectFill"></image>
@@ -44,7 +44,8 @@
     </view>
     <view class="list-row">
       <view class="list-label">主要状态：</view>
-      <view class="list-content highlight">{{grade.conc1 || '暂无'}} <text wx:if="{{grade.score1}}">({{grade.score1}}分)</text></view>
+      <view class="list-content highlight">{{grade.conc1 || '暂无'}} <text
+          wx:if="{{grade.score1}}">({{grade.score1}}分)</text></view>
     </view>
     <view class="list-row" wx:if="{{grade.conc2}}">
       <view class="list-label">兼见状态：</view>
@@ -64,7 +65,7 @@
     <view class="list-row">
       <view class="list-label">高血糖风险：</view>
       <view class="list-content {{screen.highBloodSugar == 1 ? 'warn-text' : ''}}">
-        {{screen.highBloodSugar == 1 ? '是' : '否'}} 
+        {{screen.highBloodSugar == 1 ? '是' : '否'}}
         <text wx:if="{{screen.diabetesType}}" class="sub-text">({{screen.diabetesType}})</text>
       </view>
     </view>
@@ -113,7 +114,7 @@
   <!-- 四诊信息 -->
   <view class="data-section" wx:if="{{fourDisplay}}">
     <view class="section-title">四诊信息详情</view>
-    
+
     <view class="list-row" wx:if="{{fourDisplay.life}}">
       <view class="list-label">生命精神：</view>
       <view class="list-content">{{fourDisplay.life}}</view>
