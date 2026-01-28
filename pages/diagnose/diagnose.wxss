@@ -2,7 +2,8 @@
 /* 页面根容器：铺满屏幕 */
 .container {
   padding: 0;
-  background-color: var(--bg-color); /* 深色背景 */
+  background-color: var(--bg-color);
+  /* 深色背景 */
   height: 100vh;
   position: relative;
   overflow: hidden;
@@ -19,15 +20,16 @@
 /* 可移动视图：设置足够大的尺寸以容纳内容 */
 .panorama-view {
   width: 100%;
-  height: 100vh; /* 使用视口高度 */
+  height: 100vh;
+  /* 使用视口高度 */
   overflow: visible;
-  display: block; 
+  display: block;
 }
 
 /* 内容包裹层 */
 .content-wrapper {
   width: 100%;
-  position: relative; 
+  position: relative;
   font-size: 0;
   display: block;
 }
@@ -35,7 +37,7 @@
 /* 图片容器：宽度 100% */
 .body-anchor-container {
   width: 100%;
-  display: block; 
+  display: block;
 }
 
 /* 人体背景图：宽度优先模式 */
@@ -49,13 +51,16 @@
 .hotspot-area {
   position: absolute;
   z-index: 100;
-  
+
   /* 默认微弱显示，像扫描仪的识别框 */
-  background: rgba(76, 201, 240, 0.05); /* 极淡的青色填充 */
-  border: 1rpx solid rgba(76, 201, 240, 0.3); /* 细微边框 */
-  box-shadow: 0 0 8rpx rgba(76, 201, 240, 0.1); /* 微弱发光 */
+  background: rgba(76, 201, 240, 0.05);
+  /* 极淡的青色填充 */
+  border: 1rpx solid rgba(76, 201, 240, 0.3);
+  /* 细微边框 */
+  box-shadow: 0 0 8rpx rgba(76, 201, 240, 0.1);
+  /* 微弱发光 */
   border-radius: 8rpx;
-  
+
   /* 呼吸灯动画效果 */
   animation: breathe 3s infinite alternate;
 }
@@ -182,8 +187,15 @@
 
 /* 呼吸动画 */
 @keyframes breathe {
-  0% { opacity: 0.6; box-shadow: 0 0 5rpx rgba(76, 201, 240, 0.1); }
-  100% { opacity: 1; box-shadow: 0 0 15rpx rgba(76, 201, 240, 0.3); }
+  0% {
+    opacity: 0.6;
+    box-shadow: 0 0 5rpx rgba(76, 201, 240, 0.1);
+  }
+
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 15rpx rgba(76, 201, 240, 0.3);
+  }
 }
 
 /* 热点点击/按下状态 */

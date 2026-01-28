@@ -32,7 +32,7 @@ function initChart(canvas, width, height, dpr) {
       splitLine: {
         lineStyle: {
           color: [
-            'rgba(0, 255, 204, 0.1)', 
+            'rgba(0, 255, 204, 0.1)',
             'rgba(0, 255, 204, 0.2)',
             'rgba(0, 255, 204, 0.4)',
             'rgba(0, 255, 204, 0.6)'
@@ -92,7 +92,7 @@ Page({
     },
     showRadar: false,
     // 尝试使用相对路径以避免根目录解析问题
-    bodyImage: '../../static/body_structure.jpg', 
+    bodyImage: '../../static/body_structure.jpg',
     currentScale: 1.0,
     // 根据UI图icon位置调整热点坐标 (x, y 为百分比)
     // 调整策略：第二行下移12%，第三行下移17%

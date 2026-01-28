@@ -1,13 +1,20 @@
 /** app.wxss **/
 page {
   /* Dark Sci-fi TCM Theme */
-  --bg-color: #0b1120; /* Deep dark blue background */
-  --card-bg: rgba(22, 33, 62, 0.8); /* Semi-transparent card background */
-  --primary-color: #4cc9f0; /* Glowing cyan for accents */
-  --secondary-color: #d4a073; /* Traditional gold/bronze */
-  --text-main: #ffffff; /* Main text color */
-  --text-sub: #94a3b8; /* Secondary text color */
-  --border-color: rgba(76, 201, 240, 0.3); /* Subtle borders */
+  --bg-color: #0b1120;
+  /* Deep dark blue background */
+  --card-bg: rgba(22, 33, 62, 0.8);
+  /* Semi-transparent card background */
+  --primary-color: #4cc9f0;
+  /* Glowing cyan for accents */
+  --secondary-color: #d4a073;
+  /* Traditional gold/bronze */
+  --text-main: #ffffff;
+  /* Main text color */
+  --text-sub: #94a3b8;
+  /* Secondary text color */
+  --border-color: rgba(76, 201, 240, 0.3);
+  /* Subtle borders */
 
   background-color: var(--bg-color);
   color: var(--text-main);
@@ -27,10 +34,21 @@ page {
 }
 
 /* Text Utilities */
-.text-primary { color: var(--text-main); }
-.text-secondary { color: var(--text-sub); }
-.text-accent { color: var(--primary-color); }
-.text-gold { color: var(--secondary-color); }
+.text-primary {
+  color: var(--text-main);
+}
+
+.text-secondary {
+  color: var(--text-sub);
+}
+
+.text-accent {
+  color: var(--primary-color);
+}
+
+.text-gold {
+  color: var(--secondary-color);
+}
 
 .container {
   box-sizing: border-box;

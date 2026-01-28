@@ -2,21 +2,14 @@
 <view class="container">
   <!-- 可移动区域：承载人体图和热点 -->
   <movable-area class="panorama-area" scale-area>
-    <movable-view 
-      class="panorama-view"
-      direction="all"
-      scale="{{true}}"
-      scale-min="1"
-      scale-max="3"
-      scale-value="{{1}}"
-      out-of-bounds="{{true}}"
-      damping="20"
-    >
+    <movable-view class="panorama-view" direction="all" scale="{{true}}" scale-min="1" scale-max="3" scale-value="{{1}}"
+      out-of-bounds="{{true}}" damping="20">
       <!-- 内容容器：绑定图片和热点的相对定位 -->
       <view class="content-wrapper">
         <!-- 人体背景图 -->
         <view class="body-anchor-container">
-          <image class="body-anchor" src="{{bodyImage}}" mode="widthFix" binderror="onImageError" bindload="onImageLoad"></image>
+          <image class="body-anchor" src="{{bodyImage}}" mode="widthFix" binderror="onImageError"
+            bindload="onImageLoad"></image>
         </view>
 
         <!-- 器官热点区域 -->
