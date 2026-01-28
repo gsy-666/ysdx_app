@@ -47,6 +47,7 @@ Page({
     grade: null,
     four: null,
     fourDisplay: null, // text formatted
+    screenDisplay: null,
     bmi: '--'
   },
 
@@ -84,8 +85,104 @@ Page({
 
   fetchScreen: function (id) {
     request('/screen/getByPatientId', 'GET', { patientId: id }).then(res => {
-      if (res) this.setData({ screen: res });
+      if (res) {
+        this.setData({
+          screen: res,
+          screenDisplay: this.processScreenData(res)
+        });
+      }
     });
+  },
+
+  processScreenData: function(screen) {
+    if (!screen) return null;
+    const result = {
+      metabolicRisk: false,
+      metabolicCount: 0,
+      findriscLevel: '',
+      nfsLevel: '',
+      egfrLevel: '',
+      phq9Level: '',
+      gad7Level: ''
+    };
+
+    // 1. 代谢综合征 (Metabolic Syndrome)
+    let count = 0;
+    if (screen.abdominalObesity == 1) count++;
+    if (screen.highBloodSugar == 1) count++;
+    if (screen.hypertension == 1) count++;
+    if (parseFloat(screen.highTriglycerides) >= 1.7) count++; 
+    if (parseFloat(screen.lowhdl) < 1.04) count++;
+    result.metabolicCount = count;
+    if (count >= 3) result.metabolicRisk = true;
+
+    // 2. 糖尿病风险 (FINDRISC)
+    if (screen.findriscScore != null) {
+      const s = screen.findriscScore;
+      if (s < 7) result.findriscLevel = '低风险';
+      else if (s < 15) result.findriscLevel = '中风险';
+      else result.findriscLevel = '高风险';
+    }
+
+    // 3. 肝纤维化风险 (NFS)
+    if (screen.nfsScore != null) {
+      const s = screen.nfsScore;
+      if (s <= -1.455) result.nfsLevel = '低风险';
+      else if (s >= 0.676) result.nfsLevel = '高风险';
+      else result.nfsLevel = '中风险-建议复查';
+    }
+
+    // 4. 肾功能 (eGFR)
+    if (screen.egfr != null) {
+      const s = screen.egfr;
+      if (s >= 90) result.egfrLevel = '正常或轻度下降 (CKD 1-2期)';
+      else if (s >= 60) result.egfrLevel = '轻度至中度下降 (CKD 3a期)';
+      else if (s >= 30) result.egfrLevel = '中重度下降 (CKD 3b-4期)';
+      else if (s >= 15) result.egfrLevel = '重度下降 (CKD 4期)';
+      else result.egfrLevel = '肾衰竭 (CKD 5期)';
+    }
+
+    // 5. 抑郁风险 (PHQ-9)
+    if (screen.phq9Score != null) {
+      const s = screen.phq9Score;
+      if (s <= 4) result.phq9Level = '没有抑郁症';
+      else if (s <= 9) result.phq9Level = '轻微抑郁症';
+      else if (s <= 14) result.phq9Level = '中度抑郁症';
+      else if (s <= 19) result.phq9Level = '中重度抑郁症';
+      else result.phq9Level = '重度抑郁症';
+    }
+
+    // 6. 焦虑风险 (GAD-7)
+    if (screen.gad7Score != null) {
+      const s = screen.gad7Score;
+      if (s <= 4) result.gad7Level = '没有焦虑症';
+      else if (s <= 9) result.gad7Level = '轻微焦虑症';
+      else if (s <= 13) result.gad7Level = '中度焦虑症';
+      else if (s <= 18) result.gad7Level = '中重度焦虑症';
+      else result.gad7Level = '重度焦虑症';
+    }
+
+    // 7. 心血管疾病风险 (CVD - China-PAR/Framingham)
+    // 假设 screen.cvdRisk 为 10年风险百分比 (例如 5.5 代表 5.5%)
+    if (screen.cvdRisk != null) {
+      const r = parseFloat(screen.cvdRisk);
+      if (r < 10) result.cvdLevel = '低风险';
+      else if (r < 20) result.cvdLevel = '中风险';
+      else result.cvdLevel = '高风险';
+    }
+
+    // 8. 抑郁自评量表 (SDS)
+    // 假设 screen.sdsIndex 为标准分指数 (0-1.0) 或 screen.sdsScore 为标准分 (25-100)
+    // 图片显示Index: <0.5 无, 0.5-0.59 轻微至轻度, 0.60-0.69 中至重度, >0.70 重度
+    if (screen.sdsIndex != null) {
+      const idx = parseFloat(screen.sdsIndex);
+      if (idx < 0.5) result.sdsLevel = '无抑郁症状';
+      else if (idx < 0.6) result.sdsLevel = '轻微至轻度抑郁';
+      else if (idx < 0.7) result.sdsLevel = '中至重度抑郁';
+      else result.sdsLevel = '重度抑郁';
+    }
+
+    return result;
   },
 
   fetchGrade: function (id) {

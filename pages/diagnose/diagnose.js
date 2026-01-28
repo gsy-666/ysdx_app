@@ -1,166 +1,151 @@
 // pages/diagnose/diagnose.js
-const request = require('../../utils/request.js').request;
+import * as echarts from '../../components/ec-canvas/echarts';
+
+function initChart(canvas, width, height, dpr) {
+  const chart = echarts.init(canvas, null, {
+    width: width,
+    height: height,
+    devicePixelRatio: dpr
+  });
+  canvas.setChart(chart);
+
+  const option = {
+    backgroundColor: 'transparent',
+    radar: {
+      center: ['50%', '50%'],
+      radius: '65%',
+      indicator: [
+        { name: '心系', max: 100 },
+        { name: '肝系', max: 100 },
+        { name: '脾系', max: 100 },
+        { name: '肺系', max: 100 },
+        { name: '肾系', max: 100 }
+      ],
+      shape: 'circle',
+      splitNumber: 4,
+      name: {
+        textStyle: {
+          color: '#00FFCC',
+          fontSize: 12
+        }
+      },
+      splitLine: {
+        lineStyle: {
+          color: [
+            'rgba(0, 255, 204, 0.1)', 
+            'rgba(0, 255, 204, 0.2)',
+            'rgba(0, 255, 204, 0.4)',
+            'rgba(0, 255, 204, 0.6)'
+          ].reverse(),
+          width: 1
+        }
+      },
+      splitArea: {
+        show: false
+      },
+      axisLine: {
+        lineStyle: {
+          color: 'rgba(0, 255, 204, 0.3)'
+        }
+      }
+    },
+    series: [{
+      name: '健康态势',
+      type: 'radar',
+      data: [{
+        value: [80, 50, 60, 70, 40],
+        name: '评估值'
+      }],
+      symbol: 'circle',
+      symbolSize: 6,
+      itemStyle: {
+        color: '#D4A024',
+        borderColor: '#fff',
+        borderWidth: 1
+      },
+      areaStyle: {
+        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+          offset: 0,
+          color: 'rgba(0, 255, 204, 0.6)'
+        }, {
+          offset: 1,
+          color: 'rgba(0, 102, 255, 0.2)'
+        }])
+      },
+      lineStyle: {
+        color: '#00FFCC',
+        width: 2,
+        shadowColor: 'rgba(0, 255, 204, 0.5)',
+        shadowBlur: 10
+      }
+    }]
+  };
+
+  chart.setOption(option);
+  return chart;
+}
 
 Page({
   data: {
-    systemList: [
-      { name: '消化系统', key: 'digestive', type: 'digestiveType' },
-      { name: '呼吸系统', key: 'respiratory', type: 'respiratoryType' },
-      { name: '循环系统', key: 'circulatory', type: 'circulatoryType' },
-      { name: '神经系统', key: 'nervous', type: 'nervousType' },
-    ],
-    formData: {
-      // Screen Data
-      abdominalObesity: false,
-      highBloodSugar: false, diabetesType: '',
-      hypertension: false, hypertensionType: '',
-      highTriglycerides: '',
-      lowhdl: '',
-
-      // Diagnose Data
-      digestive: false, digestiveType: '',
-      respiratory: false, respiratoryType: '',
-      circulatory: false, circulatoryType: '',
-      nervous: false, nervousType: '',
-
-      surgeryHistory: '',
-      allergyHistory: '',
-      smokingHistory: '',
-      drinkingHistory: '',
-
-      diagnosisDate: new Date().toISOString().split('T')[0],
-      medicationList: []
-    }
+    ec: {
+      onInit: initChart
+    },
+    showRadar: false,
+    // 尝试使用相对路径以避免根目录解析问题
+    bodyImage: '../../static/body_structure.jpg', 
+    currentScale: 1.0,
+    // 根据UI图icon位置调整热点坐标 (x, y 为百分比)
+    // 调整策略：第二行下移12%，第三行下移17%
+    organNodes: [
+      { key: 'emotion', title: '情绪障碍', riskItems: ['焦虑', '抑郁'], riskLevel: 'low', position: { x: 8, y: 12 }, route: '/pages/diagnose/detail/detail?type=emotion' },
+      { key: 'retina', title: '视网膜病变', riskItems: ['视力下降', '飞蚊症'], riskLevel: 'high', position: { x: 80, y: 12 }, route: '/pages/diagnose/detail/detail?type=retina' },
+      { key: 'cardio_cerebro', title: '心脑血管疾病', riskItems: ['头晕', '心悸'], riskLevel: 'high', position: { x: 8, y: 42 }, route: '/pages/diagnose/detail/detail?type=cardio' },
+      { key: 'liver', title: '代谢脂肪肝', riskItems: ['肝硬化'], riskLevel: 'medium', position: { x: 80, y: 42 }, route: '/pages/diagnose/detail/detail?type=liver' },
+      { key: 'kidney', title: '慢性肾病', riskItems: ['蛋白尿', '水肿'], riskLevel: 'low', position: { x: 8, y: 72 }, route: '/pages/diagnose/detail/detail?type=kidney' },
+      { key: 'diabetes', title: '糖尿病并发症', riskItems: ['足部溃疡', '感染'], riskLevel: 'low', position: { x: 80, y: 72 }, route: '/pages/diagnose/detail/detail?type=diabetes' }
+    ]
   },
 
-  onLoad(options) {
-
+  showRadar() {
+    this.setData({ showRadar: true });
   },
 
-  // Screen handlers
-  onScreenSwitch(e) {
-    const key = e.currentTarget.dataset.key;
-    this.setData({ [`formData.${key}`]: e.detail.value });
-  },
-  bindScreenPick(e) {
-    const key = e.currentTarget.dataset.key;
-    const idx = e.detail.value;
-    const ranges = {
-      diabetesType: ['空腹血糖>6.1mmol/L', '餐后2h血糖>7.8mmol/L', '已确诊糖尿病'],
-      hypertensionType: ['血压>130/85mmHg', '已确诊为高血压病治疗者']
-    };
-    this.setData({ [`formData.${key}`]: ranges[key][idx] });
-  },
-  inputScreen(e) {
-    const key = e.currentTarget.dataset.key;
-    this.setData({ [`formData.${key}`]: e.detail.value });
+  hideRadar() {
+    this.setData({ showRadar: false });
   },
 
-  goTest(e) {
-    const type = e.currentTarget.dataset.type;
-    // Map type 1 -> sas, 2 -> sds
-    const typeStr = type == 1 ? 'sas' : 'sds';
+  preventTouchMove() {
+    // 阻止底层页面滚动
+    return;
+  },
+
+  onLoad(options) { },
+
+  onReady() { },
+
+  onImageError(e) {
+    console.error('图片加载失败：', e);
+  },
+
+  onImageLoad(e) {
+    console.log('图片加载成功');
+  },
+
+  handleNodeClick(e) {
+    const { route } = e.currentTarget.dataset;
+    if (!route) return;
     wx.navigateTo({
-      url: `/pages/grade/questionnaire/questionnaire?type=${typeStr}`,
+      url: route,
+      fail: (err) => {
+        console.warn('跳转失败：', err);
+        wx.showToast({ title: '页面跳转失败', icon: 'none' });
+      }
     });
   },
 
-  bindDateChange(e) {
-    this.setData({
-      'formData.diagnosisDate': e.detail.value
-    });
+  onScale(e) {
+    this.setData({ currentScale: e.detail.scale });
   },
 
-  toggleSystem(e) {
-    const key = e.currentTarget.dataset.key;
-    const currentVal = this.data.formData[key];
-    this.setData({
-      [`formData.${key}`]: !currentVal
-    });
-  },
-
-  bindTypeChange(e) {
-    const key = e.currentTarget.dataset.key;
-    const val = e.detail.value;
-    const types = ['中医', '西医'];
-    this.setData({
-      [`formData.${key}`]: types[val]
-    });
-  },
-
-  inputHistory(e) {
-    const field = e.currentTarget.dataset.field;
-    this.setData({
-      [`formData.${field}`]: e.detail.value
-    });
-  },
-
-  addMedication() {
-    const list = this.data.formData.medicationList;
-    list.push({ name: '', dosage: '', startDate: '', endDate: '' });
-    this.setData({
-      'formData.medicationList': list
-    });
-  },
-
-  submitDiagnose() {
-    const patientId = wx.getStorageSync('id');
-    if (!patientId) {
-      wx.showToast({ title: '请先登录', icon: 'none' });
-      return;
-    }
-
-    const { formData } = this.data;
-    wx.showLoading({ title: '保存中' });
-
-    // 1. Prepare Diagnose Payload
-    // Map frontend keys to backend entity fields
-    const diagnosePayload = {
-      patientId: patientId,
-      digestiveSelected: formData.digestive,
-      digestiveType: formData.digestiveType,
-      respiratorySelected: formData.respiratory,
-      respiratoryType: formData.respiratoryType,
-      cardiovascularSelected: formData.circulatory,
-      cardiovascularType: formData.circulatoryType,
-      neuroPsychiatricSelected: formData.nervous,
-      neuroPsychiatricType: formData.nervousType,
-      eyeEarNoseThroatSelected: false,
-      urinaryReproductiveSelected: false,
-      bloodSelected: false,
-      endocrineSelected: false,
-      motorSelected: false,
-      surgeryHistory: formData.surgeryHistory,
-      allergyHistory: formData.allergyHistory,
-      smokingHistory: formData.smokingHistory,
-      drinkingHistory: formData.drinkingHistory,
-      diagnosisDate: formData.diagnosisDate,
-      medications: JSON.stringify(formData.medicationList)
-    };
-
-    // 2. Prepare Screen Payload
-    const screenPayload = {
-      patientId: patientId,
-      abdominalObesity: formData.abdominalObesity ? 1 : 0,
-      highBloodSugar: formData.highBloodSugar ? 1 : 0,
-      diabetesType: formData.diabetesType,
-      hypertension: formData.hypertension ? 1 : 0,
-      hypertensionType: formData.hypertensionType,
-      highTriglycerides: formData.highTriglycerides,
-      lowhdl: formData.lowhdl
-    };
-
-    const p1 = request('/diagnose/add', 'POST', diagnosePayload);
-    const p2 = request('/screen/add', 'POST', screenPayload);
-
-    Promise.all([p1, p2]).then(res => {
-      wx.hideLoading();
-      wx.showToast({ title: '保存成功', icon: 'success' });
-      setTimeout(() => { wx.navigateBack(); }, 1500);
-    }).catch(err => {
-      wx.hideLoading();
-      console.error(err);
-      wx.showToast({ title: '保存失败', icon: 'none' });
-    });
-  }
-})
+  onMovableChange(e) { }
+});

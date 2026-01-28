@@ -1,7 +1,7 @@
 /* pages/register/register.wxss */
 .container {
   padding: 60rpx;
-  background-color: #fff;
+  background-color: var(--bg-color);
   min-height: 100vh;
   box-sizing: border-box;
 }
@@ -19,18 +19,19 @@
   width: 160rpx;
   height: 160rpx;
   margin-bottom: 20rpx;
-  mix-blend-mode: multiply;
+  filter: drop-shadow(0 0 10rpx var(--primary-color));
 }
 
 .logo-text {
   font-size: 48rpx;
   font-weight: bold;
-  color: #C19D34;
+  color: var(--primary-color);
+  text-shadow: 0 0 10rpx var(--primary-color);
 }
 
 .slogan {
   font-size: 28rpx;
-  color: #999;
+  color: var(--text-sub);
   margin-top: 20rpx;
 }
 
@@ -40,42 +41,42 @@
 
 .label {
   font-size: 28rpx;
-  color: #333;
+  color: var(--text-main);
   margin-bottom: 10rpx;
   display: block;
 }
 
 .input {
-  border: 1px solid #ddd;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-color);
   height: 90rpx;
-  /* Explicit height */
   line-height: 90rpx;
-  /* Center text vertically */
   padding: 0 24rpx;
-  /* Horizontal padding only */
   border-radius: 8rpx;
   font-size: 30rpx;
   width: 100%;
   box-sizing: border-box;
+  color: var(--text-main);
 }
 
 .action-btn {
-  background: #C19D34;
-  color: #fff;
+  background: var(--primary-color);
+  color: #0b1120;
   font-size: 34rpx;
   margin-top: 60rpx;
   border-radius: 40rpx;
-  box-shadow: 0 4rpx 12rpx rgba(193, 157, 52, 0.3);
+  box-shadow: 0 0 15rpx rgba(76, 201, 240, 0.4);
+  font-weight: bold;
 }
 
 .login-link {
   margin-top: 40rpx;
   text-align: center;
   font-size: 28rpx;
-  color: #666;
+  color: var(--text-sub);
 }
 
 .link-text {
-  color: #C19D34;
+  color: var(--primary-color);
   display: inline;
 }

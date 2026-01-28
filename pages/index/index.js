@@ -1,4 +1,4 @@
-﻿// pages/index/index.js
+// pages/index/index.js
 const request = require('../../utils/request.js').request;
 
 Page({
@@ -15,7 +15,7 @@ Page({
     },
     patientList: [],
     menuItems: [
-      { path: '/pages/four/four', name: '中医状态评估', desc: '中医辨证与体质测评', icon: '/static/four_diag.svg' },
+      { path: '/pages/tcm_assessment/tcm_assessment', name: '中医状态评估', desc: '中医辨证与体质测评', icon: '/static/four_diag.svg' },
       { path: '/pages/diagnose/diagnose', name: '风险预警', desc: '多维健康风险预警', icon: '/static/report.svg' },
       { path: '/pages/connect/connect', name: '名医对话', desc: 'AI辅助与专家团队', icon: '/static/doctor_contact.svg' },
       { path: '/pages/article/article', name: '中医科普', desc: '养生知识与视频', icon: '/static/article.svg' },

@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "病情诊断"
+  "navigationBarTitleText": "风险评估",
+  "usingComponents": {
+    "ec-canvas": "../../components/ec-canvas/ec-canvas"
+  }
 }

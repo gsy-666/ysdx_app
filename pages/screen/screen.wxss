@@ -1,7 +1,7 @@
 /* pages/screen/screen.wxss */
 .container {
   padding: 20rpx;
-  background-color: #f8f8f8;
+  background-color: var(--bg-color);
   min-height: 100vh;
 }
 
@@ -10,25 +10,31 @@
   font-weight: bold;
   margin-bottom: 20rpx;
   text-align: center;
+  color: var(--text-main);
+  text-shadow: 0 0 5rpx var(--primary-color);
 }
 
 .card {
-  background: #fff;
+  background: var(--card-bg);
+  backdrop-filter: blur(5px);
   padding: 20rpx;
   margin-bottom: 20rpx;
-  border-radius: 4rpx;
+  border-radius: 12rpx;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4rpx 15rpx rgba(0,0,0,0.3);
 }
 
 .card-title {
   font-weight: bold;
   font-size: 30rpx;
-  border-bottom: 1rpx solid #eee;
+  border-bottom: 1rpx solid var(--border-color);
   padding-bottom: 10rpx;
   margin-bottom: 15rpx;
+  color: var(--primary-color);
 }
 
 .notes {
-  color: #999;
+  color: var(--text-sub);
   font-size: 24rpx;
   margin-bottom: 20rpx;
 }
@@ -40,36 +46,41 @@
 .q-title {
   font-size: 28rpx;
   margin-bottom: 15rpx;
-  color: #333;
+  color: var(--text-main);
 }
 
 .radio-row label {
   margin-right: 40rpx;
+  color: var(--text-main);
 }
 
 .sub-opts {
-  background: #f9f9f9;
+  background: rgba(255, 255, 255, 0.05);
   padding: 15rpx;
   margin-top: 10rpx;
+  border-radius: 8rpx;
+  border: 1px solid var(--border-color);
 }
 
 .block-label {
   display: block;
   margin-bottom: 10rpx;
   font-size: 26rpx;
+  color: var(--text-sub);
 }
 
 .num-input {
-  border: 1rpx solid #ddd;
+  border: 1rpx solid var(--border-color);
   padding: 10rpx;
   width: 200rpx;
-  background: #fff;
-  border-radius: 4rpx;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8rpx;
+  color: var(--text-main);
 }
 
 .submit-btn {
-  background-color: #409EFF;
-  color: #fff;
-  border-radius: 4rpx;
+  background-color: var(--primary-color);
+  color: #0b1120;
+  border-radius: 40rpx;
   margin-top: 20rpx;
 }

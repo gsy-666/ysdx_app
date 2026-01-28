@@ -1,147 +1,217 @@
 /* pages/diagnose/diagnose.wxss */
+/* 页面根容器：铺满屏幕 */
 .container {
-  padding: 20rpx;
-  background-color: #f8f8f8;
-  min-height: 100vh;
+  padding: 0;
+  background-color: var(--bg-color); /* 深色背景 */
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
 }
 
-.header {
-  margin-bottom: 20rpx;
+/* 可移动区域容器：铺满屏幕 */
+.panorama-area {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-color);
 }
 
-.title {
+/* 可移动视图：设置足够大的尺寸以容纳内容 */
+.panorama-view {
+  width: 100%;
+  height: 100vh; /* 使用视口高度 */
+  overflow: visible;
+  display: block; 
+}
+
+/* 内容包裹层 */
+.content-wrapper {
+  width: 100%;
+  position: relative; 
+  font-size: 0;
+  display: block;
+}
+
+/* 图片容器：宽度 100% */
+.body-anchor-container {
+  width: 100%;
+  display: block; 
+}
+
+/* 人体背景图：宽度优先模式 */
+.body-anchor {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* 热点点击区域 - 科技 HUD 风格 */
+.hotspot-area {
+  position: absolute;
+  z-index: 100;
+  
+  /* 默认微弱显示，像扫描仪的识别框 */
+  background: rgba(76, 201, 240, 0.05); /* 极淡的青色填充 */
+  border: 1rpx solid rgba(76, 201, 240, 0.3); /* 细微边框 */
+  box-shadow: 0 0 8rpx rgba(76, 201, 240, 0.1); /* 微弱发光 */
+  border-radius: 8rpx;
+  
+  /* 呼吸灯动画效果 */
+  animation: breathe 3s infinite alternate;
+}
+
+/* 悬浮按钮 */
+.float-btn {
+  position: absolute;
+  right: 30rpx;
+  bottom: 180rpx;
+  background: rgba(16, 31, 41, 0.9);
+  border: 1px solid #00FFCC;
+  box-shadow: 0 0 15rpx rgba(0, 255, 204, 0.3);
+  border-radius: 40rpx;
+  padding: 16rpx 30rpx;
+  display: flex;
+  align-items: center;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+}
+
+.btn-icon {
+  width: 32rpx;
+  height: 32rpx;
+  margin-right: 10rpx;
+}
+
+.float-btn text {
+  color: #00FFCC;
+  font-size: 26rpx;
+  font-weight: 500;
+  letter-spacing: 2rpx;
+}
+
+/* 弹窗遮罩 */
+.radar-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 200;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.radar-modal.show {
+  visibility: visible;
+  opacity: 1;
+}
+
+.radar-mask {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+/* 弹窗内容 */
+.radar-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(180deg, #0c161c 0%, #1a2a33 100%);
+  border-top-left-radius: 40rpx;
+  border-top-right-radius: 40rpx;
+  border-top: 1px solid rgba(0, 255, 204, 0.3);
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.radar-modal.show .radar-content {
+  transform: translateY(0);
+}
+
+.radar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40rpx 40rpx 20rpx;
+}
+
+.radar-title {
+  color: #fff;
   font-size: 34rpx;
   font-weight: bold;
+  letter-spacing: 2rpx;
+  background: linear-gradient(90deg, #fff 0%, #00FFCC 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.card {
-  background-color: #fff;
-  margin-bottom: 20rpx;
-  padding: 30rpx;
-  border-radius: 4rpx;
-  /* Square style */
-}
-
-.card-title {
-  font-size: 30rpx;
-  font-weight: bold;
-  margin-bottom: 20rpx;
-  display: flex;
-  justify-content: space-between;
-}
-
-.system-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20rpx 0;
-  border-bottom: 1rpx solid #eee;
-}
-
-.system-ctrl {
-  display: flex;
-  align-items: center;
-}
-
-.picker-box {
-  margin-left: 20rpx;
-  font-size: 24rpx;
-  color: #409EFF;
-  border: 1rpx solid #409EFF;
-  padding: 4rpx 10rpx;
-  border-radius: 4rpx;
-}
-
-.form-item {
-  margin-bottom: 20rpx;
-}
-
-.picker-input {
-  border: 1rpx solid #ddd;
+.close-btn {
+  font-size: 40rpx;
+  color: #889699;
   padding: 10rpx;
-  border-radius: 4rpx;
-  margin-top: 10rpx;
 }
 
-.textarea {
+.radar-chart-box {
   width: 100%;
-  border: 1rpx solid #ddd;
-  border-radius: 4rpx;
-  padding: 10rpx;
-  height: 100rpx;
-  margin-top: 10rpx;
-  box-sizing: border-box;
+  height: 600rpx;
+  position: relative;
 }
 
-.add-btn {
-  color: #409EFF;
-  font-size: 26rpx;
+.radar-desc {
+  padding: 30rpx 40rpx 60rpx;
 }
 
-.med-item {
-  display: flex;
-  gap: 10rpx;
-  margin-bottom: 10rpx;
-}
-
-.input {
-  border: 1rpx solid #ddd;
-  padding: 10rpx;
-  flex: 1;
-  border-radius: 4rpx;
-}
-
-.empty-tip {
-  text-align: center;
-  color: #ccc;
-  font-size: 24rpx;
-  padding: 20rpx;
-}
-
-/* Copied from grade.wxss for Emotion Assessment */
-.menu-card {
-  background: #fdfdfd;
-  padding: 20rpx;
-  margin-bottom: 20rpx;
-  display: flex;
-  align-items: center;
-  border-radius: 8rpx;
-  border: 1rpx solid #eee;
-}
-
-.icon-box {
-  width: 80rpx;
-  height: 80rpx;
-  border-radius: 8rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 20rpx;
-  flex-shrink: 0;
-}
-
-.icon-text {
-  font-size: 24rpx;
-  color: #666;
-  font-weight: bold;
-}
-
-.ct-title {
+.desc-label {
+  color: #00FFCC;
   font-size: 28rpx;
   font-weight: bold;
-  color: #333;
-  margin-bottom: 6rpx;
+  margin-right: 16rpx;
 }
 
-.ct-desc {
-  font-size: 22rpx;
-  color: #999;
-  line-height: 1.4;
+.desc-text {
+  color: #b2c0c9;
+  font-size: 26rpx;
+  line-height: 1.6;
 }
 
-.submit-btn {
-  background-color: #409EFF;
-  color: #fff;
-  border-radius: 4rpx;
-  margin-top: 40rpx;
+/* 呼吸动画 */
+@keyframes breathe {
+  0% { opacity: 0.6; box-shadow: 0 0 5rpx rgba(76, 201, 240, 0.1); }
+  100% { opacity: 1; box-shadow: 0 0 15rpx rgba(76, 201, 240, 0.3); }
+}
+
+/* 热点点击/按下状态 */
+.hotspot-area:active,
+.hotspot-active {
+  background: rgba(76, 201, 240, 0.3);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 20rpx var(--primary-color);
+  transition: all 0.1s;
+}
+
+/* 缩放提示文字 */
+.zoom-hint {
+  position: fixed;
+  bottom: 60rpx;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  pointer-events: none;
+  z-index: 200;
+}
+
+.zoom-hint text {
+  background: rgba(11, 17, 32, 0.8);
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+  font-size: 24rpx;
+  padding: 10rpx 30rpx;
+  border-radius: 40rpx;
+  box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.3);
 }

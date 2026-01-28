@@ -41,15 +41,10 @@ Page({
   },
 
   onLoad: function () {
-    // 这里强制设置为 2026年 用于演示 (配合 context 的年份)
-    // 实际开发可以使用 const now = new Date();
     const now = new Date();
-    // 强制 fix year for context consistency if needed, but let's use real time usually.
-    // However user provided context says "Current date is 2026-01-14", so I use that.
-
-    const year = 2026;
-    const month = 1;
-    const day = 14;
+    const year = now.getFullYear();
+    const month = now.getMonth() + 1;
+    const day = now.getDate();
 
     this.setData({
       currentYear: year,

@@ -1,4 +1,4 @@
-﻿<!--pages/index/index.wxml-->
+<!--pages/index/index.wxml-->
 <view class="home-container">
 
   <!-- Weather Widget -->

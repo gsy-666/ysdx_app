@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/tcm_assessment/tcm_assessment",
     "pages/plan/plan",
     "pages/profile/profile",
     "pages/community/community",
@@ -11,6 +12,7 @@
     "pages/diagnose/diagnose",
     "pages/grade/grade",
     "pages/grade/questionnaire/questionnaire",
+    "pages/diagnose/detail/detail",
     "pages/screen/screen",
     "pages/connect/connect",
     "pages/connect/chat/chat",
@@ -22,14 +24,15 @@
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
+    "navigationBarBackgroundColor": "#0b1120",
     "navigationBarTitleText": "云枢代谢综合平台",
-    "navigationBarTextStyle": "black"
+    "navigationBarTextStyle": "white"
   },
   "tabBar": {
-    "color": "#999999",
-    "selectedColor": "#C19D34",
-    "backgroundColor": "#ffffff",
+    "color": "#94a3b8",
+    "selectedColor": "#4cc9f0",
+    "backgroundColor": "#16213e",
+    "borderStyle": "black",
     "list": [
       {
         "pagePath": "pages/index/index",

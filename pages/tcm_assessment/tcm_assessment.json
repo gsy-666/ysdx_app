@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "中医状态评估",
+  "navigationBarBackgroundColor": "#0b1120",
+  "navigationBarTextStyle": "white",
+  "usingComponents": {
+    "ec-canvas": "../../components/ec-canvas/ec-canvas"
+  }
+}

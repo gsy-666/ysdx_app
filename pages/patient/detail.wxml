@@ -56,34 +56,76 @@
   <!-- 风险预警数据 -->
   <view class="data-section" wx:if="{{screen}}">
     <view class="section-title">风险预警指标</view>
+    
+    <!-- 代谢综合征综合评估 -->
     <view class="list-row">
-      <view class="list-label">腹型肥胖：</view>
+      <view class="list-label">代谢综合征风险：</view>
+      <view class="list-content {{screenDisplay.metabolicRisk ? 'warn-text' : ''}}">
+        {{screenDisplay.metabolicRisk ? '高风险' : '低风险'}} ({{screenDisplay.metabolicCount}}/5项)
+      </view>
+    </view>
+
+    <view class="list-row">
+      <view class="list-label"> - 腹型肥胖：</view>
       <view class="list-content {{screen.abdominalObesity == 1 ? 'warn-text' : ''}}">
         {{screen.abdominalObesity == 1 ? '是 (高风险)' : '否'}}
       </view>
     </view>
     <view class="list-row">
-      <view class="list-label">高血糖风险：</view>
+      <view class="list-label"> - 高血糖风险：</view>
       <view class="list-content {{screen.highBloodSugar == 1 ? 'warn-text' : ''}}">
         {{screen.highBloodSugar == 1 ? '是' : '否'}}
         <text wx:if="{{screen.diabetesType}}" class="sub-text">({{screen.diabetesType}})</text>
       </view>
     </view>
     <view class="list-row">
-      <view class="list-label">高血压风险：</view>
+      <view class="list-label"> - 高血压风险：</view>
       <view class="list-content {{screen.hypertension == 1 ? 'warn-text' : ''}}">
         {{screen.hypertension == 1 ? '是' : '否'}}
         <text wx:if="{{screen.hypertensionType}}" class="sub-text">({{screen.hypertensionType}})</text>
       </view>
     </view>
     <view class="list-row" wx:if="{{screen.highTriglycerides}}">
-      <view class="list-label">甘油三酯：</view>
-      <view class="list-content">{{screen.highTriglycerides}} mmol/L</view>
+      <view class="list-label"> - 甘油三酯：</view>
+      <view class="list-content {{screen.highTriglycerides >= 1.7 ? 'warn-text' : ''}}">{{screen.highTriglycerides}} mmol/L</view>
     </view>
     <view class="list-row" wx:if="{{screen.lowhdl}}">
-      <view class="list-label">高密度脂蛋白：</view>
-      <view class="list-content">{{screen.lowhdl}} mmol/L</view>
+      <view class="list-label"> - 高密度脂蛋白：</view>
+      <view class="list-content {{screen.lowhdl < 1.04 ? 'warn-text' : ''}}">{{screen.lowhdl}} mmol/L</view>
     </view>
+    
+    <!-- 其他风险评分 -->
+    <view class="list-row" wx:if="{{screen.findriscScore != null}}">
+      <view class="list-label">糖尿病风险(FINDRISC)：</view>
+      <view class="list-content {{screenDisplay.findriscLevel == '高风险' ? 'warn-text' : ''}}">{{screenDisplay.findriscLevel}} ({{screen.findriscScore}}分)</view>
+    </view>
+     <view class="list-row" wx:if="{{screen.nfsScore != null}}">
+      <view class="list-label">肝纤维化风险(NFS)：</view>
+      <view class="list-content {{screenDisplay.nfsLevel == '高风险' ? 'warn-text' : ''}}">{{screenDisplay.nfsLevel}} ({{screen.nfsScore}})</view>
+    </view>
+     <view class="list-row" wx:if="{{screen.egfr != null}}">
+      <view class="list-label">肾功能(eGFR)：</view>
+      <view class="list-content {{screen.egfr < 60 ? 'warn-text' : ''}}">{{screenDisplay.egfrLevel}} ({{screen.egfr}})</view>
+    </view>
+    <view class="list-row" wx:if="{{screen.phq9Score != null}}">
+      <view class="list-label">抑郁风险(PHQ-9)：</view>
+      <view class="list-content {{screen.phq9Score >= 10 ? 'warn-text' : ''}}">{{screenDisplay.phq9Level}} ({{screen.phq9Score}}分)</view>
+    </view>
+    <view class="list-row" wx:if="{{screen.gad7Score != null}}">
+      <view class="list-label">焦虑风险(GAD-7)：</view>
+      <view class="list-content {{screen.gad7Score >= 10 ? 'warn-text' : ''}}">{{screenDisplay.gad7Level}} ({{screen.gad7Score}}分)</view>
+    </view>
+    
+    <!-- 新增图片对应指标 -->
+    <view class="list-row" wx:if="{{screen.cvdRisk != null}}">
+      <view class="list-label">心血管病风险(10年)：</view>
+      <view class="list-content {{screen.cvdRisk >= 10 ? 'warn-text' : ''}}">{{screenDisplay.cvdLevel}} ({{screen.cvdRisk}}%)</view>
+    </view>
+    <view class="list-row" wx:if="{{screen.sdsIndex != null}}">
+      <view class="list-label">抑郁自评(SDS)：</view>
+      <view class="list-content {{screen.sdsIndex >= 0.5 ? 'warn-text' : ''}}">{{screenDisplay.sdsLevel}} (指数:{{screen.sdsIndex}})</view>
+    </view>
+
   </view>
 
   <!-- 健康史信息 -->
