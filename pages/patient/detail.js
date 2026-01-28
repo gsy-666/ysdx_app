@@ -94,7 +94,7 @@ Page({
     });
   },
 
-  processScreenData: function(screen) {
+  processScreenData: function (screen) {
     if (!screen) return null;
     const result = {
       metabolicRisk: false,
@@ -111,7 +111,7 @@ Page({
     if (screen.abdominalObesity == 1) count++;
     if (screen.highBloodSugar == 1) count++;
     if (screen.hypertension == 1) count++;
-    if (parseFloat(screen.highTriglycerides) >= 1.7) count++; 
+    if (parseFloat(screen.highTriglycerides) >= 1.7) count++;
     if (parseFloat(screen.lowhdl) < 1.04) count++;
     result.metabolicCount = count;
     if (count >= 3) result.metabolicRisk = true;
