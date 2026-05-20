@@ -280,3 +280,68 @@ slider {
   font-size: 26rpx;
   color: #4A5666;
 }
+.wizard-card { min-height: 50vh; display: flex; flex-direction: column; }
+.wizard-card .card-body { flex: 1; padding-bottom: 20rpx; }
+.progress-text { font-size: 24rpx; color: #999; font-weight: normal; float: right; }
+.card-header { display: flex; justify-content: space-between; align-items: center; }
+
+/* 优化疼痛部分层级 */
+.pain-block {
+  margin-bottom: 40rpx;
+  background-color: #F8FBFE;
+  border-radius: 12rpx;
+  padding: 20rpx;
+}
+
+.pain-header {
+  display: flex;
+  align-items: center;
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #213245;
+  margin-bottom: 20rpx;
+  border-bottom: 2rpx dashed #d1d8e0;
+  padding-bottom: 16rpx;
+}
+
+.pain-title {
+  margin-left: 10rpx;
+}
+
+.pain-natures-grid {
+  display: flex;
+  flex-direction: column;
+  padding-left: 20rpx;
+}
+
+.nature-item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16rpx;
+}
+
+.nature-item > checkbox {
+  margin-right: 12rpx;
+}
+
+.nature-item > text {
+  font-size: 30rpx;
+  color: #4A5666;
+}
+
+.severity-mini {
+  margin-top: 10rpx;
+  margin-left: 50rpx;
+  background: #FFFFFF;
+  padding: 12rpx 20rpx;
+  border-radius: 8rpx;
+  border: 1rpx solid #E6EEF5;
+  display: flex;
+  align-items: center;
+}
+
+.sev-radio {
+  font-size: 26rpx;
+  color: #6C7A8C;
+  margin-right: 24rpx;
+}
