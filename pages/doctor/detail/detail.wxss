@@ -1,0 +1,62 @@
+/* pages/doctor/detail/detail.wxss */
+.container {
+  padding: 24rpx;
+}
+
+.header {
+  background: #ffffff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+}
+
+.name {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #222;
+}
+
+.meta {
+  margin-top: 12rpx;
+  font-size: 26rpx;
+  color: #666;
+}
+
+.section {
+  background: #ffffff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+}
+
+.section-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 12rpx;
+}
+
+.section-text {
+  font-size: 26rpx;
+  color: #444;
+  line-height: 1.6;
+}
+
+.actions {
+  display: flex;
+  gap: 16rpx;
+}
+
+.btn {
+  flex: 1;
+  background: #1E90FF;
+  color: #fff;
+  border-radius: 999rpx;
+  font-size: 28rpx;
+}
+
+.btn.secondary {
+  background: #ffffff;
+  color: #1E90FF;
+  border: 2rpx solid #1E90FF;
+}

@@ -1,0 +1,34 @@
+<!-- pages/doctor/detail/detail.wxml -->
+<view class="container" wx:if="{{doctor}}">
+  <view class="header">
+    <view class="name">{{doctor.name}} <text wx:if="{{doctor.title}}">{{doctor.title}}</text></view>
+    <view class="meta" wx:if="{{doctor.department}}">科室：{{doctor.department}}</view>
+    <view class="meta" wx:if="{{doctor.hospital}}">医院：{{doctor.hospital}}</view>
+    <view class="meta" wx:if="{{doctor.province || doctor.city}}">地区：{{doctor.province}} {{doctor.city}}</view>
+  </view>
+
+  <view class="section" wx:if="{{doctor.schedule}}">
+    <view class="section-title">出诊时间</view>
+    <view class="section-text">{{doctor.schedule}}</view>
+  </view>
+
+  <view class="section" wx:if="{{doctor.specialty}}">
+    <view class="section-title">擅长</view>
+    <view class="section-text">{{doctor.specialty}}</view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">操作</view>
+    <view class="actions">
+      <button class="btn" hover-class="none" bindtap="goChat" data-id="{{doctor.id}}">立即咨询</button>
+      <button class="btn secondary" hover-class="none" bindtap="goBack">返回</button>
+    </view>
+  </view>
+</view>
+
+<view class="container" wx:else>
+  <view class="section">
+    <view class="section-title">未找到医生信息</view>
+    <view class="section-text">请返回重新选择。</view>
+  </view>
+</view>

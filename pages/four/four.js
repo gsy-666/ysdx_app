@@ -293,6 +293,26 @@ Page({
     this.setData({ activeSection: this.data.activeSection === id ? '' : id });
   },
 
+  prevQuestion() {
+    let current = parseInt(this.data.activeSection);
+    if (current === 1) {
+      this.prevStep();
+    } else {
+      this.setData({ activeSection: String(current - 1) });
+      wx.pageScrollTo({ duration: 300, scrollTop: 0 });
+    }
+  },
+
+  nextQuestion() {
+    let current = parseInt(this.data.activeSection);
+    if (current === 13) {
+      this.submitForm();
+    } else {
+      this.setData({ activeSection: String(current + 1) });
+      wx.pageScrollTo({ duration: 300, scrollTop: 0 });
+    }
+  },
+
   // === Data Handling ===
   initPainData() {
     const basePainNature = [

@@ -10,11 +10,40 @@
 
   <!-- Doctor Team Section -->
   <view class="section-title">专家团队</view>
-  <view class="doc-card" wx:for="{{doctors}}" wx:key="index">
-    <view class="doc-info">
-      <view class="name">{{item.name}} <text class="title">{{item.title}}</text></view>
-      <view class="dept">{{item.dept}}</view>
+
+  <view class="group" wx:for="{{groups}}" wx:key="province">
+    <view class="group-header" bindtap="toggleProvince" data-province="{{item.province}}">
+      <view class="group-title">{{item.province}}</view>
+      <view class="group-meta">{{openProvince === item.province ? '收起' : '展开'}}</view>
     </view>
-    <button class="contact-btn" bindtap="goChat" data-id="{{index}}" hover-class="none">咨询</button>
+
+    <view wx:if="{{openProvince === item.province}}">
+      <view class="subgroup" wx:for="{{item.hospitals}}" wx:key="hospital">
+        <view class="subgroup-header" bindtap="toggleHospital" data-hospital="{{item.hospital}}">
+          <view class="subgroup-title">{{item.hospital}}</view>
+          <view class="group-meta">{{openHospital === item.hospital ? '收起' : '展开'}}</view>
+        </view>
+
+        <view wx:if="{{openHospital === item.hospital}}">
+          <view class="dept-group" wx:for="{{item.departments}}" wx:key="department">
+            <view class="dept-header" bindtap="toggleDepartment" data-department="{{item.department}}">
+              <view class="dept-title">{{item.department}}</view>
+              <view class="group-meta">{{openDepartment === item.department ? '收起' : '展开'}}</view>
+            </view>
+
+            <view wx:if="{{openDepartment === item.department}}">
+              <view class="doc-card" wx:for="{{item.doctors}}" wx:key="id" bindtap="goDoctorDetail" data-id="{{item.id}}">
+                <view class="doc-info">
+                  <view class="name">{{item.name}} <text class="title" wx:if="{{item.title}}">{{item.title}}</text></view>
+                  <view class="dept">{{item.department}}</view>
+                  <view class="dept" wx:if="{{item.hospital}}">{{item.hospital}}</view>
+                </view>
+                <button class="contact-btn" catchtap="goChat" data-id="{{item.id}}" hover-class="none">咨询</button>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
   </view>
 </view>
