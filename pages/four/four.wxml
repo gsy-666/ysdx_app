@@ -187,8 +187,8 @@
           </view>
 
           <!-- Natures -->
-          <view class="pain-natures-grid" wx:if="{{item.checked}}">
-                        <view class="nature-item {{nat.checked ? \'is-checked\' : \'\'}}" wx:for="{{item.natures}}" wx:for-item="nat" wx:for-index="natIdx" wx:key="id">
+            <view class="pain-natures-grid" wx:if="{{item.checked}}">
+              <view class="nature-item {{nat.checked ? 'is-checked' : ''}}" wx:for="{{item.natures}}" wx:for-item="nat" wx:for-index="natIdx" wx:key="id">
               <view style="display:flex; align-items:center;">
                 <checkbox checked="{{nat.checked}}" bindtap="togglePainNature" data-loc-index="{{idx}}" data-nat-index="{{natIdx}}" />
                 <text bindtap="togglePainNature" data-loc-index="{{idx}}" data-nat-index="{{natIdx}}">{{nat.name}}</text>
