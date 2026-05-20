@@ -285,63 +285,96 @@ slider {
 .progress-text { font-size: 24rpx; color: #999; font-weight: normal; float: right; }
 .card-header { display: flex; justify-content: space-between; align-items: center; }
 
-/* 优化疼痛部分层级 */
+
+/* 优化疼痛部分层级 - 针对老年人视力与触控优化 */
 .pain-block {
   margin-bottom: 40rpx;
-  background-color: #F8FBFE;
-  border-radius: 12rpx;
-  padding: 20rpx;
+  background-color: #FFFFFF;
+  border-radius: 16rpx;
+  box-shadow: 0 4rpx 20rpx rgba(13, 26, 43, 0.08); /* 立体阴影框 */
+  border: 2rpx solid #EBF4FF;
+  overflow: hidden;
 }
 
 .pain-header {
   display: flex;
   align-items: center;
-  font-size: 32rpx;
+  font-size: 36rpx; /* 字号增大 */
   font-weight: bold;
-  color: #213245;
-  margin-bottom: 20rpx;
-  border-bottom: 2rpx dashed #d1d8e0;
-  padding-bottom: 16rpx;
+  color: #1A7DF9; /* 主题蓝提高对比度 */
+  background: #F4F9FF; /* 淡蓝底色彻底区分组别头 */
+  padding: 28rpx 24rpx;
+  border-bottom: 2rpx solid #EBF4FF;
 }
 
 .pain-title {
-  margin-left: 10rpx;
+  margin-left: 16rpx;
+  flex: 1; /* 撑满剩余空间，让点击热区变大 */
+  line-height: 1.4;
+}
+
+/* 放大复选框本体 */
+.pain-header checkbox, .nature-item checkbox, .mini-radio radio, .severity-mini radio {
+  transform: scale(1.15); /* 整体放大1.15倍更易触控 */
 }
 
 .pain-natures-grid {
   display: flex;
   flex-direction: column;
-  padding-left: 20rpx;
+  padding: 24rpx;
+  background: #FAFCFF; /* 底色微差，突出白色项块 */
 }
 
+/* 子项升级为独立的小面板 */
 .nature-item {
   display: flex;
   flex-direction: column;
-  margin-bottom: 16rpx;
-}
-
-.nature-item > checkbox {
-  margin-right: 12rpx;
-}
-
-.nature-item > text {
-  font-size: 30rpx;
-  color: #4A5666;
-}
-
-.severity-mini {
-  margin-top: 10rpx;
-  margin-left: 50rpx;
+  margin-bottom: 24rpx;
   background: #FFFFFF;
-  padding: 12rpx 20rpx;
-  border-radius: 8rpx;
-  border: 1rpx solid #E6EEF5;
+  border: 3rpx solid #E6EEF5; /* 增加线框粗细 */
+  border-radius: 12rpx;
+  padding: 26rpx;
+  transition: all 0.2s;
+}
+
+/* 选中后的强视觉反馈 */
+.nature-item.is-checked {
+  border-color: #1A7DF9;
+  background: #F0F7FF;
+  box-shadow: 0 4rpx 12rpx rgba(26, 125, 249, 0.1);
+}
+
+.nature-item > view:first-child {
+  /* 第一行为文本和复选框 */
+}
+
+.nature-item view text {
+  font-size: 34rpx; /* 大字号 */
+  color: #213245; /* 更黑的对比度 */
+  margin-left: 16rpx;
+  font-weight: 500;
+}
+
+/* 程度单选区域扩大距、取消左缩进 */
+.severity-mini {
+  margin-top: 30rpx;
+  margin-left: 0;
+  background: #FFFFFF;
+  padding: 24rpx 20rpx;
+  border-radius: 12rpx;
+  border: 2rpx dashed #C0D8F1; /* 用虚线框将其框出 */
+  display: flex;
+  align-items: center;
+  justify-content: space-around; /* 均匀散开 */
+}
+
+.sev-radio {
+  font-size: 32rpx; /* 大字号 */
+  color: #333333;
   display: flex;
   align-items: center;
 }
 
-.sev-radio {
-  font-size: 26rpx;
-  color: #6C7A8C;
-  margin-right: 24rpx;
+.sev-radio radio {
+  margin-right: 14rpx;
 }
