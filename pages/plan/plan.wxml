@@ -5,43 +5,65 @@
   <view class="header-bg">
     <view class="header-row">
       <view class="title">今日健康计划</view>
-      <view class="join-btn" bindtap="joinPlan">加入计划 ></view>
     </view>
 
     <!-- Stats Row in Header context -->
     <view class="stats-row">
       <view class="st-item">
-        <view class="val">0</view>
-        <view class="lbl">已完成</view>
+        <view class="val">{{points}}</view>
+        <view class="lbl">我的积分</view>
       </view>
       <view class="st-item">
-        <view class="val">0%</view>
-        <view class="lbl">完成率</view>
+        <view class="val">LV.1</view>
+        <view class="lbl">当前等级</view>
       </view>
       <view class="st-item">
-        <view class="val">0</view>
-        <view class="lbl">待完成</view>
+        <view class="val">{{ tasks.length }}</view>
+        <view class="lbl">总任务</view>
       </view>
     </view>
   </view>
 
-  <!-- My Plan Tools -->
+  <!-- My Tasks / Check-ins -->
   <view class="card overlap-card">
-    <view class="card-title">健康管理</view>
-    <view class="tools-grid">
-      <view class="tool-item" bindtap="onToolInteract" data-name="我的计划">
-        <image class="tool-icon" src="/static/assessment.svg"></image>
-        <text>我的计划</text>
-      </view>
-      <view class="tool-item" bindtap="onToolInteract" data-name="运动健康">
-        <image class="tool-icon" src="/static/weight.svg"></image>
-        <text>运动健康</text>
-      </view>
-      <view class="tool-item" bindtap="onToolInteract" data-name="饮食用药">
-        <image class="tool-icon" src="/static/article.svg"></image>
-        <text>饮食用药</text>
+    <view class="card-title">日常打卡赚积分</view>
+    <view class="tasks-list">
+      <view class="task-item" wx:for="{{tasks}}" wx:key="id">
+        <image class="task-icon" src="{{item.icon}}" mode="aspectFit"></image>
+        <view class="task-info">
+          <view class="task-name">{{item.name}}</view>
+          <view class="task-desc">{{item.desc}}</view>
+        </view>
+        <view class="task-btn {{item.completed ? 'btn-disabled' : ''}}" bindtap="completeTask" data-id="{{item.id}}">
+          {{item.completed ? '已完成' : '去打卡'}}
+        </view>
       </view>
     </view>
+  </view>
+  
+  <!-- Leaderboard -->
+  <view class="card">
+    <view class="card-title">积分排行榜</view>
+    <view class="leaderboard-list">
+      <view class="lb-item" wx:for="{{leaderboard}}" wx:key="rank">
+        <view class="lb-rank {{item.rank <= 3 ? 'rank-top' : ''}}">{{item.rank}}</view>
+        <image class="lb-avatar" src="{{item.avatar}}"></image>
+        <view class="lb-name">{{item.name}}</view>
+        <view class="lb-points">{{item.points}}分</view>
+      </view>
+    </view>
+    <view class="lb-footer">
+      <text class="lb-reward">💡 每周排名前三可获得专属健康咨询大礼包</text>
+    </view>
+  </view>
+
+  <!-- Join Plan Banner -->
+  <view class="plan-banner">
+    <view class="plan-banner-left">
+      <view class="plan-banner-title">加入管理计划对我有什么帮助？</view>
+      <view class="plan-banner-desc">科学管理、名医咨询、健康随访</view>
+    </view>
+    <view class="plan-banner-btn" bindtap="joinPlan">去查看 ></view>
   </view>
 
   <!-- Metrics Grid -->
@@ -75,5 +97,4 @@
       <view class="m-sub">cm</view>
     </view>
   </view>
-
 </view>

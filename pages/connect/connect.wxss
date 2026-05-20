@@ -1,95 +1,136 @@
-/* pages/connect/connect.wxss */
 page {
-  background-color: var(--bg-color);
-  font-family: inherit;
+  background-color: #F4F7F9;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: #1A1A1A;
 }
 
 .container {
-  padding: 20rpx;
-  background-color: var(--bg-color);
+  padding: 30rpx 40rpx;
   min-height: 100vh;
-}
-
-.doc-card {
-  background: var(--card-bg);
-  backdrop-filter: blur(5px);
-  padding: 30rpx;
-  margin-bottom: 24rpx;
-  border-radius: 16rpx;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border: 1rpx solid var(--border-color);
-  box-shadow: 0 4rpx 15rpx rgba(0, 0, 0, 0.4);
-}
-
-.name {
-  font-size: 32rpx;
-  font-weight: 500;
-  color: var(--primary-color);
-  text-shadow: 0 0 5rpx var(--primary-color);
-}
-
-.title {
-  font-size: 24rpx;
-  color: var(--text-sub);
-  margin-left: 10rpx;
-  font-weight: normal;
-  border: 1rpx solid var(--border-color);
-  padding: 2rpx 10rpx;
-  border-radius: 8rpx;
-}
-
-.dept {
-  font-size: 26rpx;
-  color: var(--text-sub);
-  margin-top: 10rpx;
-  opacity: 0.8;
-}
-
-.contact-btn {
-  margin: 0;
-  width: 140rpx;
-  height: 60rpx;
-  line-height: 60rpx;
-  background: rgba(76, 201, 240, 0.15);
-  color: var(--primary-color);
-  font-size: 26rpx;
-  border-radius: 30rpx;
-  border: 1rpx solid var(--primary-color);
-  box-shadow: 0 0 10rpx rgba(76, 201, 240, 0.2);
-}
-
-.contact-btn:active {
-  background: rgba(76, 201, 240, 0.3);
+  box-sizing: border-box;
 }
 
 /* AI Entrance Styles */
 .ai-box {
-  background: linear-gradient(135deg, rgba(76, 201, 240, 0.2) 0%, rgba(22, 33, 62, 0.8) 100%);
-  border: 1rpx solid var(--primary-color);
-  box-shadow: 0 0 20rpx rgba(76, 201, 240, 0.3);
-  padding: 30rpx;
-  margin-bottom: 30rpx;
-  border-radius: 16rpx;
+  background: linear-gradient(135deg, #3B99FC 0%, #1A7DF9 100%);
+  border-radius: 24rpx;
+  padding: 40rpx;
+  margin-bottom: 50rpx;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 12rpx 28rpx rgba(59, 153, 252, 0.25);
+  transition: transform 0.2s ease;
 }
 
-.ai-icon-img {
-  width: 100rpx;
-  height: 100rpx;
-  filter: drop-shadow(0 0 10rpx var(--primary-color));
+.ai-box:active {
+  transform: scale(0.98);
 }
 
-.ai-text h3 {
-  color: var(--primary-color);
+.ai-info {
+  flex: 1;
+  padding-right: 20rpx;
+}
+
+.ai-title {
   font-size: 36rpx;
-  font-weight: bold;
-  text-shadow: 0 0 8rpx var(--primary-color);
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 12rpx;
 }
 
-.ai-text p {
-  color: var(--text-sub);
-  font-size: 24rpx;
+.ai-desc {
+  font-size: 26rpx;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.5;
+}
+
+.ai-btn {
+  margin: 0;
+  background: #FFFFFF;
+  color: #1A7DF9;
+  font-size: 28rpx;
+  font-weight: 600;
+  border-radius: 40rpx;
+  padding: 0 32rpx;
+  height: 64rpx;
+  line-height: 64rpx;
+  flex-shrink: 0;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+}
+
+.ai-btn::after {
+  display: none;
+}
+
+/* Doctor Team Section */
+.section-title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #1A2233;
+  margin-bottom: 30rpx;
+  padding-left: 4rpx;
+}
+
+.doc-card {
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  padding: 40rpx;
+  margin-bottom: 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4rpx 20rpx rgba(13, 26, 43, 0.04);
+}
+
+.doc-info {
+  flex: 1;
+}
+
+.name {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #1A2233;
+  display: flex;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+
+.title {
+  font-size: 22rpx;
+  color: #3B99FC;
+  background: #F0F6FF;
+  padding: 4rpx 16rpx;
+  border-radius: 12rpx;
+  margin-left: 16rpx;
+  font-weight: 500;
+}
+
+.dept {
+  font-size: 28rpx;
+  color: #728299;
+}
+
+.contact-btn {
+  margin: 0;
+  background: #F0F6FF;
+  color: #3B99FC;
+  font-size: 28rpx;
+  font-weight: 600;
+  border-radius: 40rpx;
+  padding: 0 40rpx;
+  height: 64rpx;
+  line-height: 64rpx;
+  flex-shrink: 0;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.contact-btn::after {
+  display: none;
+}
+
+.contact-btn:active {
+  transform: scale(0.95);
+  background: #E1EFFF;
 }

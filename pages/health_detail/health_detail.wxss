@@ -1,0 +1,205 @@
+.detail-container {
+  min-height: 100vh;
+  background: #F4FAFF;
+  position: relative;
+  padding-bottom: 40rpx;
+}
+.top-bg-decor {
+  height: 300rpx;
+  background: linear-gradient(180deg, #D4EBFF 0%, #F4FAFF 100%);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+.content-wrapper {
+  position: relative;
+  z-index: 2;
+  padding: 30rpx;
+}
+.glass-card {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1rpx solid rgba(255, 255, 255, 0.9);
+  border-radius: 24rpx;
+  box-shadow: 0 10rpx 40rpx rgba(133, 196, 255, 0.15);
+  margin-bottom: 30rpx;
+  padding: 30rpx;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Summary Card */
+.card-header {
+  display: flex;
+  align-items: center;
+  font-size: 26rpx;
+  color: #333;
+  margin-bottom: 30rpx;
+  padding-bottom: 20rpx;
+  border-bottom: 1rpx solid #F0F4F8;
+}
+.date-text { font-size: 30rpx; font-weight: bold; }
+.divider { margin: 0 16rpx; color: #DCEDFF; }
+.lunar-text { color: #666; }
+
+.metrics-row {
+  display: flex;
+  justify-content: space-between;
+}
+.metric-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+.border-left::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 15%;
+  height: 70%;
+  width: 2rpx;
+  background: rgba(200, 220, 240, 0.6);
+}
+.metric-value {
+  font-size: 48rpx;
+  font-weight: 900;
+  color: #1A3B5C;
+  display: flex;
+  align-items: baseline;
+}
+.unit, .unit-s {
+  font-size: 24rpx;
+  color: #666;
+  font-weight: normal;
+  margin-left: 6rpx;
+}
+.unit-s { font-size: 20rpx; }
+.trend {
+  font-size: 22rpx;
+  margin-left: 8rpx;
+  font-weight: normal;
+}
+.trend.up { color: #FF6B6B; }
+.trend.down { color: #20C997; }
+
+.metric-desc {
+  font-size: 24rpx;
+  color: #666;
+  margin-top: 16rpx;
+  display: flex;
+  align-items: center;
+}
+.tag {
+  font-size: 18rpx;
+  color: #FFF;
+  padding: 2rpx 8rpx;
+  border-radius: 6rpx;
+  margin-right: 8rpx;
+}
+.tag.green { background: #20C997; }
+.tag.red { background: #FF6B6B; }
+.tag.gray { background: #A0B2C6; }
+
+/* Seasonal Card */
+.seasonal-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40rpx 30rpx;
+}
+.seasonal-content { flex: 1; }
+.seasonal-title { font-size: 32rpx; font-weight: bold; margin-bottom: 12rpx; color: #1A3B5C; }
+.seasonal-desc { font-size: 26rpx; color: #5C7084; margin-bottom: 24rpx; }
+.seasonal-rec { font-size: 24rpx; color: #2F80ED; background: rgba(47,128,237,0.08); display: inline-block; padding: 6rpx 16rpx; border-radius: 8rpx; margin-bottom: 20rpx; }
+.seasonal-btn { font-size: 24rpx; color: #666; border: 1rpx solid #E0E8F0; padding: 6rpx 20rpx; border-radius: 30rpx; display: inline-block; }
+.seasonal-img { width: 140rpx; height: 140rpx; margin-left: 30rpx; }
+
+/* Trend Card */
+.trend-title { font-size: 32rpx; font-weight: bold; margin-bottom: 30rpx; color: #1A3B5C; }
+.trend-chart-area { position: relative; height: 180rpx; }
+.trend-line-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+.fake-curve { width: 100%; height: 60rpx; border-top: 4rpx solid #5BA3FF; border-radius: 50% 50% 0 0 / 100% 100% 0 0; margin-top: 40rpx; }
+.trend-points { display: flex; justify-content: space-around; width: 100%; position: absolute; bottom: 10rpx; }
+.t-point { display: flex; flex-direction: column; align-items: center; font-size: 20rpx; color: #A0B2C6; }
+.t-point.mt-1 { margin-top: -30rpx; }
+.t-point.mt-2 { margin-top: -10rpx; }
+.t-point.mt-3 { margin-top: 10rpx; }
+.t-val { font-size: 24rpx; margin-bottom: 12rpx; font-weight: bold; height: 32rpx;}
+.t-val.black { color: #333; }
+.t-dot { width: 12rpx; height: 12rpx; background: #CDE2F5; border-radius: 50%; border: 4rpx solid #FFF; margin-bottom: 8rpx; z-index: 2; box-shadow: 0 4rpx 8rpx rgba(0,0,0,0.1); }
+.t-dot-active { background: #5BA3FF; border: 4rpx solid #FFF; width: 16rpx; height: 16rpx; }
+.up-arr { color: #FF6B6B; font-size: 18rpx; }
+.down-arr { color: #20C997; font-size: 18rpx; }
+
+/* Action Banner (Replicated from Plan page) */
+.action-banner { 
+  position: relative; 
+  background: linear-gradient(110deg, #F0FBF0 0%, #DBF3FE 45%, #AEE0FE 100%); 
+  border: 3rpx solid #FFFFFF; 
+  border-radius: 20rpx; 
+  padding: 28rpx 32rpx; 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  box-shadow: 0 6rpx 16rpx rgba(182, 214, 244, 0.5); 
+  overflow: hidden; 
+}
+.action-banner::before { 
+  content: ""; 
+  position: absolute; 
+  bottom: -20rpx; 
+  left: 10%; 
+  width: 70%; 
+  height: 50rpx; 
+  border-top: 4rpx solid rgba(255, 255, 255, 0.8); 
+  border-radius: 50%; 
+  transform: rotate(-5deg); 
+  pointer-events: none; 
+}        
+.action-banner::after { 
+  content: ""; 
+  position: absolute; 
+  bottom: -30rpx; 
+  right: -10%; 
+  width: 60%; 
+  height: 70rpx; 
+  border-top: 6rpx solid rgba(255, 255, 255, 0.5); 
+  border-radius: 50%; 
+  transform: rotate(10deg); 
+  pointer-events: none; 
+}       
+.action-content { 
+  display: flex; 
+  flex-direction: column; 
+  position: relative; 
+  z-index: 2; 
+}
+.action-title { 
+  font-size: 32rpx; 
+  font-weight: bold; 
+  color: #0C2855; 
+  margin-bottom: 12rpx; 
+  letter-spacing: 1rpx; 
+}
+.action-desc { 
+  font-size: 22rpx; 
+  color: #6A8198; 
+  font-weight: 400; 
+  margin-top: 0 !important;
+}     
+.action-btn { 
+  position: relative; 
+  z-index: 2; 
+  font-size: 24rpx; 
+  background: linear-gradient(90deg, #44C7FF 0%, #1562FF 100%); 
+  padding: 12rpx 32rpx; 
+  border-radius: 40rpx; 
+  color: #FFFFFF; 
+  font-weight: 500; 
+  box-shadow: 0 4rpx 10rpx rgba(32, 109, 254, 0.3), 0 0 0 6rpx rgba(255, 255, 255, 0.6); 
+  white-space: nowrap; 
+  border: none; 
+}

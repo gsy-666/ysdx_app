@@ -1,0 +1,19 @@
+<view class="container">
+  <view class="header-bg"></view>
+  <view class="card main-card">
+    <view class="card-title">意见反馈</view>
+    <view class="form-container">
+      <view class="form-label">问题类型</view>
+      <picker bindchange="onTypeChange" value="{{typeIndex}}" range="{{types}}">
+        <view class="picker-box">
+          {{types[typeIndex] || "请选择问题类型"}}
+        </view>
+      </picker>
+
+      <view class="form-label mt-40">问题描述</view>
+      <textarea class="textarea-box" placeholder="请详细描述您遇到的问题或建议（不少于10个字）" bindinput="onContentInput"></textarea>
+
+      <button class="primary-btn mt-60" bindtap="submitFeedback">提交反馈</button>
+    </view>
+  </view>
+</view>

@@ -8,7 +8,7 @@
     <view class="q-item" wx:for="{{questions}}" wx:key="index">
       <view class="q-text">{{index + 1}}. {{item.text}}</view>
       <radio-group class="opt-group" bindchange="handleOptionChange" data-idx="{{index}}">
-        <label class="opt-label" wx:for="{{options}}" wx:for-item="opt" wx:key="value">
+        <label class="opt-label {{item.answer === opt.value ? 'checked' : ''}}" wx:for="{{options}}" wx:for-item="opt" wx:key="value">
           <radio value="{{opt.value}}" checked="{{item.answer === opt.value}}" />
           {{opt.label}}
         </label>

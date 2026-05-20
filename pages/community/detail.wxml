@@ -10,7 +10,7 @@
           <view class="author-name">{{postInfo.authorName || '匿名用户'}}</view>
           <view class="post-time">{{postInfo.createTime}}</view>
         </view>
-        <view class="follow-btn {{postInfo.isFollowed ? 'followed' : ''}}" bindtap="toggleFollow" catchtap="true">
+        <view class="follow-btn {{postInfo.isFollowed ? 'followed' : ''}}" catchtap="toggleFollow">
           {{postInfo.isFollowed ? '已关注' : '+关注'}}
         </view>
       </view>
@@ -25,20 +25,21 @@
       </view>
       <!-- 互动栏 -->
       <view class="post-interact">
-        <view class="interact-item" bindtap="toggleLike" catchtap="true">
+        <view class="interact-item" catchtap="toggleLike">
           <!-- <image src="{{postInfo.isLiked ? '/static/like_active.png' : '/static/like.png'}}" class="interact-icon"></image> -->
-          <text class="emoji-icon">{{postInfo.isLiked ? '❤️' : '🤍'}}</text>
+          <text class="emoji-icon" style="color: {{postInfo.isLiked ? '#FF4D4F' : '#64748B'}};">{{postInfo.isLiked ? '♥' : '♡'}}</text>
           <text>{{postInfo.likeCount || 0}}</text>
         </view>
-        <view class="interact-item" bindtap="toggleCollect" catchtap="true">
+        <view class="interact-item" catchtap="toggleCollect">
           <!-- <image src="{{postInfo.isCollected ? '/static/collect_active.png' : '/static/collect.png'}}" class="interact-icon"></image> -->
-          <text class="emoji-icon">{{postInfo.isCollected ? '⭐' : '☆'}}</text>
+          <text class="emoji-icon" style="color: {{postInfo.isCollected ? '#FDB933' : '#64748B'}};">{{postInfo.isCollected ? '★' : '☆'}}</text>
           <text>{{postInfo.collectCount || 0}}</text>
         </view>
-        <view class="interact-item" bindtap="sharePost" catchtap="true">
-          <!-- <image src="/static/share.png" class="interact-icon"></image> -->
-          <text class="emoji-icon">↗️</text>
-          <text>分享</text>
+        <view class="interact-item" catchtap="noopTap">
+          <button open-type="share" class="share-btn-wrap">
+            <text class="emoji-icon">🔗</text>
+            <text>分享</text>
+          </button>
         </view>
       </view>
     </view>
@@ -63,11 +64,11 @@
               <view class="comment-footer">
                 <text class="comment-time">{{item.createTime}}</text>
                 <view class="comment-interact">
-                  <text class="comment-like" bindtap="likeComment" data-id="{{item.id}}" catchtap="true">
+                  <text class="comment-like" catchtap="likeComment" data-id="{{item.id}}">
                     {{item.likeCount || 0}} 赞
                   </text>
-                  <text class="comment-reply" bindtap="replyComment" data-id="{{item.id}}"
-                    data-name="{{item.authorName}}" catchtap="true">
+                  <text class="comment-reply" catchtap="replyComment" data-id="{{item.id}}"
+                    data-name="{{item.authorName}}">
                     回复
                   </text>
                 </view>
@@ -86,7 +87,7 @@
               <view class="reply-input-box" wx:if="{{replyId === item.id}}">
                 <input class="reply-input" placeholder="回复 {{item.authorName}}..." bindinput="bindReplyInput"
                   value="{{replyContent}}" />
-                <button class="reply-send-btn" bindtap="publishReply" data-id="{{item.id}}" catchtap="true">发送</button>
+                <button class="reply-send-btn" catchtap="publishReply" data-id="{{item.id}}">发送</button>
               </view>
             </view>
           </view>

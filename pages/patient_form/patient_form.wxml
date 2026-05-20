@@ -1,0 +1,51 @@
+<view class="container">
+  <view class="header-bg"></view>
+  <view class="card main-card">
+    <view class="form-group">
+      <view class="form-item">
+        <text class="label">姓名</text>
+        <input class="input-box" placeholder="请输入就诊人真实姓名" value="{{formData.name}}" bindinput="onInput" data-field="name" />
+      </view>
+
+      <view class="form-item">
+        <text class="label">关系</text>
+        <picker bindchange="onRelationChange" value="{{relationIndex}}" range="{{relations}}">
+          <view class="picker-text {{formData.relation ? '' : 'placeholder'}}">
+            {{formData.relation || '请选择与本人关系'}}
+          </view>
+        </picker>
+      </view>
+
+      <view class="form-item">
+        <text class="label">性别</text>
+        <radio-group class="radio-group" bindchange="onGenderChange">
+          <label class="radio-label">
+            <radio value="男" checked="{{formData.gender === '男'}}" color="#3B99FC"/> 男
+          </label>
+          <label class="radio-label">
+            <radio value="女" checked="{{formData.gender === '女'}}" color="#3B99FC"/> 女
+          </label>
+        </radio-group>
+      </view>
+
+      <view class="form-item">
+        <text class="label">年龄</text>
+        <input class="input-box" type="number" placeholder="请输入年龄" value="{{formData.age}}" bindinput="onInput" data-field="age" />
+      </view>
+
+      <view class="form-item">
+        <text class="label">身份证</text>
+        <input class="input-box" type="idcard" placeholder="请输入身份证号码" value="{{formData.idCard}}" bindinput="onInput" data-field="idCard" />
+      </view>
+
+      <view class="form-item">
+        <text class="label">手机号</text>
+        <input class="input-box" type="number" placeholder="请输入联系手机号" value="{{formData.phone}}" bindinput="onInput" data-field="phone" maxlength="11" />
+      </view>
+    </view>
+  </view>
+
+  <view class="bottom-btn-area">
+    <button class="primary-btn" bindtap="submitForm">保存</button>
+  </view>
+</view>

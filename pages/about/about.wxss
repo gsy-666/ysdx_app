@@ -1,0 +1,71 @@
+page {
+  background: linear-gradient(180deg, #f4f9ff 0%, #eef6f4 100%);
+  min-height: 100vh;
+}
+
+.about-page {
+  padding: 32rpx 24rpx 40rpx;
+}
+
+.hero-card {
+  background: linear-gradient(135deg, #1d6fa3 0%, #2a8f7b 100%);
+  border-radius: 20rpx;
+  padding: 36rpx 30rpx;
+  box-shadow: 0 10rpx 28rpx rgba(29, 111, 163, 0.22);
+  margin-bottom: 20rpx;
+}
+
+.hero-title {
+  color: #ffffff;
+  font-size: 36rpx;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.hero-subtitle {
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 26rpx;
+  margin-top: 12rpx;
+  line-height: 1.6;
+}
+
+.section-card {
+  background: #ffffff;
+  border-radius: 16rpx;
+  padding: 28rpx 24rpx;
+  margin-bottom: 16rpx;
+  box-shadow: 0 6rpx 20rpx rgba(37, 80, 118, 0.08);
+}
+
+.section-title {
+  font-size: 30rpx;
+  color: #1e405d;
+  font-weight: 700;
+  margin-bottom: 12rpx;
+}
+
+.section-text {
+  font-size: 27rpx;
+  color: #33485a;
+  line-height: 1.9;
+}
+
+.module-list {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -8rpx;
+  margin-right: -8rpx;
+}
+
+.module-item {
+  width: calc(50% - 16rpx);
+  margin: 8rpx;
+  background: #f2f8fd;
+  border: 1rpx solid #dbeaf6;
+  border-radius: 12rpx;
+  text-align: center;
+  padding: 18rpx 8rpx;
+  font-size: 26rpx;
+  color: #255376;
+  font-weight: 500;
+}

@@ -1,174 +1,212 @@
 /* pages/profile/profile.wxss */
 page {
-  background-color: var(--bg-color);
-  font-family: inherit;
+    background-color: #F5F7FA;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    padding-bottom: 60rpx;
 }
 
 .container {
-  padding-bottom: 40rpx;
+    display: block;
+    width: 100%;
+    padding: 0;
+    margin: 0;
 }
 
-/* Header - 科技深蓝 */
+/* 高级头部渐变背景 */
 .header-bg {
-  background: linear-gradient(135deg, rgba(22, 33, 62, 0.95), rgba(11, 17, 32, 0.95));
-  padding: 40rpx 40rpx 100rpx 40rpx;
-  color: var(--text-main);
-  border-bottom: 1px solid var(--border-color);
+    background: linear-gradient(180deg, #E6F3FB 0%, #F5F7FA 100%);
+    padding: 60rpx 40rpx 140rpx;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start !important;
+    position: relative;
 }
 
 .user-info {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start !important;
+    width: 100%;
 }
 
-/* Fix for avatar inside button */
+.avatar-wrapper {
+    width: 130rpx;
+    height: 130rpx;
+    margin-right: 30rpx;
+    border-radius: 50%;
+    flex-shrink: 0;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 8rpx 20rpx rgba(13, 26, 43, 0.05);
+}
+
 .avatar-btn {
-  width: 120rpx;
-  height: 120rpx;
-  padding: 0;
-  border-radius: 50%;
-  margin-right: 30rpx;
-  background: transparent;
-  border: none;
+    padding: 0;
+    margin: 0 !important;
+    background: none;
+    border: none;
+    width: 100% !important;
+    height: 100% !important;
+    line-height: normal;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .avatar-btn::after {
-  border: none;
+    border: none;
 }
 
-/* 头像样式 - 科技光圈 */
 .avatar {
-  width: 120rpx;
-  height: 120rpx;
-  border-radius: 50%;
-  border: 4rpx solid var(--primary-color);
-  background: rgba(0, 0, 0, 0.3);
-  box-shadow: 0 0 15rpx rgba(76, 201, 240, 0.4);
+    width: 130rpx;
+    height: 130rpx;
+    border-radius: 50%;
+    border: 4rpx solid #FFFFFF;
+    display: block;
+    box-sizing: border-box;
 }
 
 .text-info {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .name {
-  font-size: 36rpx;
-  font-weight: 500;
-  margin-bottom: 10rpx;
-  letter-spacing: 3rpx;
-  color: var(--primary-color);
-  text-shadow: 0 0 5rpx var(--primary-color);
+    font-size: 42rpx;
+    font-weight: 600;
+    color: #213245;
+    margin-bottom: 12rpx;
+    display: flex;
+    align-items: center;
 }
 
 .role-tag {
-  font-size: 22rpx;
-  background: rgba(76, 201, 240, 0.2);
-  padding: 2rpx 10rpx;
-  border-radius: 8rpx;
-  margin-left: 10rpx;
-  border: 1rpx solid var(--primary-color);
+    font-size: 22rpx;
+    background: linear-gradient(90deg, #EBF4FF 0%, #EBF4FF 100%);
+    color: #1A7DF9;
+    padding: 6rpx 14rpx;
+    border-radius: 12rpx;
+    margin-left: 16rpx;
+    font-weight: 500;
 }
 
 .uid {
-  font-size: 24rpx;
-  opacity: 0.9;
-  letter-spacing: 2rpx;
-  color: var(--text-sub);
+    font-size: 26rpx;
+    color: #8C99A8;
+    font-weight: 400;
 }
 
-/* Card Common - 玻璃拟态 */
+/* 统一高级卡片阴影风格 */
 .card {
-  background: var(--card-bg);
-  backdrop-filter: blur(5px);
-  border-radius: 16rpx;
-  margin: 0 30rpx 30rpx 30rpx;
-  padding: 30rpx;
-  box-shadow: 0 4rpx 15rpx rgba(0, 0, 0, 0.4);
-  border: 1rpx solid var(--border-color);
+    background: #FFFFFF;
+    border-radius: 20rpx;
+    margin: 0 30rpx 24rpx;
+    padding: 36rpx 30rpx;
+    box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.03);
 }
 
-/* 卡片标题 */
-.card-title {
-  font-size: 30rpx;
-  font-weight: 500;
-  color: var(--text-main);
-  margin-bottom: 30rpx;
-  border-left: 8rpx solid var(--primary-color);
-  padding-left: 20rpx;
-  letter-spacing: 3rpx;
-  text-shadow: 0 0 3rpx var(--primary-color);
-}
-
-/* Stats Strip (Overlaps Header) */
+/* 悬浮数据统计栏 */
 .stats-strip {
-  display: flex;
-  justify-content: space-around;
-  margin-top: -60rpx;
-  padding: 30rpx 0;
-  position: relative;
-  z-index: 10;
+    margin-top: -90rpx;
+    display: flex;
+    justify-content: space-around;
+    padding: 40rpx 0;
+    position: relative;
+    z-index: 10;
 }
 
 .stat-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    position: relative;
+}
+
+/* 添加数据栏的竖向分割线 */
+.stat-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 25%;
+    height: 50%;
+    width: 2rpx;
+    background-color: #F0F2F5;
 }
 
 .stat-item .num {
-    color: var(--primary-color);
-    font-size: 36rpx;
+    font-size: 38rpx;
     font-weight: bold;
-    text-shadow: 0 0 5rpx var(--primary-color);
-    margin-bottom: 8rpx;
+    color: #213245;
+    margin-bottom: 10rpx;
 }
 
 .stat-item .label {
-    color: var(--text-sub);
     font-size: 24rpx;
+    color: #8C99A8;
 }
 
-/* Grid Box (My Services) */
+/* 标题样式：移除旧边框，改用更好看的标块 */
+.card-title {
+    font-size: 32rpx;
+    font-weight: bold;
+    color: #213245;
+    margin-bottom: 40rpx;
+    display: flex;
+    align-items: center;
+    border: none !important;
+    padding-left: 0 !important;
+}
+
+.card-title::before {
+    content: '';
+    display: inline-block;
+    width: 8rpx;
+    height: 30rpx;
+    background: linear-gradient(180deg, #3B99FC 0%, #1A7DF9 100%);
+    border-radius: 4rpx;
+    margin-right: 16rpx;
+}
+
+/* Service Grid - 高级排版 */
 .grid-box {
-  display: flex;
-  flex-wrap: wrap;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
 }
 
 .grid-item {
-  width: 25%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 20rpx;
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 16rpx;
 }
 
 .grid-icon {
-  width: 80rpx;
-  height: 80rpx;
-  margin-bottom: 16rpx;
-  background: rgba(76, 201, 240, 0.1);
-  border-radius: 16rpx;
-  padding: 16rpx;
-  box-sizing: border-box;
-  border: 1rpx solid var(--border-color);
-  box-shadow: 0 0 10rpx rgba(76, 201, 240, 0.1);
+    width: 88rpx;
+    height: 88rpx;
+    margin-bottom: 16rpx;
 }
 
 .grid-item text {
-  font-size: 24rpx;
-  color: var(--text-main);
+    font-size: 24rpx;
+    color: #4A5666;
 }
 
-/* Menu List */
+/* Menu List - 更加精致 */
 .menu-card {
-  padding: 0 30rpx;
+    padding: 10rpx 36rpx;
 }
 
 .menu-item {
-    padding: 30rpx 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     align-items: center;
+    padding: 32rpx 0;
+    border-bottom: 1rpx solid #F6F8FA;
 }
 
 .menu-item:last-child {
@@ -176,37 +214,44 @@ page {
 }
 
 .menu-icon {
-  width: 40rpx;
-  height: 40rpx;
-  margin-right: 20rpx;
-  opacity: 0.8;
+    width: 40rpx;
+    height: 40rpx;
+    margin-right: 24rpx;
+    opacity: 0.85;
 }
 
 .menu-text {
     flex: 1;
     font-size: 28rpx;
-    color: var(--text-main);
+    color: #334155;
+    font-weight: 500;
 }
 
 .arrow {
-    color: var(--border-color);
-    font-size: 30rpx;
+    color: #C0C8D1;
+    font-size: 28rpx;
+    font-weight: 300;
 }
 
-/* Logout Button */
 .footer {
-  margin: 60rpx 30rpx;
+    padding: 40rpx 50rpx;
+    margin-top: 20rpx;
 }
 
 .logout-btn {
-  background: rgba(255, 77, 79, 0.1);
-  color: #ff4d4f;
-  border: 1rpx solid #ff4d4f;
-  border-radius: 40rpx;
-  font-size: 30rpx;
-  box-shadow: 0 0 10rpx rgba(255, 77, 79, 0.2);
+    background: #FFFFFF;
+    color: #FF5A5F;
+    border: none;
+    border-radius: 44rpx;
+    font-size: 30rpx;
+    font-weight: 500;
+    height: 88rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4rpx 20rpx rgba(255, 90, 95, 0.08);
 }
 
-.logout-btn:active {
-  background: rgba(255, 77, 79, 0.2);
+.logout-btn::after {
+    display: none;
 }

@@ -1,0 +1,74 @@
+page {
+  background-color: var(--bg-color);
+}
+.header-bg {
+  background: linear-gradient(180deg, #E6F3FB 0%, #F0F4F7 100%);
+  height: 200rpx;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+.card {
+  background: #FFFFFF;
+  border-radius: 20rpx;
+  margin: 0 30rpx 24rpx;
+  padding: 40rpx 30rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.03);
+}
+.main-card {
+  margin-top: 40rpx;
+}
+.card-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: var(--text-main);
+  margin-bottom: 40rpx;
+  display: flex;
+  align-items: center;
+}
+.card-title::before {
+  content: "";
+  display: inline-block;
+  width: 8rpx;
+  height: 30rpx;
+  background: linear-gradient(180deg, #3B99FC 0%, #1A7DF9 100%);
+  border-radius: 4rpx;
+  margin-right: 16rpx;
+}
+.form-label {
+  font-size: 28rpx;
+  color: var(--text-main);
+  font-weight: 500;
+  margin-bottom: 20rpx;
+}
+.mt-40 {
+  margin-top: 40rpx;
+}
+.mt-60 {
+  margin-top: 60rpx;
+}
+.picker-box, .textarea-box {
+  background: #F8FAFC;
+  border-radius: 12rpx;
+  padding: 24rpx;
+  font-size: 28rpx;
+  color: var(--text-main);
+  border: 1rpx solid #E6EEF5;
+}
+.textarea-box {
+  width: 100%;
+  height: 240rpx;
+  box-sizing: border-box;
+}
+.primary-btn {
+  background: linear-gradient(90deg, #3B99FC 0%, #1A7DF9 100%);
+  color: #fff;
+  border-radius: 44rpx;
+  font-size: 30rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  box-shadow: 0 8rpx 20rpx rgba(26, 125, 249, 0.2);
+}

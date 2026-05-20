@@ -7,20 +7,20 @@ Page({
     const id = options.id;
     if (id) {
       this.fetchDetail(id);
+    } else {
+      wx.showToast({
+        title: '文章参数缺失',
+        icon: 'none'
+      });
     }
   },
   fetchDetail: function (id) {
     const that = this;
-    request({
-      url: '/article/getById',
-      method: 'GET',
-      data: { id: id }
-    }).then(res => {
+    request('/article/getById', 'GET', { id: id }).then(res => {
       that.setData({
         article: res
       });
     }).catch(err => {
-      console.error(err);
       wx.showToast({
         title: '加载文章失败',
         icon: 'none'

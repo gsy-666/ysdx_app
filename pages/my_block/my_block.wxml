@@ -1,0 +1,10 @@
+<view class="container">
+  <view class="header-bg"></view>
+  <view class="card main-card">
+    <view class="card-title">屏蔽列表</view>
+    <view class="empty-state">
+      <image class="empty-img" src="/static/default_avatar.svg" mode="aspectFit"></image>
+      <text class="empty-text">您还没有屏蔽任何人</text>
+    </view>
+  </view>
+</view>

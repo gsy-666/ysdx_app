@@ -1,0 +1,87 @@
+<view class="container">
+  <!-- 顶部区域 -->
+  <view class="top-section">
+    <view class="nav-bar">
+      <text class="nav-title">AI健康助理</text>
+    </view>
+
+    <view class="avatar-ring-wrapper">
+      <image class="avatar-img" src="/static/doctor_origin.png" mode="aspectFit"></image>
+      <view class="hud-overlay">
+        <view class="hud-ring-ticks"></view>
+        <view class="hud-arc-glow"></view>
+      </view>
+      
+      <!-- 指数悬浮牌 -->
+      <view class="hud-text-center">
+        <text class="hud-lbl-top">体质辨识</text>
+        <view class="hud-score-box">
+          <text class="hud-score-num">98</text>
+          <text class="hud-score-unit">%</text>
+        </view>
+        <text class="hud-lbl-bottom">代谢指数</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 四诊网格菜单 -->
+  <view class="grid-menu">
+    <block wx:for="{{features}}" wx:key="id">
+      <view class="grid-item {{item.bgClass}}" bindtap="onFeatureTap" data-index="{{index}}">
+        <view class="item-content">
+          <text class="grid-title">{{item.title}}</text>
+          <text class="grid-sub">{{item.sub}}</text>
+          <view class="grid-icon">{{item.icon}}</view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <!-- 一键辨识按钮 -->
+  <view class="action-section">
+    <button class="action-btn" bindtap="onIdentify">一键辨识</button>
+  </view>
+
+  <!-- 图表区域 -->
+  <view class="dashboard-section">
+    <view class="dashboard-card paper-bg">
+      <view class="card-header">
+        <text class="card-title-lg">舌诊分析</text>
+        <text class="card-title-sub">舌质/舌苔</text>
+      </view>
+      <view class="chart-box">
+        <ec-canvas id="mychart-dom-left" canvas-id="mychart-left" ec="{{ ecLeft }}"></ec-canvas>
+      </view>
+      <view class="card-footer">
+        <view class="footer-col">
+          <text class="val">高</text>
+          <text class="lbl">湿热</text>
+        </view>
+        <view class="footer-col">
+          <text class="val">平和</text>
+          <text class="lbl">体质</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="dashboard-card paper-bg">
+      <view class="card-header">
+        <text class="card-title-lg">闻诊</text>
+        <text class="card-title-sub">心肺/肝</text>
+      </view>
+      <view class="chart-box">
+        <ec-canvas id="mychart-dom-right" canvas-id="mychart-right" ec="{{ ecRight }}"></ec-canvas>
+      </view>
+      <view class="card-footer">
+        <view class="footer-col">
+          <text class="val">清亮</text>
+          <text class="lbl">音色</text>
+        </view>
+        <view class="footer-col">
+          <text class="val">正常</text>
+          <text class="lbl">频率</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

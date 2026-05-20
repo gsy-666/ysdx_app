@@ -1,0 +1,12 @@
+<view class="container">
+  <view class="header-bg"></view>
+  <view class="card main-card">
+    <view class="card-title">建议医嘱</view>
+    <view class="advice-list">
+      <view class="empty-state">
+        <image class="empty-img" src="/static/default_avatar.svg" mode="aspectFit"></image>
+        <text class="empty-text">暂无医嘱记录</text>
+      </view>
+    </view>
+  </view>
+</view>

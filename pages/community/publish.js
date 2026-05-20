@@ -92,13 +92,27 @@ Page({
   uploadImages() {
     if (this.data.images.length === 0) return Promise.resolve([]);
 
-    // 模拟图片上传，实际项目替换为真实上传接口
-    return new Promise((resolve) => {
-      // 这里只是返回临时路径，实际需要上传到OSS/服务器，返回真实URL
-      setTimeout(() => {
-        resolve(this.data.images);
-      }, 1000);
+    // 上传到微信云存储，返回 fileID（可跨设备访问）
+    const uploadTasks = this.data.images.map((filePath, idx) => {
+      const extMatch = /\.[a-zA-Z0-9]+$/.exec(filePath || '');
+      const ext = extMatch ? extMatch[0] : '.jpg';
+      const cloudPath = `community/${Date.now()}_${idx}_${Math.floor(Math.random() * 100000)}${ext}`;
+
+      return new Promise((resolve, reject) => {
+        wx.cloud.uploadFile({
+          cloudPath,
+          filePath,
+          success: (res) => resolve(res.fileID),
+          fail: (err) => reject(err)
+        });
+      });
     });
+
+    return Promise.all(uploadTasks);
+  },
+
+  isCloudFileIds(list) {
+    return Array.isArray(list) && list.every((item) => typeof item === 'string' && item.startsWith('cloud://'));
   },
 
   // 发布帖子
@@ -113,10 +127,11 @@ Page({
     this.setData({ publishing: true });
 
     try {
-      // 1. 上传图片 (模拟，实际应上传至服务器)
-      // const imageUrls = await this.uploadImages(); 
-      //使用本地临时路径演示
-      const imageUrls = images;
+      // 1. 上传图片，获得可共享的云文件ID
+      const imageUrls = await this.uploadImages();
+      if (imageUrls.length > 0 && !this.isCloudFileIds(imageUrls)) {
+        throw new Error('图片上传结果异常，未获得云文件ID');
+      }
 
       // 2. 构造文章对象
       const userInfo = wx.getStorageSync('userInfo') || {};
@@ -139,6 +154,7 @@ Page({
         title: title,
         content: content,
         categoryId: categoryId,
+        coverImg: imageUrls[0] || '',
         images: JSON.stringify(imageUrls), // 存为JSON字符串
         author: authorName,
         authorId: authorId,

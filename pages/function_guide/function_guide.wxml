@@ -1,0 +1,20 @@
+<view class="container">
+  <view class="header-bg"></view>
+  <view class="card main-card">
+    <view class="card-title">功能引导与常见问题</view>
+    <view class="faq-list">
+      <view class="faq-item">
+        <view class="question">如何进行在线咨询？</view>
+        <view class="answer">点击首页“在线咨询”，选择科室和医生，即可发送消息进行咨询。</view>
+      </view>
+      <view class="faq-item">
+        <view class="question">如何查看诊断方案？</view>
+        <view class="answer">诊断方案会在问诊结束后由医生发送，您可以在“我的”或“诊断方案”页面中查看详细内容。</view>
+      </view>
+      <view class="faq-item">
+        <view class="question">关于退款规则？</view>
+        <view class="answer">在医生未接单前，您随时可以取消并获得全额退款。接单后如有特殊情况需联系客服处理。</view>
+      </view>
+    </view>
+  </view>
+</view>

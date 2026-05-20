@@ -1,0 +1,11 @@
+<view class="container">
+  <!-- 复诊表单 页面内容 -->
+  <view class="header-bg"></view>
+  <view class="card main-card">
+    <view class="card-title">复诊表单</view>
+    <view class="empty-state">
+      <image class="empty-img" src="/static/default_avatar.svg" mode="aspectFit"></image>
+      <text class="empty-text">暂无内容</text>
+    </view>
+  </view>
+</view>

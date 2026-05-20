@@ -1,0 +1,404 @@
+c:\Users\gsy_666\xwechat_files\wxid_ero6zqbdz19122_ada9\temp\RWTemp\2026-03\53bc0e15d80a4b7b53e1d4f6b5888b3d.jpg
+<!--pages/diagnose/detail/detail.wxml-->
+<view class="page-bg"></view>
+<view class="container">
+  <view class="header">
+    <view class="title">{{typeName}}</view>
+  </view>
+
+  <!-- Symptoms and Intro Card -->
+  <view class="card intro-card" wx:if="{{pageDesc}}">
+    <view class="intro-header">
+      <view class="intro-title">风险介绍与症状</view>
+      <view class="risk-badge {{riskLevel}}">
+        {{riskLevel === 'high' ? '高风险' : (riskLevel === 'medium' ? '中风险' : '低风险')}}
+      </view>
+    </view>
+    <view class="intro-desc">{{pageDesc}}</view>
+    <view class="intro-tags">
+      <view class="tag" wx:for="{{riskItems}}" wx:key="*this">{{item}}</view>
+    </view>
+
+    <!-- Extracted from Table Data: Warm Tips & Assessment tools -->
+    <view class="intro-tips" wx:if="{{pageTips}}">
+      <view class="tips-title">温馨提示：</view>
+      <view class="tips-content">{{pageTips}}</view>
+    </view>
+    <view class="intro-eval" wx:if="{{evalMethod}}">
+      <text class="eval-title">风险评估工具：</text>
+      <text class="eval-method">{{evalMethod}}</text>
+    </view>
+  </view>
+
+  <!-- Emotion Assessment -->
+  <block wx:if="{{type === 'emotion'}}">
+    <view class="card">
+      <view class="card-title">情绪风险评估</view>
+      <view class="menu-card" bindtap="goTest" data-type="1">
+        <view class="icon-box" style="background-color: #e1f3d8;">
+          <text class="icon-text">焦虑</text>
+        </view>
+        <view class="content">
+          <view class="ct-title">焦虑自评量表 (SAS)</view>
+          <view class="ct-desc">用于评定焦虑症状的轻重程度及其在治疗中的变化</view>
+        </view>
+      </view>
+
+      <view class="menu-card" bindtap="goTest" data-type="2">
+        <view class="icon-box" style="background-color: #d9ecff;">
+          <text class="icon-text">抑郁</text>
+        </view>
+        <view class="content">
+          <view class="ct-title">抑郁自评量表 (SDS)</view>
+          <view class="ct-desc">用于衡量抑郁状态的轻重程度及其在治疗中的变化</view>
+        </view>
+      </view>
+    </view>
+  </block>
+
+  <!-- Risk Screening & Extended Indicators -->
+  <!-- Currently showing all screening fields for other types, you can customize visibility based on type if needed -->
+  <block wx:if="{{type !== 'emotion'}}">
+
+    <!-- CVD Specific Screening -->
+    <block wx:if="{{type === 'cardio'}}">
+      <view class="card">
+        <view class="card-title">心血管风险评估指标</view>
+
+        <view class="form-item">
+          <view class="label">年龄 (岁)</view>
+          <input type="number" class="input" placeholder="请输入年龄" bindinput="inputScreen" data-key="age"
+            value="{{formData.age}}" />
+        </view>
+
+        <view class="form-item">
+          <view class="label">总胆固醇 (mmol/L)</view>
+          <input type="digit" class="input" placeholder="输入数值" bindinput="inputScreen" data-key="totalCholesterol"
+            value="{{formData.totalCholesterol}}" />
+        </view>
+
+        <view class="form-item row-space">
+          <text>是否吸烟</text>
+          <switch color="#3B99FC" checked="{{formData.isSmoking}}" bindchange="onScreenSwitch" data-key="isSmoking" />
+        </view>
+
+        <view class="form-item">
+          <view class="label">高密度脂蛋白胆固醇 (HDL) (mmol/L)</view>
+          <input type="digit" class="input" placeholder="输入数值" bindinput="inputScreen" data-key="lowhdl"
+            value="{{formData.lowhdl}}" />
+        </view>
+
+        <view class="form-item">
+          <view class="label">收缩压 (Systolic BP) (mmHg)</view>
+          <input type="digit" class="input" placeholder="输入数值" bindinput="inputScreen" data-key="sbp"
+            value="{{formData.sbp}}" />
+        </view>
+
+        <view class="form-item row-space">
+          <text>收缩压是否治疗</text>
+          <switch color="#3B99FC" checked="{{formData.treatedSbp}}" bindchange="onScreenSwitch" data-key="treatedSbp" />
+        </view>
+      </view>
+    </block>
+
+    <!-- FINDRISC Specific Screening -->
+    <block wx:if="{{type === 'diabetes'}}">
+      <view class="card">
+        <view class="card-title">糖尿病风险由于评估 (FINDRISC)</view>
+
+        <view class="form-item">
+          <view class="label">年龄 (岁)</view>
+          <input type="number" class="input" placeholder="请输入年龄" bindinput="inputScreen" data-key="age"
+            value="{{formData.age}}" />
+        </view>
+
+        <view class="form-item">
+          <view class="label">身体质量指数 (BMI)</view>
+          <input type="digit" class="input" placeholder="输入BMI数值" bindinput="inputScreen" data-key="bmi"
+            value="{{formData.bmi}}" />
+        </view>
+
+        <view class="form-item">
+          <view class="label">性别</view>
+          <picker range="{{['男', '女']}}" bindchange="bindScreenPick" data-key="gender">
+            <view class="picker-input">{{formData.gender || '请选择性别'}}</view>
+          </picker>
+        </view>
+
+        <view class="form-item">
+          <view class="label">腰围 (cm)</view>
+          <input type="digit" class="input" placeholder="输入数值" bindinput="inputScreen" data-key="waistline"
+            value="{{formData.waistline}}" />
+        </view>
+
+        <view class="form-item row-space">
+          <text>每天至少30分钟体力活动</text>
+          <switch color="#3B99FC" checked="{{formData.physicalActivity}}" bindchange="onScreenSwitch"
+            data-key="physicalActivity" />
+        </view>
+
+        <view class="form-item row-space">
+          <text>是否有高血压（或服降压药）</text>
+          <switch color="#3B99FC" checked="{{formData.hasHypertension}}" bindchange="onScreenSwitch"
+            data-key="hasHypertension" />
+        </view>
+
+        <view class="form-item">
+          <view class="label">家族糖尿病史</view>
+          <picker range="{{['无家族糖尿病史', '有家族糖尿病史']}}" bindchange="bindScreenPick" data-key="familyDiabetes">
+            <view class="picker-input">{{formData.familyDiabetes || '请选择'}}</view>
+          </picker>
+        </view>
+
+        <view class="form-item">
+          <view class="label">血糖水平状况</view>
+          <picker range="{{['血糖正常', '隐性糖尿病(如孕期/体检异常)', '已被诊断为糖尿病']}}" bindchange="bindScreenPick"
+            data-key="bloodSugarLevel">
+            <view class="picker-input">{{formData.bloodSugarLevel || '请选择'}}</view>
+          </picker>
+        </view>
+      </view>
+    </block>
+
+    <!-- NFS Liver Specific Screening -->
+    <block wx:if="{{type === 'liver'}}">
+      <view class="card">
+        <view class="card-title">NFS 肝纤维化评分</view>
+
+        <view class="form-item">
+          <view class="label">年龄 (岁)</view>
+          <input type="number" class="input" placeholder="请输入年龄" bindinput="inputScreen" data-key="age"
+            value="{{formData.age}}" />
+        </view>
+
+        <view class="form-item">
+          <view class="label">身体质量指数 (BMI)</view>
+          <input type="digit" class="input" placeholder="输入BMI数值" bindinput="inputScreen" data-key="bmi"
+            value="{{formData.bmi}}" />
+        </view>
+
+        <view class="form-item row-space">
+          <text>糖耐量受损或2型糖尿病</text>
+          <switch color="#3B99FC" checked="{{formData.hasDiabetesOrIgt}}" bindchange="onScreenSwitch"
+            data-key="hasDiabetesOrIgt" />
+        </view>
+
+        <view class="form-item">
+          <view class="label">谷草转氨酶 AST (U/L)</view>
+          <input type="digit" class="input" placeholder="输入数值" bindinput="inputScreen" data-key="ast"
+            value="{{formData.ast}}" />
+        </view>
+
+        <view class="form-item">
+          <view class="label">谷丙转氨酶 ALT (U/L)</view>
+          <input type="digit" class="input" placeholder="输入数值" bindinput="inputScreen" data-key="alt"
+            value="{{formData.alt}}" />
+        </view>
+
+        <view class="form-item">
+          <view class="label">血小板计数 PLT (10^9/L)</view>
+          <input type="digit" class="input" placeholder="输入数值" bindinput="inputScreen" data-key="platelets"
+            value="{{formData.platelets}}" />
+        </view>
+
+        <view class="form-item">
+          <view class="label">白蛋白 Alb (g/dL)</view>
+          <input type="digit" class="input" placeholder="输入数值" bindinput="inputScreen" data-key="albumin"
+            value="{{formData.albumin}}" />
+        </view>
+      </view>
+    </block>
+
+    <!-- eGFR Kidney Specific Screening -->
+    <block wx:if="{{type === 'kidney'}}">
+      <view class="card">
+        <view class="card-title">早期肾损伤风险评估 (eGFR)</view>
+
+        <view class="form-item">
+          <view class="label">性别</view>
+          <picker range="{{['男', '女']}}" bindchange="bindScreenPick" data-key="gender">
+            <view class="picker-input">{{formData.gender || '请选择性别'}}</view>
+          </picker>
+        </view>
+
+        <view class="form-item">
+          <view class="label">年龄 (岁)</view>
+          <input type="number" class="input" placeholder="请输入年龄" bindinput="inputScreen" data-key="age"
+            value="{{formData.age}}" />
+        </view>
+
+        <view class="form-item">
+          <view class="label">血肌酐 Scr (μmol/L或mg/dL皆可，程序内换算)</view>
+          <input type="digit" class="input" placeholder="输入数值" bindinput="inputScreen" data-key="scr"
+            value="{{formData.scr}}" />
+        </view>
+      </view>
+    </block>
+
+    <!-- Standard Screening for Other Types -->
+    <block wx:if="{{type !== 'cardio' && type !== 'diabetes' && type !== 'liver' && type !== 'kidney'}}">
+      <view class="card">
+        <view class="card-title">风险筛查 (Screening)</view>
+
+        <view class="form-item row-space">
+          <text>腹型肥胖</text>
+          <switch color="#3B99FC" checked="{{formData.abdominalObesity}}" bindchange="onScreenSwitch"
+            data-key="abdominalObesity" />
+        </view>
+
+        <view class="form-item row-space">
+          <text>高血糖</text>
+          <switch color="#3B99FC" checked="{{formData.highBloodSugar}}" bindchange="onScreenSwitch"
+            data-key="highBloodSugar" />
+        </view>
+        <view class="form-item" wx:if="{{formData.highBloodSugar}}">
+          <view class="label">高血糖类型</view>
+          <picker range="{{['空腹血糖>6.1mmol/L', '餐后2h血糖>7.8mmol/L', '已确诊糖尿病']}}" bindchange="bindScreenPick"
+            data-key="diabetesType">
+            <view class="picker-input">{{formData.diabetesType || '请选择类型'}}</view>
+          </picker>
+        </view>
+
+        <view class="form-item row-space">
+          <text>高血压</text>
+          <switch color="#3B99FC" checked="{{formData.hypertension}}" bindchange="onScreenSwitch"
+            data-key="hypertension" />
+        </view>
+        <view class="form-item" wx:if="{{formData.hypertension}}">
+          <view class="label">高血压类型</view>
+          <picker range="{{['血压>130/85mmHg', '已确诊为高血压病治疗者']}}" bindchange="bindScreenPick" data-key="hypertensionType">
+            <view class="picker-input">{{formData.hypertensionType || '请选择类型'}}</view>
+          </picker>
+        </view>
+
+        <view class="form-item">
+          <view class="label">高空腹甘油三酯 (mmol/L)</view>
+          <input type="digit" class="input" placeholder="输入数值" bindinput="inputScreen" data-key="highTriglycerides" />
+        </view>
+
+        <view class="form-item">
+          <view class="label">低空腹高密度脂蛋白胆固醇 (mmol/L)</view>
+          <input type="digit" class="input" placeholder="输入数值" bindinput="inputScreen" data-key="lowhdl" />
+        </view>
+      </view>
+
+      <!-- Extended Risk Indicators -->
+      <view class="card">
+        <view class="card-title">扩展指标 (CVD/肝/肾/糖风险)</view>
+
+        <view class="form-item">
+          <view class="label">收缩压 (mmHg)</view>
+          <input type="digit" class="input" placeholder="用于CVD评分" bindinput="inputScreen" data-key="sbp" />
+        </view>
+        <view class="form-item">
+          <view class="label">总胆固醇 (mmol/L)</view>
+          <input type="digit" class="input" placeholder="用于CVD评分" bindinput="inputScreen" data-key="totalCholesterol" />
+        </view>
+
+        <view class="form-item">
+          <view class="label">血肌酐 Scr (μmol/L)</view>
+          <input type="digit" class="input" placeholder="用于eGFR计算" bindinput="inputScreen" data-key="scr" />
+        </view>
+
+        <view class="form-item row-space">
+          <text>每日锻炼至少30分钟</text>
+          <switch color="#3B99FC" checked="{{formData.dailyActivity}}" bindchange="onScreenSwitch"
+            data-key="dailyActivity" />
+        </view>
+        <view class="form-item row-space">
+          <text>每日食用蔬菜水果</text>
+          <switch color="#3B99FC" checked="{{formData.dailyVegetable}}" bindchange="onScreenSwitch"
+            data-key="dailyVegetable" />
+        </view>
+        <view class="form-item row-space">
+          <text>曾患高血糖(体检/孕期)</text>
+          <switch color="#3B99FC" checked="{{formData.historyHighGlucose}}" bindchange="onScreenSwitch"
+            data-key="historyHighGlucose" />
+        </view>
+
+        <view class="form-item">
+          <view class="label">直系亲属糖尿病史</view>
+          <picker range="{{['无', '祖父母/姑姨叔舅/表亲', '父母/兄弟姐妹/子女']}}" bindchange="bindScreenPick" data-key="familyDiabetes">
+            <view class="picker-input">{{formData.familyDiabetes || '请选择'}}</view>
+          </picker>
+        </view>
+
+        <view class="form-item">
+          <view class="label">谷草转氨酶 AST (U/L)</view>
+          <input type="digit" class="input" placeholder="用于NFS肝纤维化评分" bindinput="inputScreen" data-key="ast" />
+        </view>
+        <view class="form-item">
+          <view class="label">谷丙转氨酶 ALT (U/L)</view>
+          <input type="digit" class="input" placeholder="用于NFS肝纤维化评分" bindinput="inputScreen" data-key="alt" />
+        </view>
+        <view class="form-item">
+          <view class="label">血小板计数 PLT (10^9/L)</view>
+          <input type="digit" class="input" placeholder="用于NFS肝纤维化评分" bindinput="inputScreen" data-key="platelets" />
+        </view>
+        <view class="form-item">
+          <view class="label">白蛋白 Alb (g/dL)</view>
+          <input type="digit" class="input" placeholder="用于NFS肝纤维化评分" bindinput="inputScreen" data-key="albumin" />
+        </view>
+      </view>
+    </block>
+
+    <block wx:if="{{type !== 'cardio' && type !== 'diabetes' && type !== 'liver' && type !== 'kidney'}}">
+      <!-- Systems -->
+      <view class="card">
+        <view class="card-title">系统诊断</view>
+        <view class="system-row" wx:for="{{systemList}}" wx:key="key">
+          <view class="system-label">{{item.name}}</view>
+          <view class="system-ctrl">
+            <checkbox checked="{{formData[item.key]}}" data-key="{{item.key}}" bindtap="toggleSystem">确认</checkbox>
+            <picker wx:if="{{formData[item.key]}}" range="{{['中医', '西医']}}" bindchange="bindTypeChange"
+              data-key="{{item.type}}">
+              <view class="picker-box">
+                {{formData[item.type] || '选择类型 ▼'}}
+              </view>
+            </picker>
+          </view>
+        </view>
+      </view>
+
+      <!-- Basic Info -->
+      <view class="card">
+        <view class="card-title">基本信息</view>
+        <view class="form-item">
+          <text>诊断日期：</text>
+          <picker mode="date" value="{{formData.diagnosisDate}}" bindchange="bindDateChange">
+            <view class="picker-input">{{formData.diagnosisDate}}</view>
+          </picker>
+        </view>
+      </view>
+
+      <!-- History -->
+      <view class="card">
+        <view class="card-title">病史记录</view>
+        <view class="form-item">
+          <view class="label">手术史</view>
+          <textarea class="textarea" placeholder="请输入手术史" bindinput="inputHistory"
+            data-field="surgeryHistory"></textarea>
+        </view>
+        <view class="form-item">
+          <view class="label">过敏史</view>
+          <textarea class="textarea" placeholder="请输入过敏史" bindinput="inputHistory"
+            data-field="allergyHistory"></textarea>
+        </view>
+      </view>
+
+      <!-- Medication -->
+      <view class="card">
+        <view class="card-title">用药情况 <text class="add-btn" bindtap="addMedication">+ 添加</text></view>
+        <block wx:for="{{formData.medicationList}}" wx:key="index">
+          <view class="med-item">
+            <input placeholder="药品名称" class="input" />
+            <input placeholder="用法用量" class="input" />
+          </view>
+        </block>
+        <view wx:if="{{formData.medicationList.length === 0}}" class="empty-tip">暂无记录</view>
+      </view>
+    </block>
+
+    <button class="submit-btn hover-btn" hover-class="none" bindtap="submitDiagnose">提交诊断</button>
+  </block>
+</view>

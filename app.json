@@ -1,7 +1,6 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/tcm_assessment/tcm_assessment",
     "pages/plan/plan",
     "pages/profile/profile",
     "pages/community/community",
@@ -9,10 +8,8 @@
     "pages/login/login",
     "pages/register/register",
     "pages/four/four",
-    "pages/diagnose/diagnose",
     "pages/grade/grade",
     "pages/grade/questionnaire/questionnaire",
-    "pages/diagnose/detail/detail",
     "pages/screen/screen",
     "pages/connect/connect",
     "pages/connect/chat/chat",
@@ -20,19 +17,33 @@
     "pages/article/detail",
     "pages/community/publish",
     "pages/community/detail",
-    "pages/patient/detail"
+    "pages/patient/detail",
+    "pages/health_detail/health_detail",
+    "pages/my_appointment/my_appointment",
+    "pages/my_followup/my_followup",
+    "pages/followup_form/followup_form",
+    "pages/my_block/my_block",
+    "pages/patient_manage/patient_manage",
+    "pages/bmi_calculator/bmi_calculator",
+    "pages/medical_advice/medical_advice",
+    "pages/address_manage/address_manage",
+    "pages/address_form/address_form",
+    "pages/function_guide/function_guide",
+    "pages/feedback/feedback",
+    "pages/settings/settings",
+    "pages/patient_form/patient_form"
   ],
   "window": {
-    "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#0b1120",
-    "navigationBarTitleText": "云枢代谢综合平台",
-    "navigationBarTextStyle": "white"
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "navigationBarTitleText": "炎黄济世",
+    "navigationBarTextStyle": "black"
   },
   "tabBar": {
-    "color": "#94a3b8",
-    "selectedColor": "#4cc9f0",
-    "backgroundColor": "#16213e",
-    "borderStyle": "black",
+    "color": "#999999",
+    "selectedColor": "#1E90FF",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
     "list": [
       {
         "pagePath": "pages/index/index",
@@ -75,5 +86,16 @@
     "getLocation"
   ],
   "style": "v2",
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap.json",
+  "subPackages": [
+    {
+      "root": "pkg_eval",
+      "pages": [
+        "pages/tcm_assessment/tcm_assessment",
+        "pages/diagnose/diagnose",
+        "pages/diagnose/detail/detail",
+        "pages/diagnose/collect/collect"
+      ]
+    }
+  ]
 }

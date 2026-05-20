@@ -1,0 +1,135 @@
+<view class="page-bg"></view>
+<view class="container">
+  <view class="hero-card">
+    <view class="hero-title">模型信息采集</view>
+    <view class="hero-sub">用于生成五脏风险态势雷达图，提交后会自动回写到综合分析。</view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">基础体征（必填）</view>
+
+    <view class="grid two-col">
+      <view class="form-item">
+        <view class="label">年龄(岁)</view>
+        <input class="input" type="number" placeholder="例如 45" value="{{form.age}}" bindinput="onInput"
+          data-key="age" />
+      </view>
+
+      <view class="form-item">
+        <view class="label">性别</view>
+        <picker range="{{genderOptions}}" bindchange="onGenderChange">
+          <view class="picker-input">{{form.gender || '请选择性别'}}</view>
+        </picker>
+      </view>
+
+      <view class="form-item">
+        <view class="label">体重(KG)</view>
+        <input class="input" type="digit" placeholder="例如 68" value="{{form.weight}}" bindinput="onInput"
+          data-key="weight" />
+      </view>
+
+      <view class="form-item">
+        <view class="label">身高(CM)</view>
+        <input class="input" type="digit" placeholder="例如 170" value="{{form.height}}" bindinput="onInput"
+          data-key="height" />
+      </view>
+
+      <view class="form-item">
+        <view class="label">BMI</view>
+        <view class="readonly">{{bmi}}</view>
+      </view>
+
+      <view class="form-item">
+        <view class="label">腹围(CM)</view>
+        <input class="input" type="digit" placeholder="例如 88" value="{{form.waist}}" bindinput="onInput"
+          data-key="waist" />
+      </view>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">代谢指标（必填）</view>
+    <view class="grid two-col">
+      <view class="form-item">
+        <view class="label">收缩压(mmHg)</view>
+        <input class="input" type="digit" value="{{form.sbp}}" bindinput="onInput" data-key="sbp" />
+      </view>
+      <view class="form-item">
+        <view class="label">舒张压(mmHg)</view>
+        <input class="input" type="digit" value="{{form.dbp}}" bindinput="onInput" data-key="dbp" />
+      </view>
+      <view class="form-item">
+        <view class="label">糖(mmol/L)</view>
+        <input class="input" type="digit" value="{{form.glucose}}" bindinput="onInput" data-key="glucose" />
+      </view>
+      <view class="form-item">
+        <view class="label">HbA1C(可选)</view>
+        <input class="input" type="digit" value="{{form.hba1c}}" bindinput="onInput" data-key="hba1c" />
+      </view>
+      <view class="form-item">
+        <view class="label">总胆固醇(mmol/L)</view>
+        <input class="input" type="digit" value="{{form.tc}}" bindinput="onInput" data-key="tc" />
+      </view>
+      <view class="form-item">
+        <view class="label">甘油三酯(mmol/L)</view>
+        <input class="input" type="digit" value="{{form.tg}}" bindinput="onInput" data-key="tg" />
+      </view>
+      <view class="form-item">
+        <view class="label">高密度脂蛋白(mmol/L)</view>
+        <input class="input" type="digit" value="{{form.hdl}}" bindinput="onInput" data-key="hdl" />
+      </view>
+      <view class="form-item">
+        <view class="label">低密度脂蛋白(mmol/L)</view>
+        <input class="input" type="digit" value="{{form.ldl}}" bindinput="onInput" data-key="ldl" />
+      </view>
+    </view>
+
+    <view class="switch-row">
+      <text>是否吸烟</text>
+      <switch checked="{{form.smoking}}" bindchange="onSwitch" data-key="smoking" color="#2F80ED" />
+    </view>
+    <view class="switch-row">
+      <text>是否每周规律运动</text>
+      <switch checked="{{form.exercise}}" bindchange="onSwitch" data-key="exercise" color="#2F80ED" />
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">肝肾功能（建议填写）</view>
+    <view class="grid two-col">
+      <view class="form-item">
+        <view class="label">ALT(U/L)</view>
+        <input class="input" type="digit" value="{{form.alt}}" bindinput="onInput" data-key="alt" />
+      </view>
+      <view class="form-item">
+        <view class="label">AST(U/L)</view>
+        <input class="input" type="digit" value="{{form.ast}}" bindinput="onInput" data-key="ast" />
+      </view>
+      <view class="form-item">
+        <view class="label">肌酐(umol/L)</view>
+        <input class="input" type="digit" value="{{form.creatinine}}" bindinput="onInput" data-key="creatinine" />
+      </view>
+      <view class="form-item">
+        <view class="label">尿素氮(mmol/L)</view>
+        <input class="input" type="digit" value="{{form.urea}}" bindinput="onInput" data-key="urea" />
+      </view>
+      <view class="form-item">
+        <view class="label">尿酸(umol/L)</view>
+        <input class="input" type="digit" value="{{form.uric}}" bindinput="onInput" data-key="uric" />
+      </view>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">可选：模型完整向量录入</view>
+    <view class="label">肠道菌群向量（Tab分隔）</view>
+    <textarea class="textarea" placeholder="{{vectorPlaceholder}}" value="{{form.intestineRaw}}" bindinput="onInput"
+      data-key="intestineRaw" />
+
+    <view class="label block-gap">舌面菌群向量（Tab分隔）</view>
+    <textarea class="textarea" placeholder="{{vectorPlaceholder}}" value="{{form.tongueRaw}}" bindinput="onInput"
+      data-key="tongueRaw" />
+  </view>
+
+  <button class="submit-btn" bindtap="submitCollection">分析并更新雷达图</button>
+</view>

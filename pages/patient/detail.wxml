@@ -1,227 +1,261 @@
-<!--pages/patient/detail.wxml-->
-<view class="detail-container">
+﻿<!--pages/patient/detail.wxml-->
+<view class="detail-page">
 
-  <!-- 基本信息卡片 -->
-  <view class="user-card">
-    <image class="avatar" src="{{patient.avatar || '/static/default_avatar.svg'}}" mode="aspectFill"></image>
-    <view class="name">{{patient.name || '未命名'}}</view>
-    <view class="info-row">
-      <text class="tag">{{patient.gender === 1 ? '男' : (patient.gender === 2 ? '女' : '未知')}}</text>
-      <text class="tag">{{patient.age || '--'}}岁</text>
-      <text class="tag">{{patient.phone || '无电话'}}</text>
+  <!-- Top Blue Header Background -->
+  <view class="header-bg"></view>
+
+  <view class="main-content">
+
+    <!-- User Basic Info Card -->
+    <view class="profile-card glass-card">
+      <view class="avatar-container">
+        <view class="avatar-ring"></view>
+        <image class="avatar" src="{{patient.avatar || '/static/default_avatar.svg'}}" mode="aspectFill"></image>
+      </view>
+      <view class="user-info">
+        <view class="name-row">
+          <text class="name">{{patient.name || '未命名'}}</text>
+          <text class="tag-role">患者</text>
+        </view>
+        <view class="id-row">
+          <text class="id-text">ID: {{patient.phone || patient.patientId || '--'}}</text>
+        </view>
+      </view>
     </view>
+
+    <!-- Stats Card -->
+    <view class="stats-card glass-card">
+      <view class="stat-item">
+        <view class="stat-val">{{patient.height ? patient.height : '--'}}<text class="stat-unit"
+            wx:if="{{patient.height}}">cm</text></view>
+        <text class="stat-lbl">身高</text>
+      </view>
+      <view class="stat-item">
+        <view class="stat-val">{{patient.weight ? patient.weight : '--'}}<text class="stat-unit"
+            wx:if="{{patient.weight}}">kg</text></view>
+        <text class="stat-lbl">体重</text>
+      </view>
+      <view class="stat-item">
+        <view class="stat-val">{{bmi || '--'}}</view>
+        <text class="stat-lbl">BMI</text>
+      </view>
+      <view class="stat-item">
+        <view class="stat-val">{{patient.gender === 1 ? '男' : (patient.gender === 2 ? '女' : '未知')}}<text
+            class="stat-unit" wx:if="{{patient.age}}">/{{patient.age}}岁</text></view>
+        <text class="stat-lbl">性别/年龄</text>
+      </view>
+    </view>
+
+    <!-- 中医状态评估数据 -->
+    <view class="section-card glass-card" wx:if="{{grade}}">
+      <view class="sec-header">
+        <view class="sec-mark"></view>
+        <text class="sec-title">中医状态评估</text>
+      </view>
+      <view class="sec-body">
+        <view class="row-item">
+          <text class="row-label">评估时间</text>
+          <view class="row-val">{{grade.testDate || '--'}}</view>
+        </view>
+        <view class="row-item">
+          <text class="row-label">主要状态</text>
+          <view class="row-val highlight">{{grade.conc1 || '暂无'}} <text class="score"
+              wx:if="{{grade.score1}}">({{grade.score1}}分)</text></view>
+        </view>
+        <view class="row-item" wx:if="{{grade.conc2}}">
+          <text class="row-label">兼见状态</text>
+          <view class="row-val">{{grade.conc2}} <text class="score" wx:if="{{grade.score2}}">({{grade.score2}}分)</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 风险预警数据 -->
+    <view class="section-card glass-card" wx:if="{{screen}}">
+      <view class="sec-header">
+        <view class="sec-mark"></view>
+        <text class="sec-title">风险预警指标</text>
+      </view>
+      <view class="sec-body">
+        <view class="row-item">
+          <text class="row-label">代谢综合征风险</text>
+          <view class="row-val {{screenDisplay.metabolicRisk ? 'warn-text' : ''}}">
+            {{screenDisplay.metabolicRisk ? '高风险' : '低风险'}} <text
+              class="score">({{screenDisplay.metabolicCount}}/5项)</text>
+          </view>
+        </view>
+        <view class="row-item">
+          <text class="row-label">腹型肥胖</text>
+          <view class="row-val {{screen.abdominalObesity == 1 ? 'warn-text' : ''}}">
+            {{screen.abdominalObesity == 1 ? '是 (高风险)' : '否'}}
+          </view>
+        </view>
+        <view class="row-item">
+          <text class="row-label">高血糖风险</text>
+          <view class="row-val {{screen.highBloodSugar == 1 ? 'warn-text' : ''}}">
+            {{screen.highBloodSugar == 1 ? '是' : '否'}}
+            <text wx:if="{{screen.diabetesType}}" class="value-sub">({{screen.diabetesType}})</text>
+          </view>
+        </view>
+        <view class="row-item">
+          <text class="row-label">高血压风险</text>
+          <view class="row-val {{screen.hypertension == 1 ? 'warn-text' : ''}}">
+            {{screen.hypertension == 1 ? '是' : '否'}}
+            <text wx:if="{{screen.hypertensionType}}" class="value-sub">({{screen.hypertensionType}})</text>
+          </view>
+        </view>
+        <view class="row-item" wx:if="{{screen.highTriglycerides}}">
+          <text class="row-label">甘油三酯</text>
+          <view class="row-val {{screen.highTriglycerides >= 1.7 ? 'warn-text' : ''}}">{{screen.highTriglycerides}}<text
+              class="score">mmol/L</text></view>
+        </view>
+        <view class="row-item" wx:if="{{screen.lowhdl}}">
+          <text class="row-label">高密度脂蛋白</text>
+          <view class="row-val {{screen.lowhdl < 1.04 ? 'warn-text' : ''}}">{{screen.lowhdl}}<text
+              class="score">mmol/L</text></view>
+        </view>
+
+        <!-- 其他风险评分 -->
+        <view class="row-item" wx:if="{{screen.findriscScore != null}}">
+          <text class="row-label">糖尿病风险(FINDRISC)</text>
+          <view class="row-val {{screenDisplay.findriscLevel == '高风险' ? 'warn-text' : ''}}">
+            {{screenDisplay.findriscLevel}} <text class="score">({{screen.findriscScore}}分)</text></view>
+        </view>
+        <view class="row-item" wx:if="{{screen.nfsScore != null}}">
+          <text class="row-label">肝纤维化风险(NFS)</text>
+          <view class="row-val {{screenDisplay.nfsLevel == '高风险' ? 'warn-text' : ''}}">{{screenDisplay.nfsLevel}}
+            <text class="score">({{screen.nfsScore}})</text>
+          </view>
+        </view>
+        <view class="row-item" wx:if="{{screen.egfr != null}}">
+          <text class="row-label">肾功能(eGFR)</text>
+          <view class="row-val {{screen.egfr < 60 ? 'warn-text' : ''}}">{{screenDisplay.egfrLevel}} <text
+              class="score">({{screen.egfr}})</text>
+          </view>
+        </view>
+        <view class="row-item" wx:if="{{screen.phq9Score != null}}">
+          <text class="row-label">抑郁风险(PHQ-9)</text>
+          <view class="row-val {{screen.phq9Score >= 10 ? 'warn-text' : ''}}">{{screenDisplay.phq9Level}}
+            <text class="score">({{screen.phq9Score}}分)</text>
+          </view>
+        </view>
+        <view class="row-item" wx:if="{{screen.gad7Score != null}}">
+          <text class="row-label">焦虑风险(GAD-7)</text>
+          <view class="row-val {{screen.gad7Score >= 10 ? 'warn-text' : ''}}">{{screenDisplay.gad7Level}}
+            <text class="score">({{screen.gad7Score}}分)</text>
+          </view>
+        </view>
+        <view class="row-item" wx:if="{{screen.cvdRisk != null}}">
+          <text class="row-label">心血管病风险(10年)</text>
+          <view class="row-val {{screen.cvdRisk >= 10 ? 'warn-text' : ''}}">{{screenDisplay.cvdLevel}}
+            <text class="score">({{screen.cvdRisk}}%)</text>
+          </view>
+        </view>
+        <view class="row-item" wx:if="{{screen.sdsIndex != null}}">
+          <text class="row-label">抑郁自评(SDS)</text>
+          <view class="row-val {{screen.sdsIndex >= 0.5 ? 'warn-text' : ''}}">{{screenDisplay.sdsLevel}}
+            <text class="score">(指数:{{screen.sdsIndex}})</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 健康史信息 -->
+    <view class="section-card glass-card" wx:if="{{diagnose}}">
+      <view class="sec-header">
+        <view class="sec-mark"></view>
+        <text class="sec-title">健康档案</text>
+      </view>
+      <view class="sec-body">
+        <view class="row-item">
+          <text class="row-label">过敏史</text>
+          <view class="row-val">{{diagnose.allergyHistory || '无'}}</view>
+        </view>
+        <view class="row-item">
+          <text class="row-label">手术史</text>
+          <view class="row-val">{{diagnose.surgeryHistory || '无'}}</view>
+        </view>
+        <view class="row-item">
+          <text class="row-label">吸烟史</text>
+          <view class="row-val">{{diagnose.smokingHistory == '1' ? '有' : '无'}}</view>
+        </view>
+        <view class="row-item">
+          <text class="row-label">饮酒史</text>
+          <view class="row-val">{{diagnose.drinkingHistory || '无'}}</view>
+        </view>
+        <view class="row-item">
+          <text class="row-label">最近诊断</text>
+          <view class="row-val">{{diagnose.diagnosisDate || '--'}}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 四诊信息 -->
+    <view class="section-card glass-card" wx:if="{{fourDisplay}}">
+      <view class="sec-header">
+        <view class="sec-mark"></view>
+        <text class="sec-title">四诊信息详情</text>
+      </view>
+      <view class="sec-body">
+        <view class="row-item" wx:if="{{fourDisplay.life}}">
+          <text class="row-label">生命精神</text>
+          <view class="row-val">{{fourDisplay.life}}</view>
+        </view>
+        <view class="row-item" wx:if="{{fourDisplay.coldHot}}">
+          <text class="row-label">寒热</text>
+          <view class="row-val">{{fourDisplay.coldHot}}</view>
+        </view>
+        <view class="row-item" wx:if="{{fourDisplay.sweat}}">
+          <text class="row-label">汗出</text>
+          <view class="row-val">{{fourDisplay.sweat}}</view>
+        </view>
+        <view class="row-item" wx:if="{{fourDisplay.pain}}">
+          <text class="row-label">疼痛</text>
+          <view class="row-val">{{fourDisplay.pain}}</view>
+        </view>
+        <view class="row-item" wx:if="{{fourDisplay.headBody}}">
+          <text class="row-label">头身</text>
+          <view class="row-val">{{fourDisplay.headBody}}</view>
+        </view>
+        <view class="row-item" wx:if="{{fourDisplay.sleep}}">
+          <text class="row-label">睡眠</text>
+          <view class="row-val">{{fourDisplay.sleep}}</view>
+        </view>
+        <view class="row-item" wx:if="{{fourDisplay.breath}}">
+          <text class="row-label">咳痰喘</text>
+          <view class="row-val">{{fourDisplay.breath}}</view>
+        </view>
+        <view class="row-item" wx:if="{{fourDisplay.food}}">
+          <text class="row-label">饮食</text>
+          <view class="row-val">{{fourDisplay.food}}</view>
+        </view>
+        <view class="row-item" wx:if="{{fourDisplay.stool}}">
+          <text class="row-label">大便</text>
+          <view class="row-val">{{fourDisplay.stool}}</view>
+        </view>
+        <view class="row-item" wx:if="{{fourDisplay.urine}}">
+          <text class="row-label">小便</text>
+          <view class="row-val">{{fourDisplay.urine}}</view>
+        </view>
+        <view class="row-item" wx:if="{{fourDisplay.female}}">
+          <text class="row-label">月经/精液</text>
+          <view class="row-val">{{fourDisplay.female}}</view>
+        </view>
+        <view class="row-item" wx:if="{{fourDisplay.bleeding}}">
+          <text class="row-label">出血</text>
+          <view class="row-val">{{fourDisplay.bleeding}}</view>
+        </view>
+        <view class="row-item" wx:if="{{fourDisplay.voice}}">
+          <text class="row-label">声音</text>
+          <view class="row-val">{{fourDisplay.voice}}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 操作区域 -->
+    <view class="action-area">
+      <button class="btn-primary" bindtap="callPatient">拨打电话</button>
+    </view>
+
   </view>
-
-  <!-- 身体数据 -->
-  <view class="data-section">
-    <view class="section-title">身体数据</view>
-    <view class="grid">
-      <view class="grid-item">
-        <text class="data-label">身高</text>
-        <text class="data-value">{{patient.height ? patient.height + ' cm' : '--'}}</text>
-      </view>
-      <view class="grid-item">
-        <text class="data-label">体重</text>
-        <text class="data-value">{{patient.weight ? patient.weight + ' kg' : '--'}}</text>
-      </view>
-      <view class="grid-item">
-        <text class="data-label">BMI</text>
-        <text class="data-value">{{bmi || '--'}}</text>
-      </view>
-      <view class="grid-item">
-        <text class="data-label">注册时间</text>
-        <text class="data-value">{{patient.createTime || '--'}}</text>
-      </view>
-    </view>
-  </view>
-
-  <!-- 中医状态评估数据 -->
-  <view class="data-section" wx:if="{{grade}}">
-    <view class="section-title">中医状态评估</view>
-    <view class="list-row">
-      <view class="list-label">评估时间：</view>
-      <view class="list-content">{{grade.testDate || '--'}}</view>
-    </view>
-    <view class="list-row">
-      <view class="list-label">主要状态：</view>
-      <view class="list-content highlight">{{grade.conc1 || '暂无'}} <text
-          wx:if="{{grade.score1}}">({{grade.score1}}分)</text></view>
-    </view>
-    <view class="list-row" wx:if="{{grade.conc2}}">
-      <view class="list-label">兼见状态：</view>
-      <view class="list-content">{{grade.conc2}} <text wx:if="{{grade.score2}}">({{grade.score2}}分)</text></view>
-    </view>
-  </view>
-
-  <!-- 风险预警数据 -->
-  <view class="data-section" wx:if="{{screen}}">
-    <view class="section-title">风险预警指标</view>
-
-    <!-- 代谢综合征综合评估 -->
-    <view class="list-row">
-      <view class="list-label">代谢综合征风险：</view>
-      <view class="list-content {{screenDisplay.metabolicRisk ? 'warn-text' : ''}}">
-        {{screenDisplay.metabolicRisk ? '高风险' : '低风险'}} ({{screenDisplay.metabolicCount}}/5项)
-      </view>
-    </view>
-
-    <view class="list-row">
-      <view class="list-label"> - 腹型肥胖：</view>
-      <view class="list-content {{screen.abdominalObesity == 1 ? 'warn-text' : ''}}">
-        {{screen.abdominalObesity == 1 ? '是 (高风险)' : '否'}}
-      </view>
-    </view>
-    <view class="list-row">
-      <view class="list-label"> - 高血糖风险：</view>
-      <view class="list-content {{screen.highBloodSugar == 1 ? 'warn-text' : ''}}">
-        {{screen.highBloodSugar == 1 ? '是' : '否'}}
-        <text wx:if="{{screen.diabetesType}}" class="sub-text">({{screen.diabetesType}})</text>
-      </view>
-    </view>
-    <view class="list-row">
-      <view class="list-label"> - 高血压风险：</view>
-      <view class="list-content {{screen.hypertension == 1 ? 'warn-text' : ''}}">
-        {{screen.hypertension == 1 ? '是' : '否'}}
-        <text wx:if="{{screen.hypertensionType}}" class="sub-text">({{screen.hypertensionType}})</text>
-      </view>
-    </view>
-    <view class="list-row" wx:if="{{screen.highTriglycerides}}">
-      <view class="list-label"> - 甘油三酯：</view>
-      <view class="list-content {{screen.highTriglycerides >= 1.7 ? 'warn-text' : ''}}">{{screen.highTriglycerides}}
-        mmol/L</view>
-    </view>
-    <view class="list-row" wx:if="{{screen.lowhdl}}">
-      <view class="list-label"> - 高密度脂蛋白：</view>
-      <view class="list-content {{screen.lowhdl < 1.04 ? 'warn-text' : ''}}">{{screen.lowhdl}} mmol/L</view>
-    </view>
-
-    <!-- 其他风险评分 -->
-    <view class="list-row" wx:if="{{screen.findriscScore != null}}">
-      <view class="list-label">糖尿病风险(FINDRISC)：</view>
-      <view class="list-content {{screenDisplay.findriscLevel == '高风险' ? 'warn-text' : ''}}">
-        {{screenDisplay.findriscLevel}} ({{screen.findriscScore}}分)</view>
-    </view>
-    <view class="list-row" wx:if="{{screen.nfsScore != null}}">
-      <view class="list-label">肝纤维化风险(NFS)：</view>
-      <view class="list-content {{screenDisplay.nfsLevel == '高风险' ? 'warn-text' : ''}}">{{screenDisplay.nfsLevel}}
-        ({{screen.nfsScore}})</view>
-    </view>
-    <view class="list-row" wx:if="{{screen.egfr != null}}">
-      <view class="list-label">肾功能(eGFR)：</view>
-      <view class="list-content {{screen.egfr < 60 ? 'warn-text' : ''}}">{{screenDisplay.egfrLevel}} ({{screen.egfr}})
-      </view>
-    </view>
-    <view class="list-row" wx:if="{{screen.phq9Score != null}}">
-      <view class="list-label">抑郁风险(PHQ-9)：</view>
-      <view class="list-content {{screen.phq9Score >= 10 ? 'warn-text' : ''}}">{{screenDisplay.phq9Level}}
-        ({{screen.phq9Score}}分)</view>
-    </view>
-    <view class="list-row" wx:if="{{screen.gad7Score != null}}">
-      <view class="list-label">焦虑风险(GAD-7)：</view>
-      <view class="list-content {{screen.gad7Score >= 10 ? 'warn-text' : ''}}">{{screenDisplay.gad7Level}}
-        ({{screen.gad7Score}}分)</view>
-    </view>
-
-    <!-- 新增图片对应指标 -->
-    <view class="list-row" wx:if="{{screen.cvdRisk != null}}">
-      <view class="list-label">心血管病风险(10年)：</view>
-      <view class="list-content {{screen.cvdRisk >= 10 ? 'warn-text' : ''}}">{{screenDisplay.cvdLevel}}
-        ({{screen.cvdRisk}}%)</view>
-    </view>
-    <view class="list-row" wx:if="{{screen.sdsIndex != null}}">
-      <view class="list-label">抑郁自评(SDS)：</view>
-      <view class="list-content {{screen.sdsIndex >= 0.5 ? 'warn-text' : ''}}">{{screenDisplay.sdsLevel}}
-        (指数:{{screen.sdsIndex}})</view>
-    </view>
-
-  </view>
-
-  <!-- 健康史信息 -->
-  <view class="data-section" wx:if="{{diagnose}}">
-    <view class="section-title">健康档案</view>
-    <view class="list-row">
-      <view class="list-label">过敏史：</view>
-      <view class="list-content">{{diagnose.allergyHistory || '无'}}</view>
-    </view>
-    <view class="list-row">
-      <view class="list-label">手术史：</view>
-      <view class="list-content">{{diagnose.surgeryHistory || '无'}}</view>
-    </view>
-    <view class="list-row">
-      <view class="list-label">吸烟史：</view>
-      <view class="list-content">{{diagnose.smokingHistory == '1' ? '有' : '无'}}</view>
-    </view>
-    <view class="list-row">
-      <view class="list-label">饮酒史：</view>
-      <view class="list-content">{{diagnose.drinkingHistory || '无'}}</view>
-    </view>
-    <view class="list-row">
-      <view class="list-label">最近诊断：</view>
-      <view class="list-content">{{diagnose.diagnosisDate || '--'}}</view>
-    </view>
-  </view>
-
-  <!-- 四诊信息 -->
-  <view class="data-section" wx:if="{{fourDisplay}}">
-    <view class="section-title">四诊信息详情</view>
-
-    <view class="list-row" wx:if="{{fourDisplay.life}}">
-      <view class="list-label">生命精神：</view>
-      <view class="list-content">{{fourDisplay.life}}</view>
-    </view>
-    <view class="list-row" wx:if="{{fourDisplay.coldHot}}">
-      <view class="list-label">寒热：</view>
-      <view class="list-content">{{fourDisplay.coldHot}}</view>
-    </view>
-    <view class="list-row" wx:if="{{fourDisplay.sweat}}">
-      <view class="list-label">汗出：</view>
-      <view class="list-content">{{fourDisplay.sweat}}</view>
-    </view>
-    <view class="list-row" wx:if="{{fourDisplay.pain}}">
-      <view class="list-label">疼痛：</view>
-      <view class="list-content">{{fourDisplay.pain}}</view>
-    </view>
-    <view class="list-row" wx:if="{{fourDisplay.headBody}}">
-      <view class="list-label">头身：</view>
-      <view class="list-content">{{fourDisplay.headBody}}</view>
-    </view>
-    <view class="list-row" wx:if="{{fourDisplay.sleep}}">
-      <view class="list-label">睡眠：</view>
-      <view class="list-content">{{fourDisplay.sleep}}</view>
-    </view>
-    <view class="list-row" wx:if="{{fourDisplay.breath}}">
-      <view class="list-label">咳痰喘：</view>
-      <view class="list-content">{{fourDisplay.breath}}</view>
-    </view>
-    <view class="list-row" wx:if="{{fourDisplay.food}}">
-      <view class="list-label">饮食：</view>
-      <view class="list-content">{{fourDisplay.food}}</view>
-    </view>
-    <view class="list-row" wx:if="{{fourDisplay.stool}}">
-      <view class="list-label">大便：</view>
-      <view class="list-content">{{fourDisplay.stool}}</view>
-    </view>
-    <view class="list-row" wx:if="{{fourDisplay.urine}}">
-      <view class="list-label">小便：</view>
-      <view class="list-content">{{fourDisplay.urine}}</view>
-    </view>
-    <view class="list-row" wx:if="{{fourDisplay.female}}">
-      <view class="list-label">月经/精液：</view>
-      <view class="list-content">{{fourDisplay.female}}</view>
-    </view>
-    <view class="list-row" wx:if="{{fourDisplay.bleeding}}">
-      <view class="list-label">出血：</view>
-      <view class="list-content">{{fourDisplay.bleeding}}</view>
-    </view>
-    <view class="list-row" wx:if="{{fourDisplay.voice}}">
-      <view class="list-label">声音：</view>
-      <view class="list-content">{{fourDisplay.voice}}</view>
-    </view>
-  </view>
-
-  <!-- 操作区域 -->
-  <view class="action-area">
-    <button class="btn" bindtap="callPatient">拨打电话</button>
-  </view>
-
 </view>

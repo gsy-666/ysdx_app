@@ -1,3 +1,6 @@
 {
+  "navigationBarBackgroundColor": "#F4F7F9",
+  "navigationBarTextStyle": "black",
+  "backgroundColor": "#F4F7F9",
   "navigationBarTitleText": "在线咨询"
 }

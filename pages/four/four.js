@@ -1,5 +1,7 @@
 const app = getApp()
-const request = require('../../utils/request.js').request;
+const requestModule = require('../../utils/request.js');
+const request = requestModule.request;
+const getBaseURL = requestModule.getBaseURL;
 
 Page({
   data: {
@@ -200,17 +202,68 @@ Page({
   // === Tongue Logic ===
   chooseImage() {
     const that = this;
+    const patientId = wx.getStorageSync('id');
+    if (!patientId) {
+      wx.showToast({ title: '请先登录', icon: 'none' });
+      return;
+    }
+
     wx.chooseMedia({
       count: 1,
       mediaType: ['image'],
       success(res) {
-        that.setData({ 'tongueData.logo': res.tempFiles[0].tempFilePath });
-        // Mock Analysis
+        const filePath = res.tempFiles[0].tempFilePath;
+        that.setData({
+          'tongueData.logo': filePath,
+          'tongueData.label': ''
+        });
+
+        const uploadUrl = `${getBaseURL()}/tongue/addLogo`;
+        console.log('舌诊上传地址:', uploadUrl);
+
         wx.showLoading({ title: 'AI分析中' });
-        setTimeout(() => {
-          wx.hideLoading();
-          that.setData({ 'tongueData.label': '淡红舌，薄白苔（系统模拟结果）' });
-        }, 1000);
+        wx.uploadFile({
+          url: uploadUrl,
+          filePath,
+          name: 'file',
+          formData: {
+            patientId
+          },
+          header: {
+            token: wx.getStorageSync('token') || ''
+          },
+          success(uploadRes) {
+            try {
+              const data = JSON.parse(uploadRes.data || '{}');
+              const content = data.content || {};
+              if (data.code !== 200) {
+                throw new Error(data.message || '舌诊分析失败');
+              }
+
+              that.setData({
+                'tongueData.logo': filePath,
+                'tongueData.label': content.label || 'AI分析完成'
+              });
+              wx.showToast({ title: '舌诊完成', icon: 'success' });
+            } catch (error) {
+              console.error('舌诊结果解析失败', error);
+              that.setData({ 'tongueData.label': '分析失败，请重试' });
+              wx.showToast({ title: '分析失败', icon: 'none' });
+            }
+          },
+          fail(err) {
+            console.error('舌图上传失败', err);
+            that.setData({ 'tongueData.label': '上传失败，请重试' });
+            wx.showToast({ title: '上传失败: 检查接口地址', icon: 'none' });
+          },
+          complete() {
+            wx.hideLoading();
+          }
+        });
+      },
+      fail() {
+        wx.hideLoading();
+        wx.showToast({ title: '未选择图片', icon: 'none' });
       }
     });
   },

@@ -4,9 +4,11 @@
   <view class="header-bg">
     <!-- Logged In State: Button for avatar choice -->
     <view class="user-info" wx:if="{{isLoggedIn}}">
-      <button class="avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
-        <image class="avatar" src="{{userInfo.avatar || '/static/default_avatar.svg'}}"></image>
-      </button>
+      <view class="avatar-wrapper">
+        <button class="avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+          <image class="avatar" src="{{userInfo.avatar || '/static/default_avatar.svg'}}"></image>
+        </button>
+      </view>
       <view class="text-info">
         <view class="name">
           {{userInfo.name || '用户'}}
@@ -54,7 +56,7 @@
         <image src="/static/four_diag.svg" class="grid-icon"></image>
         <text>四诊采集</text>
       </view>
-      <view class="grid-item" bindtap="navTo" data-url="/pages/diagnose/diagnose">
+      <view class="grid-item" bindtap="navTo" data-url="/pkg_eval/pages/diagnose/diagnose">
         <image src="/static/assessment.svg" class="grid-icon"></image>
         <text>诊断方案</text>
       </view>
@@ -67,7 +69,7 @@
 
   <!-- Menu List -->
   <view class="card menu-card">
-    <view class="menu-item" wx:for="{{functions}}" wx:key="index">
+    <view class="menu-item" wx:for="{{functions}}" wx:key="index" bindtap="navTo" data-url="{{item.url}}">
       <image src="{{item.icon}}" class="menu-icon"></image>
       <text class="menu-text">{{item.name}}</text>
       <text class="arrow">></text>

@@ -1,111 +1,90 @@
 <!--pages/index/index.wxml-->
 <view class="home-container">
+  <!-- Background Image -->
+  <image class="page-bg-image" src="/static/index_sky.svg" mode="widthFix"></image>
 
-  <!-- Weather Widget -->
-  <view class="weather-widget" bindtap="refreshWeather">
-    <view class="weather-location">
-      <text class="location-icon-text">📍</text>
-      <text class="city-text">{{weatherData.city}}</text>
+  <!-- Weather -->
+  <view class="weather-widget">
+    <text class="location-icon">📍</text>
+    <text class="weather-text">{{weatherData.city}} {{weatherData.temperature ? weatherData.temperature + '°C' : ''}} {{weatherData.weather}}</text>
+  </view>
+
+  <view class="header-container">
+    <image class="main-logo" src="/static/logo_origin.png" mode="widthFix"></image>
+    <view class="main-title">炎黄济世</view>
+    <view class="sub-title">中西医结合的代谢综合管理</view>
+  </view>
+
+  <view class="record-card" bindtap="navigateTo" data-path="/pages/health_detail/health_detail">
+    <view class="record-header">
+      <view class="date-info">
+        <text class="date-text">04月02日 周四</text>
+        <text class="date-divider">|</text>
+        <text class="lunar-text">农历二月15 - 春分养护季</text>
+      </view>
+      <view class="view-all">查看全部 ></view>
     </view>
-    <view class="weather-info" wx:if="{{weatherData.temperature}}">
-      <text class="weather-temp">{{weatherData.temperature}}°C</text>
-      <text class="weather-desc">{{weatherData.weather}}</text>
+    <view class="record-data">
+      <view class="data-item">
+        <view class="data-value">72<text class="data-unit">kg</text></view>
+        <view class="data-label">早起称重</view>
+      </view>
+      <view class="data-divider"></view>
+      <view class="data-item">
+        <view class="data-value">5.4</view>
+        <view class="data-label">熬夜熬夜</view>
+      </view>
+      <view class="data-divider"></view>
+      <view class="data-item">
+        <view class="data-value">118/78<text class="data-unit">mmHg</text></view>
+        <view class="data-label">8:00 记录</view>
+      </view>
     </view>
   </view>
 
-  <!-- Doctor View -->
-  <block wx:if="{{isDoctor}}">
-    <view class="header doctor-header">
-      <view class="logo-area">
-        <image class="main-logo" src="/static/logo.png" mode="widthFix"></image>
+  <view class="menu-grid">
+    <view class="menu-item menu-card-1" bindtap="navigateTo" data-path="/pkg_eval/pages/tcm_assessment/tcm_assessment">
+      <view class="menu-icon-wrap">
+        <image class="menu-icon" src="/static/four_diag.svg" mode="aspectFit"></image>
       </view>
-      <view class="title">医生工作台</view>
-      <view class="subtitle">管理患者与查看报告</view>
-    </view>
-
-    <!-- Stats Cards -->
-    <view class="stats-row">
-      <view class="stat-card">
-        <view class="stat-num">{{doctorStats.patientCount}}</view>
-        <view class="stat-label">总患者数</view>
-      </view>
-      <view class="stat-card">
-        <view class="stat-num">0</view>
-        <view class="stat-label">今日待办</view>
+      <view class="arrow-icon">></view>
+      <view class="menu-text-content">
+        <view class="menu-title">中医状态评估</view>
+        <view class="menu-desc">中医辨证与体质测评</view>
       </view>
     </view>
-
-    <!-- Patient List Section -->
-    <view class="section-title">
-      <text>最近患者</text>
-      <text class="more" bindtap="navigateTo" data-path="/pages/community/community?type=admin">查看全部 ></text>
-    </view>
-
-    <view class="patient-list">
-      <block wx:for="{{patientList}}" wx:key="id">
-        <view class="patient-item" bindtap="viewPatientDetail" data-id="{{item.id}}">
-          <image class="patient-avatar" src="{{item.avatar || '/static/default_avatar.svg'}}" mode="aspectFill"></image>
-          <view class="patient-info">
-            <view class="patient-name">{{item.name || '未命名'}}</view>
-            <view class="patient-phone">{{item.phone}}</view>
-          </view>
-          <view class="patient-status">正常</view>
-        </view>
-      </block>
-      <view wx:if="{{patientList.length === 0}}" class="empty-tip">暂无患者数据</view>
-    </view>
-  </block>
-
-  <!-- Patient View -->
-  <block wx:else>
-    <!-- Header -->
-    <view class="header">
-      <view class="logo-area">
-        <image class="main-logo" src="/static/logo.png" mode="widthFix"></image>
+    
+    <view class="menu-item menu-card-2" bindtap="navigateTo" data-path="/pkg_eval/pages/diagnose/diagnose">
+      <view class="menu-icon-wrap">
+        <image class="menu-icon" src="/static/report.svg" mode="aspectFit"></image>
       </view>
-      <view class="title">欢迎来到云枢代谢综合平台!</view>
-      <view class="subtitle">专业的医生团队助您进行代谢性疾病的预防与管理</view>
+      <view class="arrow-icon">></view>
+      <view class="menu-text-content">
+        <view class="menu-title">风险预警</view>
+        <view class="menu-desc">多维健康风险预警</view>
+      </view>
     </view>
-
-    <!-- Management Plan Promo -->
-    <view class="plan-promo">
-      <view class="promo-content">
-        <view class="promo-title">加入管理计划对我有什么帮助?</view>
-        <view class="promo-desc">科学管理、名医咨询、健康随访</view>
+    
+    <view class="menu-item menu-card-3" bindtap="navigateTo" data-path="/pages/connect/connect">
+      <view class="menu-icon-wrap">
+        <image class="menu-icon" src="/static/doctor_contact.svg" mode="aspectFit"></image>
       </view>
-      <button class="check-btn">去查看</button>
+      <view class="arrow-icon">></view>
+      <view class="menu-text-content">
+        <view class="menu-title">名医对话</view>
+        <view class="menu-desc">AI辅助与专家团队</view>
+      </view>
     </view>
-
-    <!-- Function Grid Top -->
-    <view class="func-grid-top">
-      <block wx:for="{{menuItems}}" wx:key="index">
-        <view class="grid-item" bindtap="navigateTo" data-path="{{item.path}}">
-          <view class="grid-title">{{item.name}}</view>
-          <view class="grid-desc">{{item.desc}}</view>
-          <image class="grid-icon" src="{{item.icon}}"></image>
-        </view>
-      </block>
+    
+    <view class="menu-item menu-card-4" bindtap="navigateTo" data-path="/pages/article/article">
+      <view class="menu-icon-wrap">
+        <image class="menu-icon" src="/static/article.svg" mode="aspectFit"></image>
+      </view>
+      <view class="arrow-icon">></view>
+      <view class="menu-text-content">
+        <view class="menu-title">中医科普</view>
+        <view class="menu-desc">养生知识与视频</view>
+      </view>
     </view>
-
-    <!-- Department Zone -->
-    <view class="zone-title">科室专区</view>
-    <scroll-view scroll-x="true" class="dept-scroll">
-      <view class="dept-card">
-        <view class="dept-name">减重中心</view>
-        <view class="dept-desc">全周期体重管理</view>
-        <image class="dept-icon" src="/static/weight.svg"></image>
-      </view>
-      <view class="dept-card">
-        <view class="dept-name">内分泌科</view>
-        <view class="dept-desc">糖尿病筛查与治疗</view>
-        <image class="dept-icon" src="/static/endo.svg"></image>
-      </view>
-      <view class="dept-card">
-        <view class="dept-name">代谢减重科</view>
-        <view class="dept-desc">手术的了解与检查</view>
-        <image class="dept-icon" src="/static/surgery.svg"></image>
-      </view>
-    </scroll-view>
-  </block>
-
+  </view>
 </view>

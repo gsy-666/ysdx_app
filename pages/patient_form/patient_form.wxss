@@ -1,0 +1,85 @@
+page {
+  background-color: var(--bg-color);
+  padding-bottom: 150rpx;
+}
+.header-bg {
+  background: linear-gradient(180deg, #E6F3FB 0%, #F0F4F7 100%);
+  height: 200rpx;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+.card {
+  background: #FFFFFF;
+  border-radius: 20rpx;
+  margin: 40rpx 30rpx 24rpx;
+  padding: 10rpx 40rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.03);
+}
+.form-item {
+  display: flex;
+  align-items: center;
+  border-bottom: 1rpx solid #F0F4F7;
+  padding: 36rpx 0;
+}
+.form-item:last-child {
+  border-bottom: none;
+}
+.label {
+  width: 160rpx;
+  font-size: 30rpx;
+  color: var(--text-main);
+  font-weight: 500;
+}
+.input-box {
+  flex: 1;
+  font-size: 30rpx;
+  color: var(--text-main);
+}
+.picker-text {
+  flex: 1;
+  font-size: 30rpx;
+  color: var(--text-main);
+  min-width: 400rpx;
+}
+.picker-text.placeholder {
+  color: #c0c4cc; /* placeholder color */
+}
+.radio-group {
+  display: flex;
+  align-items: center;
+}
+.radio-label {
+  font-size: 30rpx;
+  color: var(--text-main);
+  margin-right: 40rpx;
+  display: flex;
+  align-items: center;
+}
+.radio-label radio {
+  transform: scale(0.85); /* 稍微缩小原生的radio */
+}
+.bottom-btn-area {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 30rpx 40rpx;
+  background: #fff;
+  box-shadow: 0 -4rpx 20rpx rgba(0,0,0,0.05);
+  box-sizing: border-box;
+}
+.primary-btn {
+  background: linear-gradient(90deg, #3B99FC 0%, #1A7DF9 100%);
+  color: #fff;
+  border-radius: 44rpx;
+  font-size: 32rpx;
+  height: 96rpx;
+  line-height: normal;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8rpx 20rpx rgba(26, 125, 249, 0.2);
+}

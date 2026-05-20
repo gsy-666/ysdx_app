@@ -14,18 +14,18 @@
   <view class="search-sort-box">
     <view class="sort-btn" bindtap="changeSort">
       <text>{{activeSort === 'hot' ? '热度' : '时间'}}</text>
-      <image src="/static/arrow_down.png" class="sort-icon"></image>
+      <text class="sort-icon" style="font-size: 20rpx; width: auto; height: auto;">▼</text>
     </view>
     <view class="search-box">
       <input class="search-input" placeholder="搜索健康资讯..." bindinput="bindSearchInput" confirm-type="search"
         bindconfirm="onSearch" />
-      <image class="search-icon" src="/static/search.png" bindtap="onSearch"></image>
+      <icon type="search" size="18" color="#999" bindtap="onSearch" style="margin-left: 10rpx;" />
     </view>
   </view>
 
   <!-- 发布按钮（悬浮） -->
   <view class="publish-btn" bindtap="goToPublish">
-    <image src="/static/add.png" class="publish-icon"></image>
+    <text class="publish-icon" style="font-size: 40rpx; line-height: 32rpx; filter: none; font-weight: 300;">+</text>
     <text>发布</text>
   </view>
 
@@ -39,8 +39,8 @@
           <image class="author-avatar" src="{{item.authorAvatar || '/static/default_avatar.png'}}" mode="aspectFill">
           </image>
           <view class="author-name">{{item.authorName || '匿名用户'}}</view>
-          <view class="follow-btn {{item.isFollowed ? 'followed' : ''}}" bindtap="toggleFollow"
-            data-author-id="{{item.authorId}}" catchtap="true">
+          <view class="follow-btn {{item.isFollowed ? 'followed' : ''}}" catchtap="toggleFollow"
+            data-author-id="{{item.authorId}}">
             {{item.isFollowed ? '已关注' : '+关注'}}
           </view>
         </view>
@@ -63,23 +63,25 @@
           </view>
           <!-- 互动栏 -->
           <view class="article-interact">
-            <view class="interact-item" bindtap="toggleLike" data-id="{{item.id}}" catchtap="true">
-              <image src="{{item.isLiked ? '/static/like_active.png' : '/static/like.png'}}" class="interact-icon">
-              </image>
+            <view class="interact-item" catchtap="toggleLike" data-id="{{item.id}}">
+              <text class="interact-icon"
+                style="color: {{item.isLiked ? '#FF4D4F' : '#64748B'}};">{{item.isLiked ? '♥' : '♡'}}</text>
               <text>{{item.likeCount || 0}}</text>
             </view>
-            <view class="interact-item" bindtap="toggleCollect" data-id="{{item.id}}" catchtap="true">
-              <image src="{{item.isCollected ? '/static/collect_active.png' : '/static/collect.png'}}"
-                class="interact-icon"></image>
+            <view class="interact-item" catchtap="toggleCollect" data-id="{{item.id}}">
+              <text class="interact-icon"
+                style="color: {{item.isCollected ? '#FDB933' : '#64748B'}};">{{item.isCollected ? '★' : '☆'}}</text>
               <text>{{item.collectCount || 0}}</text>
             </view>
             <view class="interact-item" bindtap="goToDetail" data-id="{{item.id}}">
-              <image src="/static/comment.png" class="interact-icon"></image>
+              <text class="interact-icon" style="font-size: 32rpx; line-height: 36rpx;">💬</text>
               <text>{{item.commentCount || 0}}</text>
             </view>
-            <view class="interact-item" bindtap="sharePost" data-id="{{item.id}}" catchtap="true">
-              <image src="/static/share.png" class="interact-icon"></image>
-              <text>分享</text>
+            <view class="interact-item" catchtap="noopTap">
+              <button open-type="share" data-id="{{item.id}}" data-title="{{item.title}}" class="share-btn-wrap">
+                <text class="interact-icon" style="font-size: 32rpx; line-height: 36rpx;">🔗</text>
+                <text>分享</text>
+              </button>
             </view>
           </view>
         </view>
@@ -89,7 +91,7 @@
     <view class="loading" wx:if="{{loading}}">加载中...</view>
     <view class="no-more" wx:if="{{!hasMore && articleList.length > 0}}">没有更多帖子了</view>
     <view class="empty" wx:if="{{articleList.length === 0 && !loading}}">
-      <image src="/static/empty_community.png" mode="aspectFit"></image>
+      <image src="/static/community.png" mode="aspectFit"></image>
       <text>暂无相关帖子</text>
       <button class="empty-publish-btn" bindtap="goToPublish">发布第一条帖子</button>
     </view>

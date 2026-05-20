@@ -1,0 +1,15 @@
+<view class="container">
+  <view class="header-bg"></view>
+  <view class="tabs">
+    <view class="tab {{currentTab === index ? 'active' : ''}}" wx:for="{{tabs}}" wx:key="index" bindtap="switchTab" data-index="{{index}}">
+      {{item}}
+    </view>
+  </view>
+  <view class="empty-state" wx:if="{{records.length === 0}}">
+    <image class="empty-img" src="/static/default_avatar.svg" mode="aspectFit"></image>
+    <text class="empty-text">您当前没有{{tabs[currentTab]}}记录</text>
+  </view>
+  <view class="list-container" wx:else>
+    <!-- 列表数据将会渲染在这里 -->
+  </view>
+</view>

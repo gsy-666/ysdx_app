@@ -2,14 +2,22 @@
 <view class="container">
   <scroll-view scroll-y class="chat-area">
     <view wx:for="{{chatList}}" wx:key="id" class="msg-row {{item.type === 'self' ? 'msg-self' : 'msg-other'}}">
-      <view class="avatar" wx:if="{{item.type!=='self'}}">医</view>
+      <!-- Others Avatar -->
+      <view class="avatar {{item.type === 'self' ? 'avatar-self' : 'avatar-other'}}" wx:if="{{item.type!=='self'}}">
+        <image wx:if="{{chatType === 'ai'}}" src="/static/doctor_origin.png" mode="aspectFill" class="ai-avatar-img"></image>
+        <text wx:else>医</text>
+      </view>
+      
+      <!-- Message Bubble -->
       <view class="bubble">{{item.content}}</view>
-      <view class="avatar" wx:if="{{item.type==='self'}}">我</view>
+      
+      <!-- Self Avatar -->
+      <view class="avatar {{item.type === 'self' ? 'avatar-self' : 'avatar-other'}}" wx:if="{{item.type==='self'}}">我</view>
     </view>
   </scroll-view>
 
   <view class="input-bar">
-    <input class="input" value="{{inputValue}}" bindinput="bindInput" placeholder="请输入消息" />
-    <button class="send-btn" bindtap="send">发送</button>
+    <input class="input" value="{{inputValue}}" bindinput="bindInput" placeholder="请输入消息" confirm-type="send" bindconfirm="send" />
+    <button class="send-btn" hover-class="none" bindtap="send">发送</button>
   </view>
 </view>

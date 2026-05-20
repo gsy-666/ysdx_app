@@ -15,16 +15,67 @@ Page({
     },
     patientList: [],
     menuItems: [
-      { path: '/pages/tcm_assessment/tcm_assessment', name: '中医状态评估', desc: '中医辨证与体质测评', icon: '/static/four_diag.svg' },
-      { path: '/pages/diagnose/diagnose', name: '风险预警', desc: '多维健康风险预警', icon: '/static/report.svg' },
+      { path: '/pkg_eval/pages/tcm_assessment/tcm_assessment', name: '中医状态评估', desc: '中医辨证与体质测评', icon: '/static/four_diag.svg' },
+      { path: '/pkg_eval/pages/diagnose/diagnose', name: '风险预警', desc: '多维健康风险预警', icon: '/static/report.svg' },
       { path: '/pages/connect/connect', name: '名医对话', desc: 'AI辅助与专家团队', icon: '/static/doctor_contact.svg' },
       { path: '/pages/article/article', name: '中医科普', desc: '养生知识与视频', icon: '/static/article.svg' },
-    ]
+    ],
+    currentDateStr: '',
+    lunarStr: '惊蛰 - 春养肝'
   },
 
   onShow: function () {
     this.checkRole();
     this.getLocationAndWeather();
+    this.initDate();
+  },
+
+  initDate: function () {
+    const today = new Date();
+    const month = today.getMonth() + 1;
+    const day = today.getDate();
+    const monthStr = String(month).padStart(2, '0');
+    const dayStr = String(day).padStart(2, '0');
+    const weekDays = ['日', '一', '二', '三', '四', '五', '六'];
+    const weekDay = weekDays[today.getDay()];
+
+    const terms = [
+      { m: 1, d: 5, name: '小寒' }, { m: 1, d: 20, name: '大寒' },
+      { m: 2, d: 4, name: '立春' }, { m: 2, d: 19, name: '雨水' },
+      { m: 3, d: 5, name: '惊蛰' }, { m: 3, d: 20, name: '春分' },
+      { m: 4, d: 4, name: '清明' }, { m: 4, d: 20, name: '谷雨' },
+      { m: 5, d: 5, name: '立夏' }, { m: 5, d: 21, name: '小满' },
+      { m: 6, d: 5, name: '芒种' }, { m: 6, d: 21, name: '夏至' },
+      { m: 7, d: 7, name: '小暑' }, { m: 7, d: 23, name: '大暑' },
+      { m: 8, d: 7, name: '立秋' }, { m: 8, d: 23, name: '处暑' },
+      { m: 9, d: 7, name: '白露' }, { m: 9, d: 23, name: '秋分' },
+      { m: 10, d: 8, name: '寒露' }, { m: 10, d: 23, name: '霜降' },
+      { m: 11, d: 7, name: '立冬' }, { m: 11, d: 22, name: '小雪' },
+      { m: 12, d: 7, name: '大雪' }, { m: 12, d: 22, name: '冬至' }
+    ];
+
+    let currentTerm = terms[terms.length - 1];
+    for (let i = 0; i < terms.length; i++) {
+      if (month < terms[i].m || (month === terms[i].m && day < terms[i].d)) {
+        currentTerm = i === 0 ? terms[terms.length - 1] : terms[i - 1];
+        break;
+      }
+    }
+
+    // Get true Chinese lunar calendar date safely
+    let lunarDateStr = '';
+    try {
+      const formatted = new Intl.DateTimeFormat('zh-CN-u-ca-chinese', { dateStyle: 'full' }).format(today);
+      const match = formatted.match(/年(.+?)(星期|$)/);
+      if (match) lunarDateStr = match[1];
+    } catch (e) { }
+
+    const displayLunarStr = lunarDateStr ? `农历${lunarDateStr}` : currentTerm.name;
+
+    this.setData({
+      currentDateStr: `${monthStr}月${dayStr}日 周${weekDay}`,
+      lunarStr: `${displayLunarStr} - ${currentTerm.name}养护季`
+    });
   },
 
   refreshWeather: function () {
@@ -38,7 +89,7 @@ Page({
       success(res) {
         const latitude = res.latitude
         const longitude = res.longitude
-        // 使用您提供的 高德地图 Web服务 Key
+        // 使用您提供的高德地图 Web服务 Key
         const key = '849c6c557123db917b6d95b4cf2a7921';
 
         // 1. 逆地理编码 (获取 adcode 和 城市名)
@@ -73,6 +124,13 @@ Page({
 
               that.setData({
                 'weatherData.city': displayCity
+              });
+
+              wx.setStorageSync('userLocationData', {
+                province: province,
+                city: city,
+                district: district,
+                address: geoRes.data.regeocode.formatted_address
               });
 
               // 2. 获取实时天气
@@ -155,15 +213,44 @@ Page({
 
   navigateTo: function (e) {
     const path = e.currentTarget.dataset.path;
-    wx.navigateTo({
-      url: path,
-      fail: (err) => {
-        console.error('Navigation failed:', err);
-        wx.showToast({
-          title: '跳转失败',
-          icon: 'none'
-        });
-      }
-    });
+
+    if (!path) {
+      wx.showToast({
+        title: '详细页暂未配置',
+        icon: 'none'
+      });
+      return;
+    }
+
+    const tabPages = [
+      '/pages/index/index',
+      '/pages/community/community',
+      '/pages/plan/plan',
+      '/pages/messages/messages',
+      '/pages/profile/profile'
+    ];
+
+    // Check if the target is a tab bar page
+    const isTab = tabPages.some(tab => path.split('?')[0] === tab);
+
+    if (isTab) {
+      wx.switchTab({
+        url: path,
+        fail: (err) => {
+          console.error('SwitchTab failed:', err);
+        }
+      });
+    } else {
+      wx.navigateTo({
+        url: path,
+        fail: (err) => {
+          console.error('Navigation failed:', err);
+          wx.showToast({
+            title: '跳转失败',
+            icon: 'none'
+          });
+        }
+      });
+    }
   }
 })

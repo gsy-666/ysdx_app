@@ -44,7 +44,7 @@
     <!-- AI Doctor Chat -->
     <view class="message-item" bindtap="goToChat" data-type="ai" hover-class="message-item-hover">
       <view class="avatar-box">
-        <image class="avatar" src="/static/doctor_illustration.png" mode="aspectFill"></image>
+        <image class="avatar" src="/static/doctor_origin.png" mode="aspectFill"></image>
         <view class="badge" wx:if="{{aiUnread > 0}}">{{aiUnread}}</view>
       </view>
       <view class="content-box">
@@ -69,7 +69,7 @@
           <text class="time">刚刚</text>
         </view>
         <view class="bottom-row">
-          <text class="desc">欢迎使用云枢代谢综合管理平台！</text>
+          <text class="desc">欢迎使用炎黄济世综合管理平台！</text>
         </view>
       </view>
     </view>

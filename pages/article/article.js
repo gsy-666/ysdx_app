@@ -1,5 +1,5 @@
 // pages/article/article.js
-// const request = require('../../utils/request.js').request;
+const request = require('../../utils/request.js').request;
 
 Page({
   data: {
@@ -12,24 +12,31 @@ Page({
     ]
   },
   onLoad: function () {
-    // this.fetchArticles();
+    this.fetchArticles();
   },
-  /*
+
   fetchArticles: function () {
     request('/article/list', 'GET', {
       pageNo: 1,
       pageSize: 10
     }).then(res => {
       if (res && res.records) {
+        const records = res.records.map(item => ({
+          ...item,
+          summary: item.summary || ((item.content || '').replace(/<[^>]+>/g, '').slice(0, 30) + '...')
+        }));
         this.setData({
-          articles: res.records
+          articles: records
         });
       }
     }).catch(err => {
-      console.error(err);
+      wx.showToast({
+        title: '加载文章失败',
+        icon: 'none'
+      });
     });
   },
-  */
+
   goToDetail: function (e) {
     const id = e.currentTarget.dataset.id;
     wx.navigateTo({

@@ -155,7 +155,7 @@ Page({
   goToChat: function () {
     // Navigate to Chat page
     wx.navigateTo({
-      url: '/pages/connect/chat/chat?doctorId=1&doctorName=AI 健康助手'
+      url: '/pages/connect/chat/chat?type=ai&doctorId=1&doctorName=AI 健康助手'
     })
   },
   goToSystem: function () {

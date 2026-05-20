@@ -47,22 +47,22 @@
       <view class="card">
         <view class="section-title">1. 舌色 ({{tongueData.tongueBody.color}})</view>
         <slider min="1" max="15" value="{{tongueData.tongueBody.color}}" show-value bindchange="onSliderDeep"
-          data-path="tongueData.tongueBody.color" />
+          data-path="tongueData.tongueBody.color" activeColor="#3B99FC" backgroundColor="#E6EEF5" block-size="24" />
         <view class="marks"><text>淡白</text><text>淡红</text><text>鲜红</text><text>绛红</text><text>青紫</text></view>
       </view>
 
       <view class="card">
         <view class="section-title">2. 老嫩 (-5最老 ~ 5最嫩)</view>
         <slider min="-5" max="5" value="{{tongueData.tongueBody.oldYoung}}" show-value bindchange="onSliderDeep"
-          data-path="tongueData.tongueBody.oldYoung" />
+          data-path="tongueData.tongueBody.oldYoung" activeColor="#3B99FC" backgroundColor="#E6EEF5" block-size="24" />
 
         <view class="section-title mt">3. 胖瘦 (-5最胖 ~ 5最瘦)</view>
         <slider min="-5" max="5" value="{{tongueData.tongueBody.fatThin}}" show-value bindchange="onSliderDeep"
-          data-path="tongueData.tongueBody.fatThin" />
+          data-path="tongueData.tongueBody.fatThin" activeColor="#3B99FC" backgroundColor="#E6EEF5" block-size="24" />
 
         <view class="section-title mt">4. 齿痕 (0无 ~ 3重)</view>
         <slider min="0" max="3" value="{{tongueData.tongueBody.teethMark}}" show-value bindchange="onSliderDeep"
-          data-path="tongueData.tongueBody.teethMark" />
+          data-path="tongueData.tongueBody.teethMark" activeColor="#3B99FC" backgroundColor="#E6EEF5" block-size="24" />
       </view>
 
       <!-- More features can be added here if needed, keeping it simpler for MVP -->
@@ -87,7 +87,7 @@
       <view class="card">
         <view class="section-title">2. 润燥 (-5润 ~ 5燥)</view>
         <slider min="-5" max="5" value="{{tongueData.tongueCoating.dryMoist}}" show-value bindchange="onSliderDeep"
-          data-path="tongueData.tongueCoating.dryMoist" />
+          data-path="tongueData.tongueCoating.dryMoist" activeColor="#3B99FC" backgroundColor="#E6EEF5" block-size="24" />
       </view>
     </view>
 
@@ -98,12 +98,12 @@
   <view wx:if="{{step === 2}}" class="step-content">
 
     <!-- 1. Life -->
-    <view class="card collapse-card">
-      <view class="card-header" bindtap="toggleSection" data-id="1">
+    <view class="card wizard-card" wx:if="{{currentQ == 1}}">
+      <view class="card-header">
         <text class="card-title">一、生命精神</text>
-        <text class="arrow">{{activeSection=='1'?'▲':'▼'}}</text>
+        <text class="q-progress">{{currentQ}} / 13</text>
       </view>
-      <view class="card-body" wx:if="{{activeSection=='1'}}">
+      <view class="card-body">
         <checkbox-group bindchange="onLifeChange">
           <label class="block-check" wx:for="{{life.items}}" wx:key="label">
             <checkbox value="{{item.label}}" checked="{{utils.includes(life.selected, item.label)}}" /> {{item.value}}
@@ -113,13 +113,12 @@
     </view>
 
     <!-- 2. ColdHot -->
-    <view class="card collapse-card">
-      <view class="card-header" bindtap="toggleSection" data-id="2">
+    <view class="card wizard-card" wx:if="{{currentQ == 2}}">
+      <view class="card-header">
         <text class="card-title">二、感受（寒热）</text>
-        <text class="active-badge" wx:if="{{utils.hasChecked(coldHotItems)}}">已填</text>
-        <text class="arrow">{{activeSection=='2'?'▲':'▼'}}</text>
+        <text class="q-progress">{{currentQ}} / 13</text>
       </view>
-      <view class="card-body" wx:if="{{activeSection=='2'}}">
+      <view class="card-body">
         <view class="q-item" wx:for="{{coldHotItems}}" wx:key="id" wx:for-index="idx">
           <view class="q-row">
             <checkbox checked="{{item.checked}}" bindtap="toggleItem" data-group="coldHotItems" data-index="{{idx}}" />
@@ -145,12 +144,12 @@
     </view>
 
     <!-- 3. Sweat -->
-    <view class="card collapse-card">
-      <view class="card-header" bindtap="toggleSection" data-id="3">
+    <view class="card wizard-card" wx:if="{{currentQ == 3}}">
+      <view class="card-header">
         <text class="card-title">三、汗出</text>
-        <text class="arrow">{{activeSection=='3'?'▲':'▼'}}</text>
+        <text class="q-progress">{{currentQ}} / 13</text>
       </view>
-      <view class="card-body" wx:if="{{activeSection=='3'}}">
+      <view class="card-body">
         <view class="q-item" wx:for="{{sweatItems}}" wx:key="id" wx:for-index="idx">
           <view class="q-row">
             <checkbox checked="{{item.checked}}" bindtap="toggleItem" data-group="sweatItems" data-index="{{idx}}" />
@@ -174,12 +173,12 @@
     </view>
 
     <!-- 4. Pain (Deep Nested) -->
-    <view class="card collapse-card">
-      <view class="card-header" bindtap="toggleSection" data-id="4">
+    <view class="card wizard-card" wx:if="{{currentQ == 4}}">
+      <view class="card-header">
         <text class="card-title">四、疼痛</text>
-        <text class="arrow">{{activeSection=='4'?'▲':'▼'}}</text>
+        <text class="q-progress">{{currentQ}} / 13</text>
       </view>
-      <view class="card-body" wx:if="{{activeSection=='4'}}">
+      <view class="card-body">
         <view wx:for="{{painLocations}}" wx:key="id" wx:for-index="idx" class="pain-block">
           <!-- Location Check -->
           <view class="pain-header">
@@ -213,12 +212,12 @@
     </view>
 
     <!-- 5. HeadBody -->
-    <view class="card collapse-card">
-      <view class="card-header" bindtap="toggleSection" data-id="5">
+    <view class="card wizard-card" wx:if="{{currentQ == 5}}">
+      <view class="card-header">
         <text class="card-title">五、头身胸腹</text>
-        <text class="arrow">{{activeSection=='5'?'▲':'▼'}}</text>
+        <text class="q-progress">{{currentQ}} / 13</text>
       </view>
-      <view class="card-body" wx:if="{{activeSection=='5'}}">
+      <view class="card-body">
         <view class="sub-title">1. 头面部</view>
         <view class="q-item" wx:for="{{headBodyItems.head}}" wx:key="id" wx:for-index="idx">
           <checkbox checked="{{item.checked}}" bindtap="toggleItem" data-group="headBodyItems.head"
@@ -240,12 +239,12 @@
     </view>
 
     <!-- 6. Sleep -->
-    <view class="card collapse-card">
-      <view class="card-header" bindtap="toggleSection" data-id="6">
+    <view class="card wizard-card" wx:if="{{currentQ == 6}}">
+      <view class="card-header">
         <text class="card-title">六、睡眠精神</text>
-        <text class="arrow">{{activeSection=='6'?'▲':'▼'}}</text>
+        <text class="q-progress">{{currentQ}} / 13</text>
       </view>
-      <view class="card-body" wx:if="{{activeSection=='6'}}">
+      <view class="card-body">
         <view class="q-item" wx:for="{{sleepItems}}" wx:key="id" wx:for-index="idx">
           <checkbox checked="{{item.checked}}" bindtap="toggleItem" data-group="sleepItems" data-index="{{idx}}" />
           {{item.name}}
@@ -254,12 +253,12 @@
     </view>
 
     <!-- 7. Breath -->
-    <view class="card collapse-card">
-      <view class="card-header" bindtap="toggleSection" data-id="7">
+    <view class="card wizard-card" wx:if="{{currentQ == 7}}">
+      <view class="card-header">
         <text class="card-title">七、咳痰喘</text>
-        <text class="arrow">{{activeSection=='7'?'▲':'▼'}}</text>
+        <text class="q-progress">{{currentQ}} / 13</text>
       </view>
-      <view class="card-body" wx:if="{{activeSection=='7'}}">
+      <view class="card-body">
         <view class="sub-title">（一）咳嗽</view>
         <checkbox-group bindchange="onGenericCheckbox" data-path="breath.cough">
           <label class="block-check" wx:for="{{breathOptions.cough}}" wx:key="value">
@@ -278,10 +277,12 @@
     </view>
 
     <!-- 8. Food -->
-    <view class="card collapse-card">
-      <view class="card-header" bindtap="toggleSection" data-id="8"><text class="card-title">八、饮食口味</text><text
-          class="arrow">{{activeSection=='8'?'▲':'▼'}}</text></view>
-      <view class="card-body" wx:if="{{activeSection=='8'}}">
+    <view class="card wizard-card" wx:if="{{currentQ == 8}}">
+      <view class="card-header">
+        <text class="card-title">八、饮食口味</text>
+        <text class="q-progress">{{currentQ}} / 13</text>
+      </view>
+      <view class="card-body">
         <view class="sub-title">饮食</view>
         <checkbox-group bindchange="onGenericCheckbox" data-path="food.diet">
           <label class="block-check" wx:for="{{foodOptions.diet}}" wx:key="value">
@@ -292,10 +293,12 @@
     </view>
 
     <!-- 9. Stool -->
-    <view class="card collapse-card">
-      <view class="card-header" bindtap="toggleSection" data-id="9"><text class="card-title">九、大便</text><text
-          class="arrow">{{activeSection=='9'?'▲':'▼'}}</text></view>
-      <view class="card-body" wx:if="{{activeSection=='9'}}">
+    <view class="card wizard-card" wx:if="{{currentQ == 9}}">
+      <view class="card-header">
+        <text class="card-title">九、大便</text>
+        <text class="q-progress">{{currentQ}} / 13</text>
+      </view>
+      <view class="card-body">
         <view class="sub-title">（一）排泄异常</view>
         <checkbox-group bindchange="onGenericCheckbox" data-path="stool.abnormal">
           <label class="block-check" wx:for="{{stoolOptions.abnormal}}" wx:key="value">
@@ -320,10 +323,12 @@
     </view>
 
     <!-- 10. Urine -->
-    <view class="card collapse-card">
-      <view class="card-header" bindtap="toggleSection" data-id="10"><text class="card-title">十、小便</text><text
-          class="arrow">{{activeSection=='10'?'▲':'▼'}}</text></view>
-      <view class="card-body" wx:if="{{activeSection=='10'}}">
+    <view class="card wizard-card" wx:if="{{currentQ == 10}}">
+      <view class="card-header">
+        <text class="card-title">十、小便</text>
+        <text class="q-progress">{{currentQ}} / 13</text>
+      </view>
+      <view class="card-body">
         <view class="sub-title">（一）尿量</view>
         <checkbox-group bindchange="onGenericCheckbox" data-path="urine.volume">
           <label class="block-check" wx:for="{{urineOptions.volume}}" wx:key="value">
@@ -355,10 +360,12 @@
     </view>
 
     <!-- 11. Female -->
-    <view class="card collapse-card">
-      <view class="card-header" bindtap="toggleSection" data-id="11"><text class="card-title">十一、月经精液</text><text
-          class="arrow">{{activeSection=='11'?'▲':'▼'}}</text></view>
-      <view class="card-body" wx:if="{{activeSection=='11'}}">
+    <view class="card wizard-card" wx:if="{{currentQ == 11}}">
+      <view class="card-header">
+        <text class="card-title">十一、月经精液</text>
+        <text class="q-progress">{{currentQ}} / 13</text>
+      </view>
+      <view class="card-body">
         <view class="sub-title">（一）月经周期</view>
         <checkbox-group bindchange="onGenericCheckbox" data-path="female.cycle">
           <label class="block-check" wx:for="{{femaleOptions.cycle}}" wx:key="value">
@@ -383,10 +390,12 @@
     </view>
 
     <!-- 12. Bleeding -->
-    <view class="card collapse-card">
-      <view class="card-header" bindtap="toggleSection" data-id="12"><text class="card-title">十二、出血</text><text
-          class="arrow">{{activeSection=='12'?'▲':'▼'}}</text></view>
-      <view class="card-body" wx:if="{{activeSection=='12'}}">
+    <view class="card wizard-card" wx:if="{{currentQ == 12}}">
+      <view class="card-header">
+        <text class="card-title">十二、出血</text>
+        <text class="q-progress">{{currentQ}} / 13</text>
+      </view>
+      <view class="card-body">
         <checkbox-group bindchange="onGenericCheckbox" data-path="bleeding">
           <label class="block-check"
             wx:for="{{[ {label:'1', value:'出血浅淡'}, {label:'2', value:'痰中带血'}, {label:'3', value:'出血色鲜红'}, {label:'4', value:'阴道流血'} ]}}"
@@ -398,10 +407,12 @@
     </view>
 
     <!-- 13. Voice -->
-    <view class="card collapse-card">
-      <view class="card-header" bindtap="toggleSection" data-id="13"><text class="card-title">十三、声音</text><text
-          class="arrow">{{activeSection=='13'?'▲':'▼'}}</text></view>
-      <view class="card-body" wx:if="{{activeSection=='13'}}">
+    <view class="card wizard-card" wx:if="{{currentQ == 13}}">
+      <view class="card-header">
+        <text class="card-title">十三、声音</text>
+        <text class="q-progress">{{currentQ}} / 13</text>
+      </view>
+      <view class="card-body">
         <view class="q-item" wx:for="{{voiceItems}}" wx:key="id" wx:for-index="idx">
           <checkbox checked="{{item.checked}}" bindtap="toggleItem" data-group="voiceItems" data-index="{{idx}}" />
           {{item.name}}
@@ -411,8 +422,8 @@
 
 
     <view class="bottom-btns">
-      <button class="default-btn" bindtap="prevStep">上一步</button>
-      <button class="primary-btn" bindtap="submitForm">提交保存</button>
+      <button class="default-btn" bindtap="prevAction">{{currentQ == 1 ? '上一步' : '上一题'}}</button>
+      <button class="primary-btn" bindtap="nextAction">{{currentQ == 13 ? '提交保存' : '下一题'}}</button>
     </view>
 
   </view>

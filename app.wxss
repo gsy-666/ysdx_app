@@ -1,79 +1,27 @@
 /** app.wxss **/
 page {
-  /* Dark Sci-fi TCM Theme */
-  --bg-color: #0b1120;
-  /* Deep dark blue background */
-  --card-bg: rgba(22, 33, 62, 0.8);
-  /* Semi-transparent card background */
-  --primary-color: #4cc9f0;
-  /* Glowing cyan for accents */
-  --secondary-color: #d4a073;
-  /* Traditional gold/bronze */
-  --text-main: #ffffff;
-  /* Main text color */
-  --text-sub: #94a3b8;
-  /* Secondary text color */
-  --border-color: rgba(76, 201, 240, 0.3);
-  /* Subtle borders */
+  /* Cool Medical Blue Theme */
+  --bg-color: #F0F4F7;
+  --card-bg: #FFFFFF;
+  --primary-color: #3B99FC; 
+  --primary-gradient: linear-gradient(90deg, #56CCF2 0%, #2F80ED 100%);
+  --secondary-color: #D4A073; 
+  --text-main: #1F3A56; 
+  --text-sub: #64748B;
+  --border-color: #E6EEF5;
+  --shadow-color: rgba(31, 58, 86, 0.08);
 
   background-color: var(--bg-color);
   color: var(--text-main);
-  background-image: linear-gradient(to bottom, #0b1120, #131b2e);
+  background-image: none;
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica;
   height: 100%;
 }
 
-/* Global Card Style - Dark Glassmorphism */
 .glass-card {
   background: var(--card-bg);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   border: 1px solid var(--border-color);
-  box-shadow: 0 4rpx 30rpx rgba(0, 0, 0, 0.5);
-  border-radius: 16rpx;
+  box-shadow: 0 4rpx 16rpx var(--shadow-color);
+  border-radius: 20rpx;
   color: var(--text-main);
-}
-
-/* Text Utilities */
-.text-primary {
-  color: var(--text-main);
-}
-
-.text-secondary {
-  color: var(--text-sub);
-}
-
-.text-accent {
-  color: var(--primary-color);
-}
-
-.text-gold {
-  color: var(--secondary-color);
-}
-
-.container {
-  box-sizing: border-box;
-}
-
-.avatar-btn {
-  padding: 0 !important;
-  margin: 0 !important;
-  background: transparent;
-  width: 124rpx !important;
-  height: 124rpx !important;
-  min-height: 124rpx !important;
-  min-width: 124rpx !important;
-  border-radius: 50% !important;
-  margin-right: 30rpx !important;
-  display: flex !important;
-  align-items: center;
-  justify-content: center;
-  line-height: inherit;
-  border: 4rpx solid rgba(255, 255, 255, 0.5);
-  box-sizing: border-box;
-  overflow: hidden;
-  font-weight: normal;
-}
-
-.avatar-btn::after {
-  border: none;
 }

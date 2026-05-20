@@ -1,0 +1,25 @@
+<view class="container">
+  <view class="header-bg"></view>
+  
+  <view class="patient-list">
+    <view class="card patient-card" wx:for="{{patients}}" wx:key="index">
+      <view class="patient-header">
+        <text class="name">{{item.name}}</text>
+        <text class="relation">{{item.relation}}</text>
+      </view>
+      <view class="patient-info">
+        <text class="info-item">{{item.gender}} | {{item.age}}岁 | 身份证: {{item.idCard}}</text>
+      </view>
+      <view class="patient-info">
+        <text class="info-item">手机号: {{item.phone}}</text>
+      </view>
+      <view class="actions">
+        <view class="action-btn" bindtap="editPatient">编辑</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="bottom-btn-area">
+    <button class="primary-btn" bindtap="addPatient">+ 添加就诊人</button>
+  </view>
+</view>

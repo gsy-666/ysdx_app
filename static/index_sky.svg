@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="980" viewBox="0 0 750 980" preserveAspectRatio="xMidYMin slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8FD1FF"/>
+      <stop offset="45%" stop-color="#D6EFFF"/>
+      <stop offset="100%" stop-color="#F8FCFF"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="cloud" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.3"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="750" height="980" fill="url(#sky)"/>
+
+  <circle cx="120" cy="180" r="180" fill="url(#glow)"/>
+  <circle cx="640" cy="220" r="220" fill="url(#glow)"/>
+  <circle cx="360" cy="90" r="140" fill="url(#glow)"/>
+
+  <g fill="#FFFFFF" fill-opacity="0.72">
+    <ellipse cx="120" cy="420" rx="220" ry="92"/>
+    <ellipse cx="340" cy="430" rx="210" ry="86"/>
+    <ellipse cx="590" cy="420" rx="230" ry="98"/>
+  </g>
+
+  <g fill="url(#cloud)">
+    <ellipse cx="-30" cy="560" rx="280" ry="92"/>
+    <ellipse cx="280" cy="560" rx="320" ry="88"/>
+    <ellipse cx="650" cy="550" rx="280" ry="96"/>
+  </g>
+
+  <g fill="#F4FAFF" fill-opacity="0.98">
+    <path d="M0 620 C90 575 170 585 250 615 C330 645 420 655 520 622 C610 592 690 598 750 620 L750 980 L0 980 Z"/>
+    <path d="M0 700 C80 665 165 670 245 698 C335 730 430 740 530 708 C620 680 695 683 750 700 L750 980 L0 980 Z" fill-opacity="0.92"/>
+    <path d="M0 780 C95 750 170 752 255 778 C345 806 440 814 540 784 C625 758 700 760 750 780 L750 980 L0 980 Z" fill-opacity="0.86"/>
+  </g>
+
+  <g stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="2" fill="none">
+    <path d="M120 510 C175 485 230 490 282 516"/>
+    <path d="M430 495 C485 470 540 475 595 500"/>
+    <path d="M250 555 C300 535 350 540 400 560"/>
+  </g>
+</svg>

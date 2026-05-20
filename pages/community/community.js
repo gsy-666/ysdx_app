@@ -12,6 +12,104 @@ const CATEGORY_COLORS = {
   'question': '#faad14'
 };
 
+function normalizeImages(rawImages) {
+  if (!Array.isArray(rawImages)) return [];
+  return rawImages.filter((item) => typeof item === 'string' && item && !item.startsWith('wxfile://'));
+}
+
+function resolveSingleCloudFile(fileID) {
+  return new Promise((resolve) => {
+    if (!fileID || !wx.cloud || typeof wx.cloud.getTempFileURL !== 'function') {
+      resolve(fileID || '');
+      return;
+    }
+
+    wx.cloud.getTempFileURL({
+      fileList: [fileID],
+      success: (res) => {
+        const info = (res.fileList || [])[0] || {};
+        if (info.tempFileURL) {
+          resolve(info.tempFileURL);
+          return;
+        }
+
+        if (typeof wx.cloud.downloadFile === 'function') {
+          wx.cloud.downloadFile({
+            fileID,
+            success: (downloadRes) => resolve(downloadRes.tempFilePath || fileID),
+            fail: () => resolve(fileID)
+          });
+          return;
+        }
+
+        resolve(fileID);
+      },
+      fail: () => {
+        if (typeof wx.cloud.downloadFile === 'function') {
+          wx.cloud.downloadFile({
+            fileID,
+            success: (downloadRes) => resolve(downloadRes.tempFilePath || fileID),
+            fail: () => resolve(fileID)
+          });
+          return;
+        }
+        resolve(fileID);
+      }
+    });
+  });
+}
+
+function parseImageField(rawImages, coverImg) {
+  if (Array.isArray(rawImages)) {
+    return rawImages;
+  }
+
+  if (typeof rawImages === 'string' && rawImages.trim()) {
+    let value = rawImages.trim();
+
+    // Compatible with JSON array and double-encoded JSON string formats.
+    for (let i = 0; i < 2; i++) {
+      try {
+        const parsed = JSON.parse(value);
+        if (Array.isArray(parsed)) return parsed;
+        if (typeof parsed === 'string' && parsed.trim()) {
+          value = parsed.trim();
+          continue;
+        }
+      } catch (e) {
+        break;
+      }
+    }
+
+    // Legacy format: comma-separated URLs/fileIDs
+    if (value.includes(',') || value.includes('，')) {
+      return value.split(/[,，]/).map((s) => s.trim()).filter(Boolean);
+    }
+
+    // Single URL/fileID string
+    return [value];
+  }
+
+  if (coverImg) {
+    return [coverImg];
+  }
+
+  return [];
+}
+
+function resolveCloudFileIds(images) {
+  const cloudIds = images.filter((item) => item.startsWith('cloud://'));
+  if (!cloudIds.length || !wx.cloud || typeof wx.cloud.getTempFileURL !== 'function') {
+    return Promise.resolve(images);
+  }
+
+  return Promise.all(images.map(async (img) => {
+    if (!img.startsWith('cloud://')) return img;
+    const tempUrl = await resolveSingleCloudFile(img);
+    return tempUrl || img;
+  }));
+}
+
 Page({
   data: {
     articleList: [],
@@ -22,8 +120,12 @@ Page({
     triggered: false,
     keyword: '',
     activeType: 'all', // 分类：all/health/experience/question
-    activeSort: 'hot'  // 排序：hot/ time
+    activeSort: 'hot', // 排序：hot/ time
+    likeLoadingMap: {},
+    collectLoadingMap: {}
   },
+
+  noopTap() {},
 
   onLoad(options) {
     this.getArticleList(true);
@@ -67,25 +169,23 @@ Page({
 
     this.setData({ loading: true });
     const pageNo = reset ? 1 : this.data.pageNo;
+    const userId = wx.getStorageSync('id');
 
     const params = {
       pageNo,
       pageSize: this.data.pageSize,
       title: this.data.keyword?.trim() || '',
-      categoryId: this.data.activeType === 'all' ? '' : this.data.activeType
+      categoryId: this.data.activeType === 'all' ? '' : this.data.activeType,
+      userId: userId || undefined
     };
 
-    request('/article/list', 'GET', params).then(res => {
-      const records = (res.records || []).map(item => {
-        // Parse images
-        let imgs = [];
-        try {
-          if (item.images) {
-            imgs = JSON.parse(item.images);
-          } else if (item.coverImg) {
-            imgs = [item.coverImg];
-          }
-        } catch (e) { }
+    request('/article/list', 'GET', params).then(async (res) => {
+      const records = await Promise.all((res.records || []).map(async (item) => {
+        // Parse images from multiple legacy/new formats
+        let imgs = parseImageField(item.images, item.coverImg);
+
+        imgs = normalizeImages(imgs);
+        imgs = await resolveCloudFileIds(imgs);
 
         // Map fields
         return {
@@ -95,7 +195,7 @@ Page({
           createTime: item.createTime ? item.createTime.replace('T', ' ').substring(0, 16) : '',
           authorName: item.author, // Map author to authorName for wxml compatibility
         };
-      });
+      }));
 
       const total = Number(res.total) || 0;
       const newList = reset ? records : [...this.data.articleList, ...records];
@@ -145,28 +245,32 @@ Page({
     const postId = e.currentTarget.dataset.id;
     if (!postId) return;
 
+    const userId = wx.getStorageSync('id');
+    if (!userId) {
+      wx.showToast({ title: '请先登录', icon: 'none' });
+      return;
+    }
+
+    if (this.data.likeLoadingMap[postId]) return;
+
     const index = this.data.articleList.findIndex(item => item.id === postId);
     if (index === -1) return;
 
-    // 临时更新UI
-    const newList = [...this.data.articleList];
-    newList[index].isLiked = !newList[index].isLiked;
-    newList[index].likeCount = newList[index].isLiked
-      ? (newList[index].likeCount || 0) + 1
-      : Math.max(0, (newList[index].likeCount || 0) - 1);
-    this.setData({ articleList: newList });
+    this.setData({ [`likeLoadingMap.${postId}`]: true });
 
-    // 发起点赞请求
-    request('/article/like', 'POST', { id: postId }, 'application/json')
+    request('/article/like', 'POST', { id: postId, userId }, 'application/json')
+      .then((res) => {
+        const newList = [...this.data.articleList];
+        newList[index].isLiked = !!res?.liked;
+        newList[index].likeCount = Number(res?.likeCount || 0);
+        this.setData({ articleList: newList });
+      })
       .catch(err => {
         console.error('点赞失败：', err);
-        // 回滚UI
-        newList[index].isLiked = !newList[index].isLiked;
-        newList[index].likeCount = newList[index].isLiked
-          ? (newList[index].likeCount || 0) + 1
-          : Math.max(0, (newList[index].likeCount || 0) - 1);
-        this.setData({ articleList: newList });
         wx.showToast({ title: '操作失败', icon: 'none' });
+      })
+      .finally(() => {
+        this.setData({ [`likeLoadingMap.${postId}`]: false });
       });
   },
 
@@ -175,34 +279,55 @@ Page({
     const postId = e.currentTarget.dataset.id;
     if (!postId) return;
 
+    const userId = wx.getStorageSync('id');
+    if (!userId) {
+      wx.showToast({ title: '请先登录', icon: 'none' });
+      return;
+    }
+
+    if (this.data.collectLoadingMap[postId]) return;
+
     const index = this.data.articleList.findIndex(item => item.id === postId);
     if (index === -1) return;
 
-    // 临时更新UI
-    const newList = [...this.data.articleList];
-    newList[index].isCollected = !newList[index].isCollected;
-    this.setData({ articleList: newList });
+    this.setData({ [`collectLoadingMap.${postId}`]: true });
 
-    // 发起收藏请求
-    request('/article/collect', 'POST', { id: postId }, 'application/json')
+    request('/article/collect', 'POST', { id: postId, userId }, 'application/json')
+      .then((res) => {
+        const newList = [...this.data.articleList];
+        newList[index].isCollected = !!res?.collected;
+        newList[index].collectCount = Number(res?.collectCount || 0);
+        this.setData({ articleList: newList });
+      })
       .catch(err => {
         console.error('收藏失败：', err);
-        // 回滚UI
-        newList[index].isCollected = !newList[index].isCollected;
-        this.setData({ articleList: newList });
         wx.showToast({ title: '操作失败', icon: 'none' });
+      })
+      .finally(() => {
+        this.setData({ [`collectLoadingMap.${postId}`]: false });
       });
   },
 
   // 分享帖子
-  sharePost(e) {
-    const postId = e.currentTarget.dataset.id;
-    if (!postId) return;
+  onShareAppMessage(options) {
+    if (options.from === 'button') {
+      const { id, title } = options.target.dataset;
+      return {
+        title: title || '炎黄济世-健康社区',
+        path: `/pages/community/detail?id=${id}`
+      };
+    }
+    return {
+      title: '炎黄济世-健康社区',
+      path: '/pages/community/community'
+    };
+  },
 
-    wx.showShareMenu({
-      withShareTicket: true,
-      menus: ['shareAppMessage', 'shareTimeline']
-    });
+  onShareTimeline() {
+    return {
+      title: '炎黄济世-健康社区',
+      query: ''
+    };
   },
 
   // ====================== 页面交互 ======================

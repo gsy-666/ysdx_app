@@ -1,6 +1,104 @@
 // pages/community/detail.js
 const { request } = require('../../utils/request.js')
 
+function normalizeImages(rawImages) {
+  if (!Array.isArray(rawImages)) return [];
+  return rawImages.filter((item) => typeof item === 'string' && item && !item.startsWith('wxfile://'));
+}
+
+function resolveSingleCloudFile(fileID) {
+  return new Promise((resolve) => {
+    if (!fileID || !wx.cloud || typeof wx.cloud.getTempFileURL !== 'function') {
+      resolve(fileID || '');
+      return;
+    }
+
+    wx.cloud.getTempFileURL({
+      fileList: [fileID],
+      success: (res) => {
+        const info = (res.fileList || [])[0] || {};
+        if (info.tempFileURL) {
+          resolve(info.tempFileURL);
+          return;
+        }
+
+        if (typeof wx.cloud.downloadFile === 'function') {
+          wx.cloud.downloadFile({
+            fileID,
+            success: (downloadRes) => resolve(downloadRes.tempFilePath || fileID),
+            fail: () => resolve(fileID)
+          });
+          return;
+        }
+
+        resolve(fileID);
+      },
+      fail: () => {
+        if (typeof wx.cloud.downloadFile === 'function') {
+          wx.cloud.downloadFile({
+            fileID,
+            success: (downloadRes) => resolve(downloadRes.tempFilePath || fileID),
+            fail: () => resolve(fileID)
+          });
+          return;
+        }
+        resolve(fileID);
+      }
+    });
+  });
+}
+
+function parseImageField(rawImages, coverImg) {
+  if (Array.isArray(rawImages)) {
+    return rawImages;
+  }
+
+  if (typeof rawImages === 'string' && rawImages.trim()) {
+    let value = rawImages.trim();
+
+    // Compatible with JSON array and double-encoded JSON string formats.
+    for (let i = 0; i < 2; i++) {
+      try {
+        const parsed = JSON.parse(value);
+        if (Array.isArray(parsed)) return parsed;
+        if (typeof parsed === 'string' && parsed.trim()) {
+          value = parsed.trim();
+          continue;
+        }
+      } catch (e) {
+        break;
+      }
+    }
+
+    // Legacy format: comma-separated URLs/fileIDs
+    if (value.includes(',') || value.includes('，')) {
+      return value.split(/[,，]/).map((s) => s.trim()).filter(Boolean);
+    }
+
+    // Single URL/fileID string
+    return [value];
+  }
+
+  if (coverImg) {
+    return [coverImg];
+  }
+
+  return [];
+}
+
+function resolveCloudFileIds(images) {
+  const cloudIds = images.filter((item) => item.startsWith('cloud://'));
+  if (!cloudIds.length || !wx.cloud || typeof wx.cloud.getTempFileURL !== 'function') {
+    return Promise.resolve(images);
+  }
+
+  return Promise.all(images.map(async (img) => {
+    if (!img.startsWith('cloud://')) return img;
+    const tempUrl = await resolveSingleCloudFile(img);
+    return tempUrl || img;
+  }));
+}
+
 Page({
   data: {
     postInfo: {}, // 帖子详情
@@ -10,8 +108,12 @@ Page({
     replyContent: '', // 回复内容
     loadingComment: false,
     triggered: false,
-    postId: ''
+    postId: '',
+    likeSubmitting: false,
+    collectSubmitting: false
   },
+
+  noopTap() {},
 
   onLoad(options) {
     const postId = options.id;
@@ -27,16 +129,15 @@ Page({
 
   // 获取帖子详情
   getPostDetail() {
-    request('/article/getById', 'GET', { id: this.data.postId })
-      .then(res => {
+    const userId = wx.getStorageSync('id');
+    request('/article/getById', 'GET', { id: this.data.postId, userId: userId || undefined })
+      .then(async (res) => {
         let post = res || {};
-        try {
-          if (post.images && typeof post.images === 'string') {
-            post.images = JSON.parse(post.images);
-          } else if (post.coverImg) {
-            post.images = [post.coverImg];
-          }
-        } catch (e) { }
+        post.images = parseImageField(post.images, post.coverImg);
+
+        post.images = normalizeImages(post.images || []);
+        post.images = await resolveCloudFileIds(post.images);
+
         this.setData({ postInfo: post });
       }).catch(err => {
         console.error('获取帖子详情失败：', err);
@@ -53,8 +154,10 @@ Page({
       pageNo: 1, pageSize: 100
     })
       .then(res => {
+        const list = Array.isArray(res.records) ? res.records : [];
         this.setData({
-          commentList: Array.isArray(res.records) ? res.records : [],
+          commentList: list,
+          'postInfo.commentCount': list.length,
           loadingComment: false
         });
       }).catch(err => {
@@ -88,23 +191,28 @@ Page({
     const postId = this.data.postId;
     if (!postId) return;
 
-    const newPostInfo = { ...this.data.postInfo };
-    newPostInfo.isLiked = !newPostInfo.isLiked;
-    newPostInfo.likeCount = newPostInfo.isLiked
-      ? (newPostInfo.likeCount || 0) + 1
-      : Math.max(0, (newPostInfo.likeCount || 0) - 1);
-    this.setData({ postInfo: newPostInfo });
+    const userId = wx.getStorageSync('id');
+    if (!userId) {
+      wx.showToast({ title: '请先登录', icon: 'none' });
+      return;
+    }
 
-    request('/article/like', 'POST', { id: postId }, 'application/json')
+    if (this.data.likeSubmitting) return;
+    this.setData({ likeSubmitting: true });
+
+    request('/article/like', 'POST', { id: postId, userId }, 'application/json')
+      .then((res) => {
+        const newPostInfo = { ...this.data.postInfo };
+        newPostInfo.isLiked = !!res?.liked;
+        newPostInfo.likeCount = Number(res?.likeCount || 0);
+        this.setData({ postInfo: newPostInfo });
+      })
       .catch(err => {
         console.error('点赞失败：', err);
-        // rollback
-        newPostInfo.isLiked = !newPostInfo.isLiked;
-        newPostInfo.likeCount = newPostInfo.isLiked
-          ? (newPostInfo.likeCount || 0) + 1
-          : Math.max(0, (newPostInfo.likeCount || 0) - 1);
-        this.setData({ postInfo: newPostInfo });
         wx.showToast({ title: '操作失败', icon: 'none' });
+      })
+      .finally(() => {
+        this.setData({ likeSubmitting: false });
       });
   },
 
@@ -113,25 +221,44 @@ Page({
     const postId = this.data.postId;
     if (!postId) return;
 
-    const newPostInfo = { ...this.data.postInfo };
-    newPostInfo.isCollected = !newPostInfo.isCollected;
-    this.setData({ postInfo: newPostInfo });
+    const userId = wx.getStorageSync('id');
+    if (!userId) {
+      wx.showToast({ title: '请先登录', icon: 'none' });
+      return;
+    }
 
-    request('/article/collect', 'POST', { id: postId }, 'application/json')
+    if (this.data.collectSubmitting) return;
+    this.setData({ collectSubmitting: true });
+
+    request('/article/collect', 'POST', { id: postId, userId }, 'application/json')
+      .then((res) => {
+        const newPostInfo = { ...this.data.postInfo };
+        newPostInfo.isCollected = !!res?.collected;
+        newPostInfo.collectCount = Number(res?.collectCount || 0);
+        this.setData({ postInfo: newPostInfo });
+      })
       .catch(err => {
         console.error('收藏失败：', err);
-        newPostInfo.isCollected = !newPostInfo.isCollected;
-        this.setData({ postInfo: newPostInfo });
         wx.showToast({ title: '操作失败', icon: 'none' });
+      })
+      .finally(() => {
+        this.setData({ collectSubmitting: false });
       });
   },
 
   // 分享帖子
-  sharePost() {
-    wx.showShareMenu({
-      withShareTicket: true,
-      menus: ['shareAppMessage', 'shareTimeline']
-    });
+  onShareAppMessage() {
+    return {
+      title: this.data.postInfo.title || '炎黄济世',
+      path: `/pages/community/detail?id=${this.data.postId}`
+    };
+  },
+
+  onShareTimeline() {
+    return {
+      title: this.data.postInfo.title || '炎黄济世',
+      query: `id=${this.data.postId}`
+    };
   },
 
   // 预览图片

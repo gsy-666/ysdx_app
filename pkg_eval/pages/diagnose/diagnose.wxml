@@ -1,0 +1,84 @@
+<!--pages/diagnose/diagnose.wxml-->
+<view class="container">
+  <movable-area class="panorama-area" scale-area>
+    <movable-view class="panorama-view" direction="all" scale="{{true}}" scale-min="0.5" scale-max="5.0"
+      scale-value="{{1}}" out-of-bounds="{{true}}" damping="20">
+      <view class="content-wrapper">
+        <view class="body-anchor-container">
+          <image class="body-anchor" src="{{bodyImage}}" mode="widthFix" binderror="onImageError"></image>
+        </view>
+
+        <block wx:for="{{organNodes}}" wx:key="key">
+          <view class="hotspot-area"
+            style="left: {{item.position.x}}%; top: {{item.position.y}}%; width: {{item.width || 18}}%; height: {{item.height || 12}}%;"
+            bindtap="handleNodeClick" data-route="{{item.route}}" hover-class="hotspot-active">
+            <!-- Optional: Add a visual indicator or label if needed -->
+            <!-- <text class="hotspot-label">{{item.title}}</text> -->
+          </view>
+        </block>
+      </view>
+    </movable-view>
+  </movable-area>
+
+  <view class="zoom-hint">
+    <text>双指缩放 · 点击光圈查看详情</text>
+  </view>
+
+  <!-- Side Floating Buttons -->
+  <view class="float-btn-group">
+    <!-- Collection Button -->
+    <view class="float-btn sub-btn" bindtap="goToCollect">
+      <image class="btn-icon" src="../../../static/four_diag.svg" mode="aspectFit"></image>
+      <text>信息采集</text>
+    </view>
+
+    <!-- Analysis Button -->
+    <view class="float-btn main-btn" bindtap="showRadar">
+      <image class="btn-icon" src="../../../static/report.svg" mode="aspectFit"></image>
+      <text>综合分析</text>
+    </view>
+  </view>
+
+  <view class="radar-modal {{showRadar ? 'show' : ''}}">
+    <view class="radar-mask" bindtap="hideRadar" catchtouchmove="preventTouchMove"></view>
+    <view class="radar-content">
+      <view class="radar-header">
+        <text class="radar-title">五脏平衡·健康态势</text>
+        <view class="close-btn" bindtap="hideRadar">×</view>
+      </view>
+
+      <view class="radar-scroll-area">
+        <view class="radar-scroll-area-inner">
+          <!-- Chart needs wx:if to render correctly when shown -->
+          <view class="radar-chart-box">
+            <ec-canvas wx:if="{{showRadar}}" id="mychart-dom-radar" canvas-id="mychart-radar" ec="{{ec}}"></ec-canvas>
+          </view>
+
+          <view class="radar-standard-tip">标准范围：0-60 为建议区间，超过 60 的区域会以红色提示。</view>
+
+      <view class="label-risk-card">
+        <view class="label-risk-title">证素标签风险分布</view>
+        <block wx:for="{{labelRiskList}}" wx:key="name">
+          <view class="label-risk-row">
+            <text class="risk-name">{{item.name}}</text>
+            <view class="risk-track">
+              <view class="risk-standard-line" style="left: {{standardLimit}}%;"></view>
+              <view class="risk-fill {{item.exceed ? 'exceed' : ''}}" style="width: {{item.score}}%;"></view>
+            </view>
+            <text class="risk-score {{item.exceed ? 'exceed-text' : ''}}">{{item.score}}</text>
+          </view>
+        </block>
+      </view>
+
+      <view class="radar-desc">
+        <text class="desc-label">分析结论：</text>
+        <text class="desc-text">{{analysisText}}</text>
+        <text class="desc-time" wx:if="{{analysisUpdatedAt}}">更新时间：{{analysisUpdatedAt}}</text>
+      </view>
+
+        <button class="action-btn" bindtap="goToCollect">去更新模型数据</button>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

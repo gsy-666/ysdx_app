@@ -5,17 +5,17 @@ Page({
     isLoggedIn: false,
     roleName: '',
     functions: [
-      { name: '我的预约', icon: '/static/report.svg' },
-      { name: '我的复诊', icon: '/static/report.svg' },
-      { name: '复诊表单', icon: '/static/assessment.svg' },
-      { name: '我的屏蔽', icon: '/static/filter.svg' },
-      { name: '就诊人管理', icon: '/static/profile.svg' },
-      { name: 'BMI计算器', icon: '/static/weight.svg' },
-      { name: '建议医嘱', icon: '/static/report.svg' },
-      { name: '地址管理', icon: '/static/home.svg' },
-      { name: '功能引导', icon: '/static/article.svg' },
-      { name: '意见反馈', icon: '/static/message.svg' },
-      { name: '设置', icon: '/static/filter.svg' }
+      { name: '我的预约', icon: '/static/report.svg', url: '/pages/my_appointment/my_appointment' },
+      { name: '我的复诊', icon: '/static/report.svg', url: '/pages/my_followup/my_followup' },
+      { name: '复诊表单', icon: '/static/assessment.svg', url: '/pages/followup_form/followup_form' },
+      { name: '我的屏蔽', icon: '/static/filter.svg', url: '/pages/my_block/my_block' },
+      { name: '就诊人管理', icon: '/static/profile.svg', url: '/pages/patient_manage/patient_manage' },
+      { name: 'BMI计算器', icon: '/static/weight.svg', url: '/pages/bmi_calculator/bmi_calculator' },
+      { name: '建议医嘱', icon: '/static/report.svg', url: '/pages/medical_advice/medical_advice' },
+      { name: '地址管理', icon: '/static/home.svg', url: '/pages/address_manage/address_manage' },
+      { name: '功能引导', icon: '/static/article.svg', url: '/pages/function_guide/function_guide' },
+      { name: '意见反馈', icon: '/static/message.svg', url: '/pages/feedback/feedback' },
+      { name: '设置', icon: '/static/filter.svg', url: '/pages/settings/settings' }
     ]
   },
 

@@ -1,0 +1,23 @@
+<view class="container">
+  <view class="header-bg"></view>
+  <view class="card main-card">
+    <view class="card-title">BMI计算器</view>
+    <view class="form-group">
+      <view class="form-item">
+        <text class="label">身高 (cm)</text>
+        <input class="input-box" type="digit" placeholder="请输入身高" bindinput="onHeightInput" />
+      </view>
+      <view class="form-item">
+        <text class="label">体重 (kg)</text>
+        <input class="input-box" type="digit" placeholder="请输入体重" bindinput="onWeightInput" />
+      </view>
+      <button class="primary-btn m-top" bindtap="calculateBMI">计算 BMI</button>
+    </view>
+    
+    <view class="result-box" wx:if="{{bmiResult}}">
+      <view class="result-title">您的 BMI 指数</view>
+      <view class="result-value {{isNormal ? 'text-normal' : 'text-abnormal'}}">{{bmiResult}}</view>
+      <view class="result-desc {{isNormal ? 'text-normal' : 'text-abnormal'}}">{{bmiDesc}}</view>
+    </view>
+  </view>
+</view>

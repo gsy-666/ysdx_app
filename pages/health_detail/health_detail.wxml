@@ -1,0 +1,93 @@
+<view class="detail-container">
+  <!-- Top Background Decor -->
+  <view class="top-bg-decor"></view>
+
+  <view class="content-wrapper">
+    <!-- Card 1: Daily Health Summary -->
+    <view class="glass-card summary-card">
+      <view class="card-header">
+        <text class="date-text">{{currentDateStr}}</text>
+        <text class="divider">|</text>
+        <text class="lunar-text">{{lunarStr}}</text>
+      </view>
+      <view class="metrics-row">
+        <view class="metric-item">
+          <view class="metric-value">72<text class="unit">kg</text><text class="trend up">72.5</text></view>
+          <view class="metric-desc">
+            <view class="tag green">变</view>增重: 早起称重
+          </view>
+        </view>
+        <view class="metric-item border-left">
+          <view class="metric-value">5.4<text class="unit"></text><text class="trend down">5.6</text></view>
+          <view class="metric-desc">
+            <view class="tag red">警</view>熬夜熬夜
+          </view>
+        </view>
+        <view class="metric-item border-left">
+          <view class="metric-value">118/78<text class="unit-s">mmHg</text></view>
+          <view class="metric-desc">
+            <view class="tag gray">时</view>8:00 记录
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- Card 2: Seasonal Health Advice -->
+    <view class="glass-card seasonal-card">
+      <view class="seasonal-content">
+        <view class="seasonal-title">今日：农历{{lunarDateStr}} {{solarTermName || '更新中'}}季</view>
+        <view class="seasonal-desc">{{solarTermDesc || '建议加载中'}}</view>
+        <view class="seasonal-rec">{{solarTermRec || '推荐：无'}}</view>
+        <view class="seasonal-btn">查看养生建议 ></view>
+      </view>
+      <image class="seasonal-img" src="/static/article.svg" mode="aspectFit"></image>
+    </view>
+
+    <!-- Card 3: Health Trend -->
+    <view class="glass-card trend-card">
+      <view class="trend-title">健康趋势</view>
+      <view class="trend-chart-area">
+        <view class="trend-line-svg">
+           <!-- Simulate the curve line -->
+           <view class="fake-curve"></view>
+        </view>
+        <view class="trend-points">
+          <view class="t-point mt-2">
+            <view class="t-val">72.5kg <text class="up-arr"></text></view>     
+            <view class="t-dot t-dot-active"></view>
+            <view class="t-label">72.5kg</view>
+          </view>
+          <view class="t-point mt-1">
+            <view class="t-val black">71kg</view>
+            <view class="t-dot"></view>
+            <view class="t-label">72</view>
+          </view>
+          <view class="t-point mt-1">
+            <view class="t-val black">71kg <text class="down-arr"></text></view>
+            <view class="t-dot"></view>
+            <view class="t-label">71 座</view>
+          </view>
+          <view class="t-point mt-3">
+            <view class="t-val"></view>
+            <view class="t-dot"></view>
+            <view class="t-label">5.6</view>
+          </view>
+          <view class="t-point mt-3">
+            <view class="t-val"></view>
+            <view class="t-dot"></view>
+            <view class="t-label">71.2L</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- Card 4: Action Banner -->
+    <view class="glass-card action-banner">
+      <view class="action-content">
+          <view class="action-title">加入管理计划对我有什么帮助？</view>        
+          <view class="action-desc" style="margin-top: 10rpx;">科学管理、名医咨询、健康随访</view>
+      </view>
+      <view class="action-btn">去查看 ></view>
+    </view>
+  </view>
+</view>
