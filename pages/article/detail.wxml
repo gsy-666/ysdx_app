@@ -1,5 +1,15 @@
 <!--pages/article/detail.wxml-->
 <view class="container">
-  <view class="title">{{article.title}}</view>
-  <rich-text nodes="{{article.content}}"></rich-text>
+  <view class="article-wrap">
+    <view class="title">{{article.title}}</view>
+    <view class="meta">
+      <text class="author" wx:if="{{article.author}}">{{article.author}}</text>
+      <text class="time" wx:if="{{article.createTime}}">{{article.createTimeFormatted || article.createTime}}</text>
+      <text class="views" wx:if="{{article.viewCount !== undefined}}">阅读 {{article.viewCount}}</text>
+    </view>
+    
+    <view class="content">
+      <rich-text nodes="{{article.content}}"></rich-text>
+    </view>
+  </view>
 </view>
