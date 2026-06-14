@@ -1,5 +1,5 @@
 // pages/community/detail.js
-const { request } = require('../../utils/request.js')
+const request = require('../../utils/request.js').request
 
 function normalizeImages(rawImages) {
   if (!Array.isArray(rawImages)) return [];
@@ -56,7 +56,6 @@ function parseImageField(rawImages, coverImg) {
   if (typeof rawImages === 'string' && rawImages.trim()) {
     let value = rawImages.trim();
 
-    // Compatible with JSON array and double-encoded JSON string formats.
     for (let i = 0; i < 2; i++) {
       try {
         const parsed = JSON.parse(value);
@@ -70,12 +69,10 @@ function parseImageField(rawImages, coverImg) {
       }
     }
 
-    // Legacy format: comma-separated URLs/fileIDs
     if (value.includes(',') || value.includes('，')) {
       return value.split(/[,，]/).map((s) => s.trim()).filter(Boolean);
     }
 
-    // Single URL/fileID string
     return [value];
   }
 
@@ -99,13 +96,24 @@ function resolveCloudFileIds(images) {
   }));
 }
 
+function stripHtml(html) {
+  return String(html || '')
+    .replace(/<style[\s\S]*?<\/style>/gi, '')
+    .replace(/<script[\s\S]*?<\/script>/gi, '')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 Page({
   data: {
-    postInfo: {}, // 帖子详情
-    commentList: [], // 评论列表
-    commentContent: '', // 评论输入内容
-    replyId: '', // 回复的评论ID
-    replyContent: '', // 回复内容
+    postInfo: {},
+    commentList: [],
+    commentContent: '',
+    replyId: '',
+    replyContent: '',
     loadingComment: false,
     triggered: false,
     postId: '',
@@ -127,17 +135,15 @@ Page({
     this.getCommentList();
   },
 
-  // 获取帖子详情
   getPostDetail() {
     const userId = wx.getStorageSync('id');
     request('/article/getById', 'GET', { id: this.data.postId, userId: userId || undefined })
       .then(async (res) => {
         let post = res || {};
         post.images = parseImageField(post.images, post.coverImg);
-
         post.images = normalizeImages(post.images || []);
         post.images = await resolveCloudFileIds(post.images);
-
+        post.content = stripHtml(post.content);
         this.setData({ postInfo: post });
       }).catch(err => {
         console.error('获取帖子详情失败：', err);
@@ -146,11 +152,10 @@ Page({
       });
   },
 
-  // 获取评论列表
   getCommentList() {
     this.setData({ loadingComment: true });
     request('/community/comment/list', 'GET', {
-      articleId: this.data.postId, // Map postId to articleId
+      articleId: this.data.postId,
       pageNo: 1, pageSize: 100
     })
       .then(res => {
@@ -167,12 +172,10 @@ Page({
       });
   },
 
-  // 关注/取消关注作者
   toggleFollow() {
     const authorId = this.data.postInfo.authorId;
     if (!authorId) return;
 
-    // 临时更新UI
     const newPostInfo = { ...this.data.postInfo };
     newPostInfo.isFollowed = !newPostInfo.isFollowed;
     this.setData({ postInfo: newPostInfo });
@@ -180,13 +183,11 @@ Page({
     request('/community/follow/toggle', 'POST', { authorId }, 'application/json')
       .catch(err => {
         console.error('关注失败：', err);
-        // fallback
         newPostInfo.isFollowed = !newPostInfo.isFollowed;
         this.setData({ postInfo: newPostInfo });
       });
   },
 
-  // 点赞/取消点赞帖子
   toggleLike() {
     const postId = this.data.postId;
     if (!postId) return;
@@ -216,7 +217,6 @@ Page({
       });
   },
 
-  // 收藏/取消收藏帖子
   toggleCollect() {
     const postId = this.data.postId;
     if (!postId) return;
@@ -246,7 +246,6 @@ Page({
       });
   },
 
-  // 分享帖子
   onShareAppMessage() {
     return {
       title: this.data.postInfo.title || '炎黄济世',
@@ -261,7 +260,6 @@ Page({
     };
   },
 
-  // 预览图片
   previewImage(e) {
     const url = e.currentTarget.dataset.url;
     const list = e.currentTarget.dataset.list;
@@ -271,12 +269,10 @@ Page({
     });
   },
 
-  // 评论输入
   bindCommentInput(e) {
     this.setData({ commentContent: e.detail.value || '' });
   },
 
-  // 发布评论
   publishComment() {
     const content = this.data.commentContent.trim();
     if (!content) {
@@ -290,7 +286,7 @@ Page({
     const authorAvatar = wx.getStorageSync('avatar') || '';
 
     request('/community/comment/publish', 'POST', {
-      articleId: this.data.postId, // Map to articleId
+      articleId: this.data.postId,
       content: content,
       authorId: authorId,
       authorName: authorName,
@@ -298,14 +294,13 @@ Page({
     }, 'application/json').then(() => {
       wx.showToast({ title: '评论发布成功' });
       this.setData({ commentContent: '' });
-      this.getCommentList(); // 刷新评论列表
+      this.getCommentList();
     }).catch(err => {
       console.error('发布评论失败：', err);
       wx.showToast({ title: '评论发布失败', icon: 'none' });
     });
   },
 
-  // 点赞评论
   likeComment(e) {
     const commentId = e.currentTarget.dataset.id;
     if (!commentId) return;
@@ -326,7 +321,6 @@ Page({
       });
   },
 
-  // 回复评论
   replyComment(e) {
     const id = e.currentTarget.dataset.id;
     this.setData({
@@ -335,12 +329,10 @@ Page({
     });
   },
 
-  // 回复输入
   bindReplyInput(e) {
     this.setData({ replyContent: e.detail.value || '' });
   },
 
-  // 发布回复
   publishReply(e) {
     const commentId = e.currentTarget.dataset.id;
     const content = this.data.replyContent.trim();
@@ -351,7 +343,7 @@ Page({
     const authorAvatar = wx.getStorageSync('avatar') || '';
 
     request('/community/comment/reply', 'POST', {
-      parentId: commentId, // Map to parentId
+      parentId: commentId,
       articleId: this.data.postId,
       content: content,
       authorId: authorId,
@@ -360,14 +352,13 @@ Page({
     }, 'application/json').then(() => {
       wx.showToast({ title: '回复成功' });
       this.setData({ replyId: '', replyContent: '' });
-      this.getCommentList(); // 刷新评论列表
+      this.getCommentList();
     }).catch(err => {
       console.error('回复失败：', err);
       wx.showToast({ title: '回复失败', icon: 'none' });
     });
   },
 
-  // 下拉刷新
   onPullDownRefresh() {
     this.setData({ triggered: true });
     this.getPostDetail();

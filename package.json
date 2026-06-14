@@ -16,5 +16,8 @@
     "url": "https://github.com/gsy-666/ysdx_app/issues"
   },
   "homepage": "https://github.com/gsy-666/ysdx_app#readme",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "mp-html": "^2.5.2"
+  }
 }

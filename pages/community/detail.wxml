@@ -16,22 +16,18 @@
       </view>
       <view class="post-title">{{postInfo.title}}</view>
       <view class="post-desc">{{postInfo.content}}</view>
-      <!-- 帖子图片 -->
       <view class="post-img-group" wx:if="{{postInfo.images && postInfo.images.length > 0}}">
         <block wx:for="{{postInfo.images}}" wx:key="index">
           <image class="post-img" src="{{item}}" mode="aspectFit" bindtap="previewImage" data-url="{{item}}"
             data-list="{{postInfo.images}}"></image>
         </block>
       </view>
-      <!-- 互动栏 -->
       <view class="post-interact">
         <view class="interact-item" catchtap="toggleLike">
-          <!-- <image src="{{postInfo.isLiked ? '/static/like_active.png' : '/static/like.png'}}" class="interact-icon"></image> -->
           <text class="emoji-icon" style="color: {{postInfo.isLiked ? '#FF4D4F' : '#64748B'}};">{{postInfo.isLiked ? '♥' : '♡'}}</text>
           <text>{{postInfo.likeCount || 0}}</text>
         </view>
         <view class="interact-item" catchtap="toggleCollect">
-          <!-- <image src="{{postInfo.isCollected ? '/static/collect_active.png' : '/static/collect.png'}}" class="interact-icon"></image> -->
           <text class="emoji-icon" style="color: {{postInfo.isCollected ? '#FDB933' : '#64748B'}};">{{postInfo.isCollected ? '★' : '☆'}}</text>
           <text>{{postInfo.collectCount || 0}}</text>
         </view>
@@ -47,12 +43,10 @@
     <!-- 评论区 -->
     <view class="comment-section">
       <view class="comment-title">评论区 ({{postInfo.commentCount || 0}})</view>
-      <!-- 发布评论 -->
       <view class="comment-input-box">
         <input class="comment-input" placeholder="说点什么..." bindinput="bindCommentInput" value="{{commentContent}}" />
         <button class="send-btn" bindtap="publishComment">发布</button>
       </view>
-      <!-- 评论列表 -->
       <view class="comment-list">
         <block wx:for="{{commentList}}" wx:key="id">
           <view class="comment-item">
@@ -73,7 +67,6 @@
                   </text>
                 </view>
               </view>
-              <!-- 回复列表 -->
               <view class="reply-list" wx:if="{{item.replies && item.replies.length > 0}}">
                 <block wx:for="{{item.replies}}" wx:key="id">
                   <view class="reply-item">
@@ -83,7 +76,6 @@
                   </view>
                 </block>
               </view>
-              <!-- 回复输入框 -->
               <view class="reply-input-box" wx:if="{{replyId === item.id}}">
                 <input class="reply-input" placeholder="回复 {{item.authorName}}..." bindinput="bindReplyInput"
                   value="{{replyContent}}" />

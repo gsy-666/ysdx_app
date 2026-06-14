@@ -52,3 +52,9 @@ page {
   word-wrap: break-word;
   text-align: justify;
 }
+
+.content-empty {
+  color: #999999;
+  font-size: 30rpx;
+  line-height: 1.75;
+}

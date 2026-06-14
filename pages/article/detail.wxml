@@ -7,9 +7,11 @@
       <text class="time" wx:if="{{article.createTime}}">{{article.createTimeFormatted || article.createTime}}</text>
       <text class="views" wx:if="{{article.viewCount !== undefined}}">阅读 {{article.viewCount}}</text>
     </view>
-    
-    <view class="content">
+
+    <view class="content" wx:if="{{article.content}}">
       <rich-text nodes="{{article.content}}"></rich-text>
     </view>
+
+    <view class="content-empty" wx:else>暂无正文</view>
   </view>
 </view>

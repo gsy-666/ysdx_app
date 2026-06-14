@@ -5,11 +5,11 @@ const getBaseURL = requestModule.getBaseURL;
 
 Page({
   data: {
-    step: 1,
+    step: 2,
     activeSection: '1',
     activeTab: 'body', // 'body' or 'coating'
 
-    // === Step 1: Tongue Diagnosis ===
+    // Tongue diagnosis is kept for future development
     tongueData: {
       logo: '',
       label: '',

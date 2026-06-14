@@ -2,16 +2,15 @@
 <view class="container">
   <scroll-view scroll-y class="chat-area">
     <view wx:for="{{chatList}}" wx:key="id" class="msg-row {{item.type === 'self' ? 'msg-self' : 'msg-other'}}">
-      <!-- Others Avatar -->
       <view class="avatar {{item.type === 'self' ? 'avatar-self' : 'avatar-other'}}" wx:if="{{item.type!=='self'}}">
         <image wx:if="{{chatType === 'ai'}}" src="/static/doctor_origin.png" mode="aspectFill" class="ai-avatar-img"></image>
         <text wx:else>医</text>
       </view>
-      
-      <!-- Message Bubble -->
-      <view class="bubble">{{item.content}}</view>
-      
-      <!-- Self Avatar -->
+
+      <view class="bubble">
+        <text class="bubble-plain">{{item.content}}</text>
+      </view>
+
       <view class="avatar {{item.type === 'self' ? 'avatar-self' : 'avatar-other'}}" wx:if="{{item.type==='self'}}">我</view>
     </view>
   </scroll-view>
