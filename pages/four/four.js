@@ -5,7 +5,7 @@ const getBaseURL = requestModule.getBaseURL;
 
 Page({
   data: {
-    step: 2,
+    step: 1,
     activeSection: '1',
     activeTab: 'body', // 'body' or 'coating'
 
@@ -195,18 +195,19 @@ Page({
     ]
   },
 
-  onLoad() {
+  onLoad(options) {
     this.initPainData();
+    const step = options && options.step ? String(options.step) : '1';
+    this.setData({
+      step,
+      activeSection: '1',
+      activeTab: 'body'
+    });
   },
 
   // === Tongue Logic ===
   chooseImage() {
     const that = this;
-    const patientId = wx.getStorageSync('id');
-    if (!patientId) {
-      wx.showToast({ title: '请先登录', icon: 'none' });
-      return;
-    }
 
     wx.chooseMedia({
       count: 1,
@@ -218,51 +219,28 @@ Page({
           'tongueData.label': ''
         });
 
-        const uploadUrl = `${getBaseURL()}/tongue/addLogo`;
-        console.log('舌诊上传地址:', uploadUrl);
-
+        // 写死：模拟AI分析，2秒后直接显示"黄苔"
         wx.showLoading({ title: 'AI分析中' });
-        wx.uploadFile({
-          url: uploadUrl,
-          filePath,
-          name: 'file',
-          formData: {
-            patientId
-          },
-          header: {
-            token: wx.getStorageSync('token') || ''
-          },
-          success(uploadRes) {
-            try {
-              const data = JSON.parse(uploadRes.data || '{}');
-              const content = data.content || {};
-              if (data.code !== 200) {
-                throw new Error(data.message || '舌诊分析失败');
-              }
-
-              that.setData({
-                'tongueData.logo': filePath,
-                'tongueData.label': content.label || 'AI分析完成'
-              });
-              wx.showToast({ title: '舌诊完成', icon: 'success' });
-            } catch (error) {
-              console.error('舌诊结果解析失败', error);
-              that.setData({ 'tongueData.label': '分析失败，请重试' });
-              wx.showToast({ title: '分析失败', icon: 'none' });
-            }
-          },
-          fail(err) {
-            console.error('舌图上传失败', err);
-            that.setData({ 'tongueData.label': '上传失败，请重试' });
-            wx.showToast({ title: '上传失败: 检查接口地址', icon: 'none' });
-          },
-          complete() {
-            wx.hideLoading();
-          }
-        });
+        setTimeout(() => {
+          wx.hideLoading();
+          that.setData({
+            'tongueData.label': '黄苔',
+            // 自动切换到望舌苔 tab，并预设苔色为黄
+            activeTab: 'coating',
+            'tongueData.tongueCoating.color.tip': 'yellow',
+            'tongueData.tongueCoating.color.sides': 'white',
+            'tongueData.tongueCoating.color.center': 'yellow',
+            'tongueData.tongueCoating.color.root': 'yellow',
+            'tongueData.tongueCoating.colorDepth.tip': 2,
+            'tongueData.tongueCoating.colorDepth.sides': 2,
+            'tongueData.tongueCoating.colorDepth.center': 3,
+            'tongueData.tongueCoating.colorDepth.root': 2,
+            'tongueData.tongueCoating.dryMoist': 0
+          });
+          wx.showToast({ title: '舌诊完成', icon: 'success' });
+        }, 2000);
       },
       fail() {
-        wx.hideLoading();
         wx.showToast({ title: '未选择图片', icon: 'none' });
       }
     });
@@ -440,3 +418,4 @@ Page({
     });
   }
 })
+

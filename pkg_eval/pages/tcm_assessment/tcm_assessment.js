@@ -7,14 +7,13 @@ let ecRightComponent = null;
 
 function initChartLeft(canvas, width, height, dpr) {
   const chart = echarts.init(canvas, null, {
-    width: width,
-    height: height,
+    width,
+    height,
     devicePixelRatio: dpr,
     renderer: 'canvas'
   });
   canvas.setChart(chart);
   leftChartInstance = chart;
-
   chart.setOption({
     backgroundColor: 'transparent',
     color: ['#FF9F7F', '#FFDB5C', '#37A2DA'],
@@ -27,26 +26,12 @@ function initChartLeft(canvas, width, height, dpr) {
       min: 0,
       max: 100,
       splitNumber: 5,
-      axisLine: {
-        lineStyle: {
-          width: 6,
-          color: [
-            [0.3, '#67e0e3'],
-            [0.7, '#37a2da'],
-            [1, '#fd666d']
-          ]
-        }
-      },
+      axisLine: { lineStyle: { width: 6, color: [[0.3, '#67e0e3'], [0.7, '#37a2da'], [1, '#fd666d']] } },
       pointer: { itemStyle: { color: 'auto' }, width: 3, length: '60%' },
       axisTick: { show: false },
       splitLine: { show: false },
       axisLabel: { show: false },
-      detail: {
-        valueAnimation: true,
-        formatter: '{value}',
-        color: 'auto',
-        fontSize: 20
-      },
+      detail: { valueAnimation: true, formatter: '{value}', color: 'auto', fontSize: 20 },
       data: [{ value: 85 }]
     }]
   });
@@ -55,25 +40,20 @@ function initChartLeft(canvas, width, height, dpr) {
 
 function initChartRight(canvas, width, height, dpr) {
   const chart = echarts.init(canvas, null, {
-    width: width,
-    height: height,
+    width,
+    height,
     devicePixelRatio: dpr,
     renderer: 'canvas'
   });
   canvas.setChart(chart);
   rightChartInstance = chart;
-
   chart.setOption({
     backgroundColor: 'transparent',
     color: ['#32C5E9'],
     sidebar: { show: false },
     xAxis: { show: false, data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] },
     yAxis: { show: false },
-    series: [{
-      type: 'bar',
-      data: [10, 52, 200, 334, 390, 330, 220],
-      itemStyle: { borderRadius: 5 }
-    }]
+    series: [{ type: 'bar', data: [10, 52, 200, 334, 390, 330, 220], itemStyle: { borderRadius: 5 } }]
   });
   return chart;
 }
@@ -83,7 +63,7 @@ Page({
     ecLeft: { onInit: initChartLeft, lazyLoad: false, disableTouch: true },
     ecRight: { onInit: initChartRight, lazyLoad: false, disableTouch: true },
     features: [
-      { id: 1, title: '望诊', sub: '面色 / 面部特征', icon: '👁️', bgClass: 'bg-1' },
+      { id: 1, title: '望诊', sub: '舌象 / 面色', icon: '👁️', bgClass: 'bg-1' },
       { id: 2, title: '闻诊', sub: '听声 / 嗅气', icon: '👂', bgClass: 'bg-2' },
       { id: 3, title: '问诊', sub: '体质问卷', icon: '📝', bgClass: 'bg-3' },
       { id: 4, title: '切诊', sub: '脉象分析', icon: '💓', bgClass: 'bg-4' }
@@ -133,23 +113,20 @@ Page({
   },
 
   onIdentify() {
-    wx.showToast({
-      title: '开始一键辨识...',
-      icon: 'loading'
-    });
+    wx.showToast({ title: '开始一键辨识...', icon: 'loading' });
   },
 
   onFeatureTap(e) {
     const idx = e.currentTarget.dataset.index;
     const item = this.data.features[idx];
-    console.log("Tapped", item.title);
+    console.log('Tapped', item.title);
 
     if (item.title === '望诊') {
-      wx.showToast({ title: '面诊功能开发中', icon: 'none' });
+      wx.navigateTo({ url: '/pages/four/four?step=1' });
     } else if (item.title === '问诊') {
       wx.navigateTo({ url: '/pages/four/four?step=2' });
     } else if (item.title === '闻诊') {
-      wx.showToast({ title: '声音采集功能开发中', icon: 'none' });
+      wx.navigateTo({ url: '/pages/connect/chat/chat?type=ai' });
     } else {
       wx.showToast({ title: '脉诊设备连接中...', icon: 'loading' });
     }

@@ -3,10 +3,12 @@ page {
   background-color: #F4F7F9;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   padding-bottom: 120rpx;
+  height: auto;
 }
 
 .container {
   padding: 30rpx;
+  display: block;
 }
 
 /* 高级步骤指示器 */
@@ -202,12 +204,18 @@ slider {
   border: none;
 }
 
-/* 问卷部分的优雅样式 */
-.collapse-card .card-header {
+.step-content {
+  display: block;
+}
+
+.form-area {
+  display: block;
+}
+
+.wizard-card {
+  min-height: 50vh;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10rpx 0;
+  flex-direction: column;
 }
 
 .collapse-card .card-title {
@@ -342,10 +350,6 @@ slider {
   border-color: #1A7DF9;
   background: #F0F7FF;
   box-shadow: 0 4rpx 12rpx rgba(26, 125, 249, 0.1);
-}
-
-.nature-item > view:first-child {
-  /* 第一行为文本和复选框 */
 }
 
 .nature-item view text {

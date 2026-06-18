@@ -14,10 +14,78 @@
 
 <view class="container">
   <view class="steps-box">
-    <view class="step active">1. 四诊问卷</view>
+    <view wx:if="{{step == 1}}" class="step active">1. 舌诊分析</view>
+    <view wx:if="{{step == 2}}" class="step active">2. 四诊问卷</view>
   </view>
 
-  <view class="step-content">
+  <view wx:if="{{step == 1}}" class="step-content">
+    <view class="card center-card">
+      <view class="upload-area" bindtap="chooseImage" wx:if="{{!tongueData.logo}}">
+        <image src="/static/default_avatar.svg" class="upload-icon"></image>
+        <text>点击上传舌象照片</text>
+      </view>
+      <image wx:else src="{{tongueData.logo}}" class="tongue-img" mode="aspectFit" bindtap="chooseImage"></image>
+
+      <view wx:if="{{tongueData.label}}" class="analysis-result">
+        <text class="label-title">AI 分析结果:</text>
+        <text class="label-text">{{tongueData.label}}</text>
+      </view>
+    </view>
+
+    <view class="custom-tabs">
+      <view class="tab-item {{activeTab=='body'?'active':''}}" bindtap="switchTab" data-tab="body">望舌质</view>
+      <view class="tab-item {{activeTab=='coating'?'active':''}}" bindtap="switchTab" data-tab="coating">望舌苔</view>
+    </view>
+
+    <view wx:if="{{activeTab=='body'}}" class="form-area">
+      <view class="card">
+        <view class="section-title">1. 舌色 ({{tongueData.tongueBody.color}})</view>
+        <slider min="1" max="15" value="{{tongueData.tongueBody.color}}" show-value bindchange="onSliderDeep"
+          data-path="tongueData.tongueBody.color" activeColor="#3B99FC" backgroundColor="#E6EEF5" block-size="24" />
+        <view class="marks"><text>淡白</text><text>淡红</text><text>鲜红</text><text>绛红</text><text>青紫</text></view>
+      </view>
+
+      <view class="card">
+        <view class="section-title">2. 老嫩 (-5最老 ~ 5最嫩)</view>
+        <slider min="-5" max="5" value="{{tongueData.tongueBody.oldYoung}}" show-value bindchange="onSliderDeep"
+          data-path="tongueData.tongueBody.oldYoung" activeColor="#3B99FC" backgroundColor="#E6EEF5" block-size="24" />
+
+        <view class="section-title mt">3. 胖瘦 (-5最胖 ~ 5最瘦)</view>
+        <slider min="-5" max="5" value="{{tongueData.tongueBody.fatThin}}" show-value bindchange="onSliderDeep"
+          data-path="tongueData.tongueBody.fatThin" activeColor="#3B99FC" backgroundColor="#E6EEF5" block-size="24" />
+
+        <view class="section-title mt">4. 齿痕 (0无 ~ 3重)</view>
+        <slider min="0" max="3" value="{{tongueData.tongueBody.teethMark}}" show-value bindchange="onSliderDeep"
+          data-path="tongueData.tongueBody.teethMark" activeColor="#3B99FC" backgroundColor="#E6EEF5" block-size="24" />
+      </view>
+    </view>
+
+    <view wx:if="{{activeTab=='coating'}}" class="form-area">
+      <view class="card">
+        <view class="section-title">1. 苔色</view>
+        <view class="row-select" wx:for="{{tongueAreas}}" wx:key="value">
+          <text>{{item.label}}:</text>
+          <radio-group class="mini-radio" bindchange="onSliderDeep"
+            data-path="tongueData.tongueCoating.color.{{item.value}}">
+            <label wx:for="{{coatingColors}}" wx:for-item="color" wx:key="value">
+              <radio value="{{color.value}}" checked="{{tongueData.tongueCoating.color[item.value] == color.value}}" />
+              {{color.label}}
+            </label>
+          </radio-group>
+        </view>
+      </view>
+
+      <view class="card">
+        <view class="section-title">2. 润燥 (-5润 ~ 5燥)</view>
+        <slider min="-5" max="5" value="{{tongueData.tongueCoating.dryMoist}}" show-value bindchange="onSliderDeep"
+          data-path="tongueData.tongueCoating.dryMoist" activeColor="#3B99FC" backgroundColor="#E6EEF5" block-size="24" />
+      </view>
+    </view>
+
+    <button class="primary-btn" bindtap="nextStep">下一步：填写四诊问卷</button>
+  </view>
+
+  <view wx:if="{{step == 2}}" class="step-content">
     <view class="card wizard-card" wx:if="{{activeSection == 1}}">
       <view class="card-header">
         <text class="card-title">一、生命精神</text>
