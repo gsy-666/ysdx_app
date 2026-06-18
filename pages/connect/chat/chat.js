@@ -21,46 +21,6 @@ Page({
     this.setData({ wsClosed: false });
   },
 
-  buildAiMessages(currentInput) {
-    const systemPrompt = [
-      '你是AI中医助手，请先自然交流，再在合适的时候给出专业建议。',
-      '语气要有人情味、耐心、像在认真陪伴患者，不要一上来就像模板答题。',
-      '当用户明显在问诊、症状分析、处方建议、调护方案时，再使用以下固定结构输出：',
-      '一、辨病辨证',
-      '二、药剂药方',
-      '三、日常计划',
-      '其中“药剂药方”必须尽量具体，写清楚方名、药味组成、每味药剂量（克），并说明用法用量与加减思路。',
-      '平时可以先简短回应、安抚、追问关键症状。',
-      '如果信息不足，优先追问病情，再给出保守建议。',
-      '避免输出 Markdown 符号和代码块。'
-    ].join('');
-    const recentMessages = this.data.chatList.slice(-6).map(item => ({
-      role: item.type === 'self' ? 'user' : 'assistant',
-      content: item.content
-    }));
-
-    return [
-      { role: 'system', content: systemPrompt },
-      ...recentMessages,
-      { role: 'user', content: currentInput }
-    ];
-  },
-
-  formatAiReply(text) {
-    if (!text) return '';
-
-    return text
-      .replace(/\r\n/g, '\n')
-      .replace(/\n{3,}/g, '\n\n')
-      .replace(/\*\*(.*?)\*\*/g, '$1')
-      .replace(/\s*###\s*/g, '\n\n一、')
-      .replace(/\s*##\s*/g, '\n\n')
-      .replace(/\s*#\s*/g, '\n\n')
-      .replace(/\s*[-•]\s*/g, '\n- ')
-      .replace(/\n{3,}/g, '\n\n')
-      .trim();
-  },
-
   send() {
     if (!this.data.inputValue) return;
 
@@ -76,42 +36,52 @@ Page({
     this.setData({ chatList: list, inputValue: '' });
 
     if (this.data.chatType === 'ai') {
-      wx.showLoading({ title: '思考中...' });
+      // ⚠️ 已废弃：直接调用豆包 API（安全风险）
+      // 新逻辑：调用后端报告生成接口
+      wx.showLoading({ title: '分析中...' });
+
+      // TODO: 替换为实际的后端地址
+      const backendUrl = 'http://localhost:8080/api/report/generate/mock';
+
       wx.request({
-        url: 'https://ark.cn-beijing.volces.com/api/v3/chat/completions',
+        url: backendUrl,
         method: 'POST',
         header: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer 4627f616-bbd0-4cf7-ba6b-0fb4781c2383'
+          'Content-Type': 'application/json'
+          // 如需用户认证，添加 Authorization header
         },
         data: {
-          model: 'ep-m-20260215231635-7l2n5',
-          messages: this.buildAiMessages(msg.content)
+          // Mock 模式：传空或不传，使用默认 Mock 数据
+          // 真实模式：传入三视图数据
         },
         success: (res) => {
           wx.hideLoading();
-          if (res.data && res.data.choices && res.data.choices.length > 0) {
-            const aiReply = this.formatAiReply(res.data.choices[0].message.content);
+          if (res.data && res.data.success) {
+            const reportData = res.data.data;
             const reply = {
               id: Date.now() + 1,
               type: 'other',
-              content: aiReply,
+              content: reportData.finalReport || '报告生成失败',
               time: new Date().toTimeString().substring(0, 5)
             };
             const newList = this.data.chatList;
             newList.push(reply);
             this.setData({ chatList: newList });
           } else {
-            wx.showToast({ title: 'AI回复异常', icon: 'none' });
+            wx.showToast({
+              title: res.data.message || '生成报告失败',
+              icon: 'none'
+            });
           }
         },
         fail: (err) => {
           wx.hideLoading();
-          wx.showToast({ title: '请求AI失败', icon: 'none' });
-          console.error('AI API Error:', err);
+          wx.showToast({ title: '请求失败，请检查网络', icon: 'none' });
+          console.error('Backend API Error:', err);
         }
       });
     } else {
+      // 医生模式
       setTimeout(() => {
         const reply = {
           id: Date.now() + 1,
