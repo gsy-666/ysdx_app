@@ -17,6 +17,9 @@ App({
         env: finalEnvId,
         traceUser: true,
       });
+      console.log('[Cloud] 初始化成功, env:', finalEnvId);
+    } else {
+      console.error('[Cloud] wx.cloud 不可用！');
     }
 
     // Check if token exists

@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "openapi": []
+  },
+  "env": {
+    "SERVICE_HOST": "springboot-ookp",
+    "SERVICE_PORT": "80"
+  }
+}
